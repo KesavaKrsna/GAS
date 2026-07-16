@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Golden Age Society"
+version = "1.0.0"
+id = "artifacts/golden-age-society"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20007
+
+[services.development]
+run = "pnpm --filter @workspace/golden-age-society run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/golden-age-society", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/golden-age-society/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20007"
+BASE_PATH = "/"
