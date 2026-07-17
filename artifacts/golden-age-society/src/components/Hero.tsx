@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gasLogo from '@assets/gas-logo.png';
+import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
 
 interface HeroProps {
   onSponsorClick: () => void;
@@ -82,6 +83,29 @@ export function Hero({ onSponsorClick }: HeroProps) {
         <div className="absolute bottom-16 right-10 md:right-24 text-6xl md:text-8xl text-gold/10 font-serif select-none pointer-events-none">ॐ</div>
       </div>
 
+      {/* Srila Prabhupada figure — shown only on slide 2 */}
+      <AnimatePresence>
+        {currentSlide === 1 && (
+          <motion.div
+            key="prabhupada"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 40 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute bottom-10 right-0 md:right-8 lg:right-16 z-10 pointer-events-none select-none h-[72%] max-h-[500px] flex items-end"
+          >
+            {/* Soft glow halo behind figure */}
+            <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-gold/10 via-transparent to-transparent rounded-full blur-3xl" />
+            <img
+              src={prabhupadaImg}
+              alt="Śrīla Prabhupāda"
+              className="h-full w-auto object-contain relative"
+              style={{ mixBlendMode: 'screen' }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="container relative z-10 mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center">
         
         <img 
@@ -98,7 +122,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 flex flex-col items-center"
+              className={`absolute inset-0 flex flex-col items-center ${currentSlide === 1 ? 'md:items-start md:text-left md:pr-[38%]' : ''}`}
             >
               <div className="kicker mb-6 !text-gold shadow-sm drop-shadow-md">{slides[currentSlide].kicker}</div>
               <h1 className="text-[2.75rem] md:text-6xl lg:text-7xl text-cream mb-6 drop-shadow-lg">
