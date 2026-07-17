@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gasLogo from '@assets/gas-logo.png';
 import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
+import heroPhoto from '@assets/hero_1784320482932.png';
 
 interface HeroProps {
   onSponsorClick: () => void;
@@ -62,6 +63,21 @@ export function Hero({ onSponsorClick }: HeroProps) {
       
       {/* Background with radial gradient and pattern overlay */}
       <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Slide 1 hero photo */}
+        <AnimatePresence>
+          {currentSlide === 0 && (
+            <motion.img
+              key="hero-photo"
+              src={heroPhoto}
+              alt=""
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          )}
+        </AnimatePresence>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,_#fbb226_0%,_#ee6424_30%,_#751c2b_70%,_#39121f_100%)] opacity-80" />
         
         {/* Repeating concentric rings pattern */}
