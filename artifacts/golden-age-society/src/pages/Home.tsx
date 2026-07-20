@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SponsorModal } from '@/components/SponsorModal';
+import React from 'react';
+import { useLocation } from 'wouter';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { Mission } from '@/components/Mission';
@@ -11,27 +11,24 @@ import { EventSection } from '@/components/EventSection';
 import { Footer } from '@/components/Footer';
 
 export default function Home() {
-  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+  const [, navigate] = useLocation();
+  const goToDonate = () => navigate('/donate');
 
   return (
     <div className="min-h-[100dvh] flex flex-col relative font-sans text-text">
-      <Header onSponsorClick={() => setIsSponsorModalOpen(true)} />
+      <Header />
 
       <main className="flex-1">
-        <Hero onSponsorClick={() => setIsSponsorModalOpen(true)} />
+        <Hero onSponsorClick={goToDonate} />
         <Mission />
-        <Impact onSponsorClick={() => setIsSponsorModalOpen(true)} />
+        <Impact onSponsorClick={goToDonate} />
         <Spotlight />
         <Gallery />
         <VideoSection />
         <EventSection />
       </main>
 
-      <Footer onSponsorClick={() => setIsSponsorModalOpen(true)} />
-
-      {isSponsorModalOpen && (
-        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
-      )}
+      <Footer onSponsorClick={goToDonate} />
     </div>
   );
 }
