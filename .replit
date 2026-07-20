@@ -30,3 +30,8 @@ externalPort = 8081
 [[ports]]
 localPort = 20007
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+VITE_PAYSTACK_PUBLIC_KEY = "pk_test_1f56c389d20b00401edce61706a0845ee29acf2f"
