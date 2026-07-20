@@ -209,13 +209,11 @@ export default function DonatePage() {
               <h3 className="font-serif text-xl text-wine mb-4">Your donation supports</h3>
               <ul className="space-y-2.5">
                 {[
-                  ['🎓', 'Youth Skills Development'],
-                  ['📚', 'Education Programmes'],
-                  ['💻', 'Digital Literacy Initiatives'],
-                  ['🍱', 'Community Feeding Schemes'],
-                  ['🌱', 'Entrepreneurship Support'],
-                  ['🏘️', 'Community Development Projects'],
-                  ['💼', 'Employment Readiness Training'],
+                  ['🎶', 'Kasi Kirtan outreach'],
+                  ['🍱', 'Prasadam distribution'],
+                  ['📚', 'Translation & distribution of books'],
+                  ['🏘️', 'Reuniting township devotees'],
+                  ['🛕', 'Temple support and maintenance'],
                 ].map(([icon, label]) => (
                   <li key={label as string} className="flex items-center gap-3 text-sm text-text">
                     <span className="text-base">{icon}</span>
