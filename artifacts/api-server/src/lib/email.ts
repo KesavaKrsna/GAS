@@ -1,31 +1,18 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import type { CertificateData } from './certificate.js';
 
-function createTransporter() {
-  const host = process.env['SMTP_HOST'];
-  const port = parseInt(process.env['SMTP_PORT'] ?? '587', 10);
-  const user = process.env['SMTP_USER'];
-  const pass = process.env['SMTP_PASS'];
-
-  if (!host || !user || !pass) {
-    throw new Error('Email SMTP credentials (SMTP_HOST, SMTP_USER, SMTP_PASS) are not configured.');
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-    tls: { rejectUnauthorized: false },
-  });
+function getResend() {
+  const apiKey = process.env['RESEND_API_KEY'];
+  if (!apiKey) throw new Error('RESEND_API_KEY is not configured.');
+  return new Resend(apiKey);
 }
 
 export async function sendDonationCertificate(
   data: CertificateData,
   pdfBytes: Uint8Array,
 ): Promise<void> {
-  const transporter = createTransporter();
-  const fromAddress = process.env['SMTP_FROM'] ?? `Golden Age Society <donations@goldenagesociety.org>`;
+  const resend = getResend();
+  const from = process.env['SMTP_FROM'] ?? 'Golden Age Society <donations@goldenagesociety.org>';
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -50,16 +37,14 @@ export async function sendDonationCertificate(
       <p style="line-height: 1.7;">
         Thank you for supporting <strong>Golden Age Society</strong>. Your generous donation of
         <strong style="color: #751c2b;">R${data.donationAmount.toLocaleString('en-ZA')}</strong>
-        will help us continue empowering communities through:
+        will help us continue our devotional service through:
       </p>
       <ul style="line-height: 2; padding-left: 20px; color: #751c2b;">
-        <li>Youth Skills Development</li>
-        <li>Education Programmes</li>
-        <li>Digital Literacy</li>
-        <li>Community Development</li>
-        <li>Feeding Schemes</li>
-        <li>Employment Readiness</li>
-        <li>Entrepreneurship Support</li>
+        <li>Kasi Kirtan outreach</li>
+        <li>Prasadam distribution</li>
+        <li>Translation &amp; distribution of books</li>
+        <li>Reuniting township devotees</li>
+        <li>Temple support and maintenance</li>
       </ul>
       <p style="line-height: 1.7;">
         Attached to this email is your <strong>Section 18A Tax Deductible Donation Certificate</strong>,
@@ -100,16 +85,15 @@ export async function sendDonationCertificate(
 </html>
   `.trim();
 
-  await transporter.sendMail({
-    from: fromAddress,
+  await resend.emails.send({
+    from,
     to: data.donorEmail,
     subject: 'Thank You for Your Donation – Your Section 18A Tax Certificate',
     html: htmlBody,
     attachments: [
       {
         filename: `Section18A_Certificate_${data.certificateNumber}.pdf`,
-        content: Buffer.from(pdfBytes),
-        contentType: 'application/pdf',
+        content: Buffer.from(pdfBytes).toString('base64'),
       },
     ],
   });
