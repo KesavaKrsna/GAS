@@ -99,29 +99,31 @@ export default function DonatePage() {
             { display_name: 'Donor Address', variable_name: 'donor_address', value: formData.donorAddress },
           ],
         },
-        callback: async (response: { reference: string }) => {
-          try {
-            const verifyRes = await fetch('/api/donate/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                reference: response.reference,
-                donorName: formData.donorName,
-                donorId: formData.donorId,
-                donorEmail: formData.donorEmail,
-                donorPhone: formData.donorPhone,
-                donorAddress: formData.donorAddress,
-                isRecurring: frequency === 'monthly',
-              }),
-            });
-            const result = await verifyRes.json() as { success?: boolean; certificateNumber?: string; amountZAR?: number; donorName?: string; error?: string };
-            if (!verifyRes.ok || !result.success) throw new Error(result.error ?? 'Verification failed.');
-            setSuccessData({ certNumber: result.certificateNumber!, amount: result.amountZAR!, name: result.donorName! });
-            setStep('success');
-          } catch (err) {
-            setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please contact us.');
-            setStep('error');
-          }
+        callback: (response: { reference: string }) => {
+          void (async () => {
+            try {
+              const verifyRes = await fetch('/api/donate/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  reference: response.reference,
+                  donorName: formData.donorName,
+                  donorId: formData.donorId,
+                  donorEmail: formData.donorEmail,
+                  donorPhone: formData.donorPhone,
+                  donorAddress: formData.donorAddress,
+                  isRecurring: frequency === 'monthly',
+                }),
+              });
+              const result = await verifyRes.json() as { success?: boolean; certificateNumber?: string; amountZAR?: number; donorName?: string; error?: string };
+              if (!verifyRes.ok || !result.success) throw new Error(result.error ?? 'Verification failed.');
+              setSuccessData({ certNumber: result.certificateNumber!, amount: result.amountZAR!, name: result.donorName! });
+              setStep('success');
+            } catch (err) {
+              setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please contact us.');
+              setStep('error');
+            }
+          })();
         },
         onClose: () => {
           if (step === 'processing') setStep('form');
