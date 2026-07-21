@@ -121,14 +121,14 @@ export function Mission() {
               <p className="text-base md:text-lg">
                 Lord Caitanya Mahāprabhu predicted a <strong className="text-wine">10,000-year Golden Age</strong> within
                 Kali-yuga during which the sankirtana movement would spread across the world. GAS stands
-                committed to being a catalyst in this divine mission—igniting and fueling the flame of
-                Bhakti within African townships and villages.
+                committed to being a catalyst in this divine mission—supporting township-based Krishna
+                Conscious centers and fueling the flame of Bhakti within African communities.
               </p>
               <p>
-                These communities, historically underserved yet spiritually receptive, hold immense
-                potential for the blossoming of Krishna Consciousness. GAS aims to awaken this natural
-                devotion, empowering individuals and families to embrace the chanting of the holy names
-                and participate fully in Lord Caitanya's Golden Age.
+                Through weekly <strong className="text-wine">Prasadam distribution</strong>, Harinam sankirtan, youth
+                empowerment, and the translation and sharing of Srila Prabhupada's teachings, GAS
+                cultivates and nurtures devotees—empowering individuals and families to participate
+                fully in Lord Caitanya's Golden Age.
               </p>
             </motion.div>
           </div>
@@ -177,8 +177,8 @@ export function Mission() {
               </div>
               <p className="text-cream/90 leading-relaxed text-base">
                 To usher in the Golden Age of Lord Caitanya Mahāprabhu within African communities by
-                establishing vibrant centers of <strong className="text-gold">Krishna Consciousness</strong> in
-                every township and village.
+                supporting vibrant centers of <strong className="text-gold">Krishna Consciousness</strong> in
+                every township and village—nourishing body and soul through Prasadam, kirtan, and devotional culture.
               </p>
             </div>
           </motion.div>

@@ -1,0 +1,2 @@
+artifacts/golden-age-society/public/in-every-town.mp4 filter=lfs diff=lfs merge=lfs -text
+attached_assets/in_every_town_and_Village_1784625043418.mp4 filter=lfs diff=lfs merge=lfs -text
