@@ -1,4 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFPage } from 'pdf-lib';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
 export interface CertificateData {
   certificateNumber: string;
@@ -57,6 +59,19 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
 
   // ── Header band ───────────────────────────────────────────────────────────
   drawRect(page, MARGIN, height - MARGIN - 110, width - MARGIN * 2, 110, WINE);
+
+  // ── Logo (top-left of header) ─────────────────────────────────────────────
+  try {
+    const logoPath = resolve(process.cwd(), '..', '..', 'attached_assets', 'gas-logo.png');
+    const logoBytes = readFileSync(logoPath);
+    const logoImage = await doc.embedPng(logoBytes);
+    const logoSize = 62; // pt
+    const logoX = MARGIN + 12;
+    const logoY = height - MARGIN - 110 + (110 - logoSize) / 2;
+    page.drawImage(logoImage, { x: logoX, y: logoY, width: logoSize, height: logoSize });
+  } catch {
+    // logo missing — skip silently
+  }
 
   // Org name
   const orgName = 'GOLDEN AGE SOCIETY';
