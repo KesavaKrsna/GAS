@@ -199,9 +199,9 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   cursor -= 22;
 
   const declarations = [
-    '✔  Golden Age Society is an approved Public Benefit Organisation (PBO No. 930070132).',
-    '✔  The donation received will be used exclusively for approved Public Benefit Activities.',
-    '✔  This certificate is issued in accordance with Section 18A of the Income Tax Act No. 58 of 1962.',
+    '[+]  Golden Age Society is an approved Public Benefit Organisation (PBO No. 930070132).',
+    '[+]  The donation received will be used exclusively for approved Public Benefit Activities.',
+    '[+]  This certificate is issued in accordance with Section 18A of the Income Tax Act No. 58 of 1962.',
   ];
   declarations.forEach((d) => {
     page.drawText(d, { x: 52, y: cursor, size: 8.5, font: helvetica, color: DARK });
