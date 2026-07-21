@@ -12,7 +12,7 @@ export async function sendDonationCertificate(
   pdfBytes: Uint8Array,
 ): Promise<void> {
   const resend = getResend();
-  const from = process.env['SMTP_FROM'] ?? 'Golden Age Society <donations@goldenagesociety.org>';
+  const from = process.env['RESEND_FROM'] ?? process.env['SMTP_FROM'] ?? 'Golden Age Society <donations@goldenagesociety.org>';
 
   const htmlBody = `
 <!DOCTYPE html>

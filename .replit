@@ -35,3 +35,4 @@ externalPort = 3000
 
 [userenv.shared]
 VITE_PAYSTACK_PUBLIC_KEY = "pk_test_1f56c389d20b00401edce61706a0845ee29acf2f"
+RESEND_FROM = "Mukunda Launchpad <onboarding@resend.dev>"
