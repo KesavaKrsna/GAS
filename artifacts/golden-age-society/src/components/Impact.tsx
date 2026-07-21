@@ -97,19 +97,13 @@ export function Impact({ onSponsorClick }: ImpactProps) {
           </motion.p>
         </div>
 
-        {/* Video grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-14">
+        {/* Video */}
+        <div className="max-w-2xl mx-auto mb-14">
           <VideoCard
             src="/in-every-town.mp4"
             title="In Every Town and Village"
             description="The sankirtana movement spreading across communities — bringing the holy names, devotional culture, and spiritual joy to every corner of South Africa."
             delay={0.05}
-          />
-          <VideoCard
-            src="/klerksdorp-feeding.mov"
-            title="Weekly Prasadam at ISKCON Klerksdorp"
-            description="Every week at the ISKCON Klerksdorp Temple, close to 300 people are fed a full hot meal and join in joyful Kirtan — nourishing body, mind, and soul together."
-            delay={0.15}
           />
         </div>
 
