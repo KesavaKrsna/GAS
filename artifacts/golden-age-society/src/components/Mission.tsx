@@ -13,6 +13,7 @@ const objectives = [
   { icon: '🎶', text: 'Empower youth through kirtan, culture, and education' },
   { icon: '📚', text: 'Translate and distribute Srila Prabhupada\'s teachings widely' },
   { icon: '🏘️', text: 'Reunite and support African devotees' },
+  { icon: '🌱', text: 'Cultivate and nurture devotees through ongoing spiritual education and community care' },
 ];
 
 /* Animated lotus SVG ─────────────────────────────────────────────────────── */
@@ -132,23 +133,28 @@ export function Mission() {
             </motion.div>
           </div>
 
-          {/* Lotus visual */}
+          {/* Lord Caitanya image */}
           <motion.div
             className="flex items-center justify-center"
             {...fadeUp(0.1)}
           >
-            <div className="relative w-64 h-64 lg:w-72 lg:h-72">
-              {/* Glow ring */}
+            <div className="relative">
+              {/* Soft divine glow behind the figure */}
               <motion.div
-                className="absolute inset-0 rounded-full"
-                style={{ background: 'radial-gradient(circle, rgba(251,178,38,0.18) 0%, transparent 70%)' }}
-                animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
+                className="absolute inset-0 rounded-full blur-2xl"
+                style={{ background: 'radial-gradient(circle, rgba(251,178,38,0.28) 0%, transparent 70%)' }}
+                animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               />
-              <LotusIcon />
-              {/* Floating flames */}
-              <FlameIcon className="absolute -bottom-2 left-8 w-6 h-8 opacity-70" />
-              <FlameIcon className="absolute -bottom-4 right-10 w-5 h-7 opacity-60" />
+              <motion.img
+                src="/lord-caitanya.png"
+                alt="Lord Caitanya Mahāprabhu"
+                className="relative z-10 w-72 lg:w-80 rounded-2xl shadow-xl object-cover"
+                initial={{ opacity: 0, scale: 0.92 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              />
             </div>
           </motion.div>
         </div>
@@ -206,7 +212,7 @@ export function Mission() {
             <h3 className="text-3xl md:text-4xl text-wine">What we work toward</h3>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
             {objectives.map((obj, i) => (
               <motion.div
                 key={i}
