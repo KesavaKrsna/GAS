@@ -9,10 +9,10 @@ const fadeUp = (delay = 0) => ({
 });
 
 const objectives = [
-  { icon: '🛕', text: 'Establish township-based Krishna Conscious centers' },
+  { icon: '🛕', text: 'Support township-based Krishna Conscious centers' },
   { icon: '🎶', text: 'Empower youth through kirtan, culture, and education' },
   { icon: '📚', text: 'Translate and distribute Srila Prabhupada\'s teachings widely' },
-  { icon: '🏘️', text: 'Reunite and support African devotees' },
+  { icon: '🍛', text: 'Prasadam distribution to communities in need' },
   { icon: '🌱', text: 'Cultivate and nurture devotees through ongoing spiritual education and community care' },
 ];
 
