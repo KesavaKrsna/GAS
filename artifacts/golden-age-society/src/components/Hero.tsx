@@ -96,7 +96,23 @@ export function Hero({ onSponsorClick }: HeroProps) {
 
         {/* Sanskrit Decor */}
         <div className="absolute bottom-16 left-10 md:left-24 text-6xl md:text-8xl text-gold/10 font-serif select-none pointer-events-none">✦</div>
-        <div className="absolute bottom-16 right-10 md:right-24 text-6xl md:text-8xl text-gold/10 font-serif select-none pointer-events-none">ॐ</div>
+        {/* Lotus decor */}
+        <div className="absolute bottom-16 right-10 md:right-24 select-none pointer-events-none w-16 h-16 md:w-24 md:h-24 opacity-10">
+          <svg viewBox="0 0 120 120" className="w-full h-full" fill="rgba(251,178,38,1)">
+            {/* Outer petals */}
+            {[0,45,90,135,180,225,270,315].map((deg) => (
+              <ellipse key={deg} cx={60} cy={60} rx={9} ry={24}
+                style={{ transformOrigin:'60px 60px', transform:`rotate(${deg}deg) translateY(-16px)` }} />
+            ))}
+            {/* Inner petals */}
+            {[0,60,120,180,240,300].map((deg) => (
+              <ellipse key={`i${deg}`} cx={60} cy={60} rx={6} ry={16}
+                style={{ transformOrigin:'60px 60px', transform:`rotate(${deg}deg) translateY(-9px)` }} />
+            ))}
+            {/* Centre */}
+            <circle cx={60} cy={60} r={9} />
+          </svg>
+        </div>
       </div>
 
       {/* Srila Prabhupada figure — shown only on slide 2 */}
