@@ -124,7 +124,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 40 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute bottom-10 right-0 md:right-8 lg:right-16 z-10 pointer-events-none select-none h-[70%] sm:h-[85%] md:h-[110%] lg:h-[130%] max-h-[900px] flex items-end"
+            className="absolute bottom-10 right-0 md:right-8 lg:right-16 z-10 pointer-events-none select-none h-[42%] sm:h-[51%] md:h-[66%] lg:h-[78%] max-h-[540px] flex items-end"
           >
             {/* Soft glow halo behind figure */}
             <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-gold/10 via-transparent to-transparent rounded-full blur-3xl" />
