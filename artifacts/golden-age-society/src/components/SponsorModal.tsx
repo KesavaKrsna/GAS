@@ -88,7 +88,7 @@ export function SponsorModal({ onClose }: SponsorModalProps) {
         </div>
 
         <a 
-          href={`mailto:hello@goldenagesociety.org?subject=Monthly%20Sponsorship:%20$${selectedAmount}/month`}
+          href={`mailto:ocsacademy2020@gmail.com?subject=Monthly%20Sponsorship:%20$${selectedAmount}/month`}
           onClick={onClose}
           className="w-full py-4 bg-orange text-cream rounded-xl text-lg font-bold hover:bg-[#d95318] transition-colors shadow-lg shadow-orange/20 flex items-center justify-center gap-2 group"
         >

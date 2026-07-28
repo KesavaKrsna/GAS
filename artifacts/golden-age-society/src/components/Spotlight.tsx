@@ -52,7 +52,7 @@ export function Spotlight() {
               as a sacred responsibility in the service of Krishna and humanity.
             </p>
             <a
-              href="mailto:hello@goldenagesociety.org?subject=Golden%20Age%20Society%20stories"
+              href="mailto:ocsacademy2020@gmail.com?subject=Golden%20Age%20Society%20stories"
               className="inline-flex items-center gap-2 font-serif text-lg text-wine font-semibold pb-1 border-b-2 border-gold/40 hover:border-gold transition-colors"
             >
               Get in touch <span className="text-xl">→</span>

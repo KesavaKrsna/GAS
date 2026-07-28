@@ -30,7 +30,7 @@ export function EventSection() {
           {/* CTA */}
           <div className="shrink-0 w-full md:w-auto">
             <a 
-              href="mailto:hello@goldenagesociety.org"
+              href="mailto:ocsacademy2020@gmail.com"
               className="inline-flex items-center justify-center px-8 py-4 bg-cream text-wine rounded-full text-lg font-bold hover:bg-gold hover:text-wine transition-all shadow-xl group w-full md:w-auto"
             >
               Get in touch 

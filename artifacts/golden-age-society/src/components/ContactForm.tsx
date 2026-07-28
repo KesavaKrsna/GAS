@@ -73,7 +73,7 @@ export function ContactForm() {
 
             <motion.div {...fadeUp(0.18)} className="space-y-5">
               {[
-                { icon: '✉️', label: 'Email', value: 'hello@goldenagesociety.org', href: 'mailto:hello@goldenagesociety.org' },
+                { icon: '✉️', label: 'Email', value: 'ocsacademy2020@gmail.com', href: 'mailto:ocsacademy2020@gmail.com' },
                 { icon: '📍', label: 'Based in', value: 'South Africa', href: null },
                 { icon: '🕐', label: 'Response time', value: 'Within 2–3 business days', href: null },
               ].map(item => (

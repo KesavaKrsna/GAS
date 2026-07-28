@@ -23,8 +23,8 @@ contactRouter.post('/contact', async (req, res) => {
     }
 
     const resend = getResend();
-    const from = process.env['RESEND_FROM'] ?? 'Golden Age Society <hello@goldenagesociety.org>';
-    const to = process.env['CONTACT_EMAIL'] ?? 'hello@goldenagesociety.org';
+    const from = process.env['RESEND_FROM'] ?? 'Golden Age Society <ocsacademy2020@gmail.com>';
+    const to = process.env['CONTACT_EMAIL'] ?? 'ocsacademy2020@gmail.com';
 
     const html = `
 <!DOCTYPE html>

@@ -55,10 +55,10 @@ export function Footer({ onSponsorClick }: FooterProps) {
             <h4 className="text-gold font-serif text-xl mb-6">Contact</h4>
             <ul className="space-y-4 text-[15px] text-cream/80">
               <li>
-                <a href="mailto:hello@goldenagesociety.org" className="hover:text-gold transition-colors">hello@goldenagesociety.org</a>
+                <a href="mailto:ocsacademy2020@gmail.com" className="hover:text-gold transition-colors">ocsacademy2020@gmail.com</a>
               </li>
               <li>
-                <a href="mailto:hello@goldenagesociety.org?subject=Join%20a%20gathering" className="hover:text-gold transition-colors">Join a gathering</a>
+                <a href="mailto:ocsacademy2020@gmail.com?subject=Join%20a%20gathering" className="hover:text-gold transition-colors">Join a gathering</a>
               </li>
               <li>
                 <button onClick={onSponsorClick} className="hover:text-gold transition-colors font-medium">
