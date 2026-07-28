@@ -191,16 +191,28 @@ export function Hero({ onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center gap-5 py-4"
+              className="flex flex-col items-center gap-4 py-4"
             >
+              {/* Kicker */}
+              <div className="kicker !text-gold drop-shadow-md">Golden Age Society · Upcoming Event</div>
+
+              {/* Headline */}
+              <h1 className="text-2xl sm:text-3xl md:text-4xl text-cream drop-shadow-lg leading-tight -mt-1">
+                We're proud to co-host an <em>Inter-Faith Symposium</em>
+              </h1>
+
               {/* Poster */}
               <img
                 src={heroSymposium}
                 alt="Inter-Faith Symposium — 15 August 2026"
-                className="max-h-[58vh] w-auto rounded-2xl shadow-[0_8px_60px_rgba(0,0,0,0.7)] ring-1 ring-gold/20"
+                className="max-h-[50vh] w-auto rounded-2xl shadow-[0_8px_60px_rgba(0,0,0,0.7)] ring-1 ring-gold/20"
                 style={{ filter: 'drop-shadow(0 0 32px rgba(251,178,38,0.18))' }}
               />
-              {/* RSVP button */}
+
+              {/* Tagline + RSVP */}
+              <p className="text-cream/70 text-sm sm:text-base italic tracking-wide -mt-1">
+                Many paths. One truth. One humanity.
+              </p>
               <button
                 onClick={scrollToContact}
                 className="px-8 py-3.5 bg-gold text-[#1a0a00] rounded-full text-sm sm:text-base font-bold
