@@ -146,7 +146,8 @@ export function Hero({ onSponsorClick }: HeroProps) {
           className="w-[90px] h-[75px] md:w-[110px] md:h-[92px] object-contain mb-8 filter brightness-[10] drop-shadow-md"
         />
 
-        <div className="relative w-full max-w-4xl min-h-[220px]">
+        {/* Slide content — fixed-height block so buttons never overlap */}
+        <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -154,29 +155,34 @@ export function Hero({ onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute inset-0 flex flex-col items-center ${currentSlide === 1 ? 'md:items-start md:text-left md:pr-[38%]' : ''}`}
+              className={`flex flex-col items-center ${currentSlide === 1 ? 'md:items-start md:text-left md:pr-[36%]' : ''}`}
             >
-              <div className="kicker mb-6 !text-gold shadow-sm drop-shadow-md">{slides[currentSlide].kicker}</div>
-              <h1 className="text-[2.75rem] md:text-6xl lg:text-7xl text-cream mb-6 drop-shadow-lg">
+              <div className="kicker mb-4 !text-gold drop-shadow-md">{slides[currentSlide].kicker}</div>
+              <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
                 {slides[currentSlide].h1}
               </h1>
-              <p className="text-cream/90 md:text-lg max-w-2xl mx-auto leading-relaxed drop-shadow-md font-medium">
+              {/* Body text with readable backdrop */}
+              <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium
+                            px-4 py-3 rounded-xl
+                            bg-black/20 backdrop-blur-[2px]
+                            shadow-[0_2px_16px_rgba(0,0,0,0.18)]">
                 {slides[currentSlide].body}
               </p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4 mt-12 mb-16">
-          <button 
+        {/* Buttons — always below text, never overlapping */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 mb-12 w-full max-w-xs sm:max-w-none justify-center">
+          <button
             onClick={scrollToMission}
-            className="px-8 py-3.5 bg-wine text-cream rounded-full text-base font-medium hover:bg-wine/90 transition-colors shadow-lg border border-wine/20 w-full sm:w-auto"
+            className="px-7 py-3 bg-wine text-cream rounded-full text-sm sm:text-base font-medium hover:bg-wine/90 transition-colors shadow-lg border border-wine/20 w-full sm:w-auto"
           >
             Discover our mission
           </button>
-          <button 
+          <button
             onClick={onSponsorClick}
-            className="px-8 py-3.5 bg-transparent border border-cream/50 text-cream rounded-full text-base font-medium hover:bg-cream/10 transition-colors w-full sm:w-auto"
+            className="px-7 py-3 bg-black/25 backdrop-blur-sm border border-cream/40 text-cream rounded-full text-sm sm:text-base font-medium hover:bg-black/35 transition-colors w-full sm:w-auto"
           >
             Support the flame
           </button>
