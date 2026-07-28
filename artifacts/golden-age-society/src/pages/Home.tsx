@@ -7,7 +7,6 @@ import { Impact } from '@/components/Impact';
 import { Spotlight } from '@/components/Spotlight';
 import { Gallery } from '@/components/Gallery';
 import { ContactForm } from '@/components/ContactForm';
-import { EventSection } from '@/components/EventSection';
 import { Footer } from '@/components/Footer';
 
 export default function Home() {
@@ -25,7 +24,6 @@ export default function Home() {
         <Spotlight />
         <Gallery />
         <ContactForm />
-        <EventSection />
       </main>
 
       <Footer onSponsorClick={goToDonate} />
