@@ -61,9 +61,12 @@ export function Hero({ onSponsorClick }: HeroProps) {
 
   const scrollToMission = () => {
     const el = document.getElementById('mission');
-    if (el) {
-      window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-    }
+    if (el) window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+  };
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contact-form');
+    if (el) window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
   };
 
   return (
@@ -71,18 +74,16 @@ export function Hero({ onSponsorClick }: HeroProps) {
       
       {/* Background with radial gradient and pattern overlay */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Slide 1 — Symposium flyer */}
+        {/* Slide 1 — dark overlay to make poster pop */}
         <AnimatePresence>
           {currentSlide === 0 && (
-            <motion.img
-              key="hero-symposium"
-              src={heroSymposium}
-              alt=""
+            <motion.div
+              key="symposium-bg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="absolute inset-0 w-full h-full object-cover object-center"
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 bg-[#0d0d14]"
             />
           )}
         </AnimatePresence>
@@ -179,54 +180,83 @@ export function Hero({ onSponsorClick }: HeroProps) {
       </AnimatePresence>
 
       <div className="container relative z-10 mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center">
-        
-        <img 
-          src={gasLogo} 
-          alt="Golden Age Society Mark" 
-          className="w-[90px] h-[75px] md:w-[110px] md:h-[92px] object-contain mb-8 filter brightness-[10] drop-shadow-md"
-        />
 
-        {/* Slide content — fixed-height block so buttons never overlap */}
-        <div className="w-full max-w-3xl">
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
+
+          {/* ── Slide 0: Symposium poster ── */}
+          {currentSlide === 0 && (
             <motion.div
-              key={currentSlide}
+              key="symposium-slide"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center gap-5 py-4"
+            >
+              {/* Poster */}
+              <img
+                src={heroSymposium}
+                alt="Inter-Faith Symposium — 15 August 2026"
+                className="max-h-[58vh] w-auto rounded-2xl shadow-[0_8px_60px_rgba(0,0,0,0.7)] ring-1 ring-gold/20"
+                style={{ filter: 'drop-shadow(0 0 32px rgba(251,178,38,0.18))' }}
+              />
+              {/* RSVP button */}
+              <button
+                onClick={scrollToContact}
+                className="px-8 py-3.5 bg-gold text-[#1a0a00] rounded-full text-sm sm:text-base font-bold
+                           hover:bg-cream transition-colors shadow-xl flex items-center gap-2 group"
+              >
+                RSVP — get in touch
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </button>
+            </motion.div>
+          )}
+
+          {/* ── Slides 1–3: standard text layout ── */}
+          {currentSlide !== 0 && (
+            <motion.div
+              key={`slide-${currentSlide}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`flex flex-col items-center ${currentSlide === 2 ? 'md:items-start md:text-left md:pr-[36%]' : ''}`}
+              className="flex flex-col items-center w-full"
             >
-              <div className="kicker mb-4 !text-gold drop-shadow-md">{slides[currentSlide].kicker}</div>
-              <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
-                {slides[currentSlide].h1}
-              </h1>
-              {/* Body text with readable backdrop */}
-              <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium
-                            px-4 py-3 rounded-xl
-                            bg-black/20 backdrop-blur-[2px]
-                            shadow-[0_2px_16px_rgba(0,0,0,0.18)]">
-                {slides[currentSlide].body}
-              </p>
+              <img
+                src={gasLogo}
+                alt="Golden Age Society Mark"
+                className="w-[90px] h-[75px] md:w-[110px] md:h-[92px] object-contain mb-8 filter brightness-[10] drop-shadow-md"
+              />
+              <div className={`flex flex-col items-center w-full max-w-3xl ${currentSlide === 2 ? 'md:items-start md:text-left md:pr-[36%]' : ''}`}>
+                <div className="kicker mb-4 !text-gold drop-shadow-md">{slides[currentSlide].kicker}</div>
+                <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
+                  {slides[currentSlide].h1}
+                </h1>
+                <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium
+                              px-4 py-3 rounded-xl bg-black/20 backdrop-blur-[2px]
+                              shadow-[0_2px_16px_rgba(0,0,0,0.18)]">
+                  {slides[currentSlide].body}
+                </p>
+              </div>
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 mb-12 w-full max-w-xs sm:max-w-none justify-center">
+                <button
+                  onClick={scrollToMission}
+                  className="px-7 py-3 bg-wine text-cream rounded-full text-sm sm:text-base font-medium hover:bg-wine/90 transition-colors shadow-lg border border-wine/20 w-full sm:w-auto"
+                >
+                  Discover our mission
+                </button>
+                <button
+                  onClick={onSponsorClick}
+                  className="px-7 py-3 bg-black/25 backdrop-blur-sm border border-cream/40 text-cream rounded-full text-sm sm:text-base font-medium hover:bg-black/35 transition-colors w-full sm:w-auto"
+                >
+                  Support the flame
+                </button>
+              </div>
             </motion.div>
-          </AnimatePresence>
-        </div>
+          )}
 
-        {/* Buttons — always below text, never overlapping */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 mb-12 w-full max-w-xs sm:max-w-none justify-center">
-          <button
-            onClick={scrollToMission}
-            className="px-7 py-3 bg-wine text-cream rounded-full text-sm sm:text-base font-medium hover:bg-wine/90 transition-colors shadow-lg border border-wine/20 w-full sm:w-auto"
-          >
-            Discover our mission
-          </button>
-          <button
-            onClick={onSponsorClick}
-            className="px-7 py-3 bg-black/25 backdrop-blur-sm border border-cream/40 text-cream rounded-full text-sm sm:text-base font-medium hover:bg-black/35 transition-colors w-full sm:w-auto"
-          >
-            Support the flame
-          </button>
-        </div>
+        </AnimatePresence>
 
         {/* Controls */}
         <div className="flex items-center gap-4 z-20 mt-auto">
