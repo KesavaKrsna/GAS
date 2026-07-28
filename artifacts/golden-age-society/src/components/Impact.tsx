@@ -44,12 +44,13 @@ function VideoCard({
       >
         <video
           ref={videoRef}
-          src={src}
           className="w-full h-full object-cover"
           playsInline
-          preload="metadata"
+          preload="none"
           onEnded={() => setPlaying(false)}
-        />
+        >
+          <source src={src} type="video/mp4" />
+        </video>
         {/* Play/pause overlay */}
         <div
           className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
