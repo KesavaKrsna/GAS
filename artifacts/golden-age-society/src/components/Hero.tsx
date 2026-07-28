@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import gasLogo from '@assets/gas-logo.png';
 import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
 import heroPhoto from '@assets/hero_1784320482932.png';
+import heroMandate from '/hero-mandate.jpg';
 
 interface HeroProps {
   onSponsorClick: () => void;
@@ -23,9 +24,9 @@ const slides = [
   },
   {
     id: 3,
-    kicker: "The heart of devotion",
-    h1: <>Know <em>Śrī Śrī Rādhā-Kṛṣṇa.</em></>,
-    body: "At the center of all spiritual inquiry is the supreme divine couple. Discover the perfection of love, beauty, and sweetness in the topmost realm of devotional service.",
+    kicker: "Our mandate in action",
+    h1: <>Nourishing body,<br/><em>mind and soul.</em></>,
+    body: "Prasadam distribution, sacred book distribution, uplifting kirtan — and growing our township presence through vibrant centres and temples where every heart is welcome.",
   }
 ];
 
@@ -69,6 +70,22 @@ export function Hero({ onSponsorClick }: HeroProps) {
             <motion.img
               key="hero-photo"
               src={heroPhoto}
+              alt=""
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Slide 3 mandate photo */}
+        <AnimatePresence>
+          {currentSlide === 2 && (
+            <motion.img
+              key="hero-mandate"
+              src={heroMandate}
               alt=""
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
