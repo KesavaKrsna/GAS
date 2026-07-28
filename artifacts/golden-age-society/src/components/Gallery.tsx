@@ -30,6 +30,19 @@ const mainTiles = [
 
 const colourFestPhotos = [cf1, cf2, cf3, cf4, cf5, cf6, cf7, cf8];
 
+// Prasadam distribution images (served from public/)
+const prasadamPhotos = [
+  { src: '/gallery-prasadam-1.jpeg', title: 'Prasadam outreach in the township' },
+  { src: '/gallery-prasadam-2.jpeg', title: 'Serving with love' },
+  { src: '/gallery-prasadam-3.jpeg', title: 'Community members receiving prasadam' },
+  { src: '/gallery-prasadam-4.jpeg', title: 'Enjoying a blessed meal' },
+  { src: '/gallery-prasadam-5.jpeg', title: 'Feeding the community' },
+  { src: '/gallery-prasadam-6.jpeg', title: 'Prasadam distribution' },
+  { src: '/gallery-prasadam-7.jpeg', title: 'Nourishing body and soul' },
+  { src: '/gallery-prasadam-8.jpeg', title: 'Devotional service in action' },
+  { src: '/gallery-prasadam-9.jpeg', title: 'Love in action' },
+];
+
 function LightboxModal({ src, title, onClose }: { src: string; title: string; onClose: () => void }) {
   return (
     <AnimatePresence>
@@ -150,6 +163,48 @@ export function Gallery() {
             ))}
           </div>
         </div>
+
+        {/* Prasadam Distribution Section */}
+        <div className="mt-16 md:mt-20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px flex-1 bg-wine/20" />
+            <div className="text-center">
+              <div className="kicker mb-1">Prasadam Distribution</div>
+              <h3 className="text-2xl md:text-3xl font-serif text-wine">
+                Every meal a <em>sacred offering.</em>
+              </h3>
+            </div>
+            <div className="h-px flex-1 bg-wine/20" />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {prasadamPhotos.map((photo, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="relative aspect-square rounded-lg overflow-hidden shadow-sm group cursor-pointer"
+                onClick={() => setLightbox({ src: photo.src, title: photo.title })}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-wine/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-cream text-[10px] font-semibold uppercase tracking-wider drop-shadow-md line-clamp-1">{photo.title}</span>
+                </div>
+                <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-cream text-xs">
+                  ⊕
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
       {lightbox && (
