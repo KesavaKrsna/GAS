@@ -6,7 +6,6 @@ import { Mission } from '@/components/Mission';
 import { Impact } from '@/components/Impact';
 import { Spotlight } from '@/components/Spotlight';
 import { Gallery } from '@/components/Gallery';
-import { VideoSection } from '@/components/VideoSection';
 import { EventSection } from '@/components/EventSection';
 import { Footer } from '@/components/Footer';
 
@@ -24,7 +23,6 @@ export default function Home() {
         <Impact onSponsorClick={goToDonate} />
         <Spotlight />
         <Gallery />
-        <VideoSection />
         <EventSection />
       </main>
 
