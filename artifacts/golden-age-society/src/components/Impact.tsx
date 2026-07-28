@@ -101,7 +101,7 @@ export function Impact({ onSponsorClick }: ImpactProps) {
         {/* Video */}
         <div className="max-w-2xl mx-auto mb-14">
           <VideoCard
-            src={`${import.meta.env.BASE_URL?.replace(/\/$/, '')}/api/video/in-every-town.mp4`}
+            src="/in-every-town.mp4"
             title="In Every Town and Village"
             description="The sankirtana movement spreading across communities — bringing the holy names, devotional culture, and spiritual joy to every corner of South Africa."
             delay={0.05}
