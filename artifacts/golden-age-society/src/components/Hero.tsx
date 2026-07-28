@@ -4,12 +4,19 @@ import gasLogo from '@assets/gas-logo.png';
 import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
 import heroPhoto from '@assets/hero_1784320482932.png';
 import heroMandate from '/hero-mandate.jpg';
+import heroSymposium from '/hero-symposium.png';
 
 interface HeroProps {
   onSponsorClick: () => void;
 }
 
 const slides = [
+  {
+    id: 0,
+    kicker: "Upcoming event · 15 August 2026",
+    h1: <>Inter-Faith<br/><em>Symposium.</em></>,
+    body: "Katlegong Resource Center · 13:30–16:00 · L824 Ramakonopi East, Katlegong. Many paths. One truth. One humanity. Meal will be served on the day.",
+  },
   {
     id: 1,
     kicker: "Golden Age Society presents",
@@ -64,9 +71,25 @@ export function Hero({ onSponsorClick }: HeroProps) {
       
       {/* Background with radial gradient and pattern overlay */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Slide 1 hero photo */}
+        {/* Slide 1 — Symposium flyer */}
         <AnimatePresence>
           {currentSlide === 0 && (
+            <motion.img
+              key="hero-symposium"
+              src={heroSymposium}
+              alt=""
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Slide 2 — hero community photo */}
+        <AnimatePresence>
+          {currentSlide === 1 && (
             <motion.img
               key="hero-photo"
               src={heroPhoto}
@@ -80,9 +103,9 @@ export function Hero({ onSponsorClick }: HeroProps) {
           )}
         </AnimatePresence>
 
-        {/* Slide 3 mandate photo */}
+        {/* Slide 4 — mandate photo */}
         <AnimatePresence>
-          {currentSlide === 2 && (
+          {currentSlide === 3 && (
             <motion.img
               key="hero-mandate"
               src={heroMandate}
@@ -132,9 +155,9 @@ export function Hero({ onSponsorClick }: HeroProps) {
         </div>
       </div>
 
-      {/* Srila Prabhupada figure — shown only on slide 2 */}
+      {/* Srila Prabhupada figure — shown only on slide 3 */}
       <AnimatePresence>
-        {currentSlide === 1 && (
+        {currentSlide === 2 && (
           <motion.div
             key="prabhupada"
             initial={{ opacity: 0, x: 40 }}
@@ -172,7 +195,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`flex flex-col items-center ${currentSlide === 1 ? 'md:items-start md:text-left md:pr-[36%]' : ''}`}
+              className={`flex flex-col items-center ${currentSlide === 2 ? 'md:items-start md:text-left md:pr-[36%]' : ''}`}
             >
               <div className="kicker mb-4 !text-gold drop-shadow-md">{slides[currentSlide].kicker}</div>
               <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
