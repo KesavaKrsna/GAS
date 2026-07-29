@@ -108,6 +108,12 @@ export function Header() {
             </button>
           ))}
           <button
+            onClick={goToNewsletter}
+            className="text-left text-lg py-3 px-4 rounded-xl text-text"
+          >
+            Newsletter
+          </button>
+          <button
             onClick={goToDonate}
             className="mt-4 px-6 py-4 bg-wine text-cream rounded-xl text-lg font-medium hover:bg-plum transition-colors shadow-sm flex items-center justify-center gap-2"
           >
