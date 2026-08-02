@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'wouter';
 import gasLogo from '@assets/gas-logo.png';
 
 interface FooterProps {
@@ -6,6 +7,8 @@ interface FooterProps {
 }
 
 export function Footer({ onSponsorClick }: FooterProps) {
+  const [, navigate] = useLocation();
+
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -70,10 +73,26 @@ export function Footer({ onSponsorClick }: FooterProps) {
 
         </div>
 
-        <div className="border-t border-[#db7d92]/20 pt-8 flex flex-col items-center text-center">
+        <div className="border-t border-[#db7d92]/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-[#db7d92]/60 font-medium">
             © 2026 Golden Age Society. Made with devotion.
           </p>
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+            {[
+              { label: 'Terms of Use',   slug: 'terms'   },
+              { label: 'Privacy Policy', slug: 'privacy' },
+              { label: 'Refund Policy',  slug: 'refunds' },
+              { label: 'Contact',        slug: 'contact' },
+            ].map(({ label, slug }) => (
+              <button
+                key={slug}
+                onClick={() => navigate(`/legal/${slug}`)}
+                className="text-xs text-[#db7d92]/50 hover:text-gold transition-colors"
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
         </div>
 
       </div>

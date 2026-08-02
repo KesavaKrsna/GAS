@@ -5,6 +5,7 @@ import NotFound from '@/pages/not-found';
 import Home from '@/pages/Home';
 import DonatePage from '@/pages/DonatePage';
 import NewsletterPage from '@/pages/NewsletterPage';
+import LegalPage from '@/pages/LegalPage';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/donate" component={DonatePage} />
       <Route path="/newsletter" component={NewsletterPage} />
+      <Route path="/legal/:page" component={LegalPage} />
       <Route component={NotFound} />
     </Switch>
   );
