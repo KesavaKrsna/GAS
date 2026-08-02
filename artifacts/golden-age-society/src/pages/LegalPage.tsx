@@ -20,7 +20,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           Golden Age Society (GAS) is a South African non-profit organisation dedicated to sharing
           the teachings and culture of Krishna consciousness (Bhakti Yoga) through community
           service, prasadam distribution, and devotional programmes. Our principal place of activity
-          is South Africa.
+          is No.5, Fourth Avenue, Edenvale 1609, South Africa.
         </Section>
 
         <Section heading="3. Use of This Website">
@@ -178,7 +178,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
             <a href="mailto:ocsacademy2020@gmail.com" className="text-wine hover:underline">
               ocsacademy2020@gmail.com
             </a><br />
-            Location: South Africa
+            Location: No.5, Fourth Avenue, Edenvale 1609, South Africa
           </p>
         </Section>
       </>
@@ -269,7 +269,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
 
         <Section heading="Location">
           <ContactRow icon="📍" label="Address">
-South Africa
+No.5, Fourth Avenue, Edenvale 1609, South Africa
           </ContactRow>
           <p className="mt-4 text-sm text-text/60">
             We do not maintain a permanent public-facing office. Community gatherings and programmes
@@ -414,7 +414,7 @@ export default function LegalPage() {
           <p className="text-xs text-text/40 mb-8">Last updated: {doc.updated}</p>
           {doc.content}
           <div className="mt-14 pt-8 border-t border-gold/10 text-xs text-text/40">
-            © 2026 Golden Age Society · South Africa
+            © 2026 Golden Age Society · Edenvale, South Africa
           </div>
         </main>
 

@@ -74,7 +74,7 @@ export function ContactForm() {
             <motion.div {...fadeUp(0.18)} className="space-y-5">
               {[
                 { icon: '✉️', label: 'Email', value: 'ocsacademy2020@gmail.com', href: 'mailto:ocsacademy2020@gmail.com' },
-                { icon: '📍', label: 'Based in', value: 'South Africa', href: null },
+                { icon: '📍', label: 'Based in', value: 'No.5, Fourth Avenue, Edenvale 1609', href: null },
                 { icon: '🕐', label: 'Response time', value: 'Within 2–3 business days', href: null },
               ].map(item => (
                 <div key={item.label} className="flex items-start gap-4">
