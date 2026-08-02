@@ -49,7 +49,7 @@ contactRouter.post('/contact', async (req, res) => {
       </div>
     </div>
     <div style="background:#751c2b;padding:18px 36px;text-align:center;">
-      <p style="margin:0;color:rgba(255,253,247,0.5);font-size:11px;">Golden Age Society · goldenagesociety.org</p>
+      <p style="margin:0;color:rgba(255,253,247,0.5);font-size:11px;">Golden Age Society · goldenage-society.org</p>
     </div>
   </div>
 </body>

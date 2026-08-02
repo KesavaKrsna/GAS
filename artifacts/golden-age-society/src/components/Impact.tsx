@@ -114,7 +114,7 @@ export function Impact({ onSponsorClick }: ImpactProps) {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-paper rounded-2xl p-6 md:p-10 shadow-sm border border-gold/10"
         >
           {[
-            { value: '~300', label: 'Fed weekly in Klerksdorp' },
+            { value: '~300', label: 'Fed weekly across SA' },
             { value: '28,500+', label: 'Meals shared to date' },
             { value: '47', label: 'Community gatherings' },
             { value: '320+', label: 'Active volunteers' },

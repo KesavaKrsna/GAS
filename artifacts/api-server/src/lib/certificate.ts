@@ -105,7 +105,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   });
 
   // Contact line
-  const contactLine = `donations@goldenagesociety.org   |   www.goldenagesociety.org`;
+  const contactLine = `donations@goldenage-society.org   |   www.goldenage-society.org`;
   const clW = helvetica.widthOfTextAtSize(contactLine, 7.5);
   page.drawText(contactLine, {
     x: (width - clW) / 2, y: height - MARGIN - 100,
@@ -239,7 +239,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   // ── Footer band ───────────────────────────────────────────────────────────
   drawRect(page, MARGIN, MARGIN, width - MARGIN * 2, 40, WINE, 0.08);
   const footer1 = 'This certificate has been generated electronically and is valid without a handwritten signature.';
-  const footer2 = 'For verification contact: donations@goldenagesociety.org';
+  const footer2 = 'For verification contact: donations@goldenage-society.org';
   const f1W = helvetica.widthOfTextAtSize(footer1, 7);
   const f2W = helvetica.widthOfTextAtSize(footer2, 7);
   page.drawText(footer1, { x: (width - f1W) / 2, y: MARGIN + 26, size: 7, font: helvetica, color: GREY });

@@ -12,7 +12,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
     content: (
       <>
         <Section heading="1. Acceptance of Terms">
-          By accessing or using the Golden Age Society website (goldenagesociety.org), you agree to
+          By accessing or using the Golden Age Society website (goldenage-society.org), you agree to
           be bound by these Terms of Use. If you do not agree, please do not use this site.
         </Section>
 
@@ -20,7 +20,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           Golden Age Society (GAS) is a South African non-profit organisation dedicated to sharing
           the teachings and culture of Krishna consciousness (Bhakti Yoga) through community
           service, prasadam distribution, and devotional programmes. Our principal place of activity
-          is Klerksdorp, North West Province, South Africa.
+          is South Africa.
         </Section>
 
         <Section heading="3. Use of This Website">
@@ -178,7 +178,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
             <a href="mailto:ocsacademy2020@gmail.com" className="text-wine hover:underline">
               ocsacademy2020@gmail.com
             </a><br />
-            Location: Klerksdorp, North West Province, South Africa
+            Location: South Africa
           </p>
         </Section>
       </>
@@ -269,11 +269,11 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
 
         <Section heading="Location">
           <ContactRow icon="📍" label="Address">
-            Klerksdorp, North West Province, South Africa
+South Africa
           </ContactRow>
           <p className="mt-4 text-sm text-text/60">
             We do not maintain a permanent public-facing office. Community gatherings and programmes
-            are held at various venues in the Klerksdorp area — details are announced via our newsletter
+            are held at various venues across South Africa — details are announced via our newsletter
             and contact form responses.
           </p>
         </Section>
@@ -414,7 +414,7 @@ export default function LegalPage() {
           <p className="text-xs text-text/40 mb-8">Last updated: {doc.updated}</p>
           {doc.content}
           <div className="mt-14 pt-8 border-t border-gold/10 text-xs text-text/40">
-            © 2026 Golden Age Society · Klerksdorp, South Africa
+            © 2026 Golden Age Society · South Africa
           </div>
         </main>
 

@@ -145,7 +145,7 @@ const LaunchBrief = () => (
     </div>
 
     <p className="text-center text-xs uppercase tracking-widest text-text/40 font-semibold">
-      Hare Krishna · Golden Age Society · goldenagesociety.org
+      Hare Krishna · Golden Age Society · goldenage-society.org
     </p>
 
   </article>

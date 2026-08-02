@@ -76,7 +76,7 @@ export async function sendDonationCertificate(
         Golden Age Society · PBO No. 930070132 · Section 18A Approved
       </p>
       <p style="margin: 4px 0 0; color: rgba(255,253,247,0.5); font-size: 10px;">
-        donations@goldenagesociety.org
+        donations@goldenage-society.org
       </p>
     </div>
 

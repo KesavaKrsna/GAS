@@ -494,7 +494,7 @@ export default function DonatePage() {
                   <button onClick={() => { setStep('form'); setErrorMsg(''); }} className="w-full py-3.5 bg-wine text-cream rounded-xl font-semibold hover:bg-plum transition-colors">
                     Try again
                   </button>
-                  <a href="mailto:donations@goldenagesociety.org" className="w-full py-3.5 border border-wine text-wine rounded-xl font-semibold hover:bg-wine/5 transition-colors block">
+                  <a href="mailto:donations@goldenage-society.org" className="w-full py-3.5 border border-wine text-wine rounded-xl font-semibold hover:bg-wine/5 transition-colors block">
                     Contact us directly
                   </a>
                 </div>
