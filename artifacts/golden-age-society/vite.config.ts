@@ -29,6 +29,10 @@ if (!basePath) {
 
 export default defineConfig({
   base: basePath,
+  define: {
+    // Expose server-side secret to the browser bundle (public key is safe to embed)
+    'import.meta.env.VITE_PAYSTACK_PUBLIC_KEY': JSON.stringify(process.env.PAYSTACK_PUBLIC_KEY ?? ''),
+  },
   plugins: [
     react(),
     tailwindcss(),
