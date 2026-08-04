@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
 import gasLogo from '@assets/gas-logo.png';
 
@@ -367,6 +368,8 @@ export default function LegalPage() {
 
   const slug = (params.page ?? 'terms') as LegalSlug;
   const doc = DOCS[slug] ?? DOCS.terms;
+
+  usePageTitle(doc.title);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'wouter';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import gasLogo from '@assets/gas-logo.png';
@@ -153,6 +154,7 @@ const LaunchBrief = () => (
 
 /* ─── Page ─── */
 export default function NewsletterPage() {
+  usePageTitle('Newsletter');
   const [, navigate] = useLocation();
   const [openIssue, setOpenIssue] = React.useState<string | null>(null);
 

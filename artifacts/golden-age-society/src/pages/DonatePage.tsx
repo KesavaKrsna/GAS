@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import gasLogo from '@assets/gas-logo.png';
@@ -30,6 +31,7 @@ function formatZAR(n: number) {
 }
 
 export default function DonatePage() {
+  usePageTitle('Donate');
   const [, navigate] = useLocation();
   const [selectedAmount, setSelectedAmount] = useState<number>(250);
   const [customAmount, setCustomAmount] = useState('');
