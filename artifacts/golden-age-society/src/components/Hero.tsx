@@ -19,9 +19,11 @@ const slides = [
   },
   {
     id: 1,
-    kicker: "Golden Age Society presents",
-    h1: <>Spiritual awakening,<br/><em>joyful community.</em></>,
-    body: "Experience the profound joy of Krishna consciousness. Through devotional chanting, spiritual wisdom, and loving association, we nurture the soul's natural yearning for connection.",
+    kicker: "Golden Age Society",
+    h1: <>Where Bhakti Sparks<br/><em>Become Flames.</em></>,
+    // vision & mission displayed separately in the slide template
+    vision: "Ushering in Lord Caitanya Mahāprabhu's Golden Age by establishing vibrant centres of Krishna Consciousness in every township and village across Africa.",
+    mission: "Expanding the sankirtana movement through Harinam, Prasadam, book distribution, spiritual education, cultural expression, and sustainable African-led temple development.",
   },
   {
     id: 2,
@@ -224,8 +226,61 @@ export function Hero({ onSponsorClick }: HeroProps) {
             </motion.div>
           )}
 
-          {/* ── Slides 1–3: standard text layout ── */}
-          {currentSlide !== 0 && (
+          {/* ── Slide 1: Tagline / Vision / Mission ── */}
+          {currentSlide === 1 && (
+            <motion.div
+              key="slide-1"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center w-full max-w-3xl"
+            >
+              <img
+                src={gasLogo}
+                alt="Golden Age Society Mark"
+                className="w-[80px] h-[67px] md:w-[96px] md:h-[80px] object-contain mb-6 filter brightness-[10] drop-shadow-md"
+              />
+              <div className="kicker mb-3 !text-gold drop-shadow-md">Golden Age Society</div>
+              <h1 className="text-[2rem] sm:text-5xl md:text-6xl text-cream mb-6 drop-shadow-lg leading-tight text-center">
+                Where Bhakti Sparks<br/><em className="text-gold">Become Flames.</em>
+              </h1>
+              {/* Vision & Mission pill cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mb-7 px-2">
+                <div className="bg-black/25 backdrop-blur-sm border border-cream/15 rounded-xl px-4 py-3.5 text-left">
+                  <div className="text-xs font-bold uppercase tracking-widest text-gold/80 mb-1.5">👁 Vision</div>
+                  <p className="text-cream/90 text-xs sm:text-sm leading-relaxed">
+                    Ushering in Lord Caitanya Mahāprabhu's Golden Age by establishing vibrant centres of Krishna Consciousness in every township and village across Africa.
+                  </p>
+                </div>
+                <div className="bg-black/25 backdrop-blur-sm border border-cream/15 rounded-xl px-4 py-3.5 text-left">
+                  <div className="text-xs font-bold uppercase tracking-widest text-gold/80 mb-1.5">🔥 Mission</div>
+                  <p className="text-cream/90 text-xs sm:text-sm leading-relaxed">
+                    Expanding the sankirtana movement through Harinam, Prasadam, book distribution, spiritual education, cultural expression, and sustainable African-led temple development.
+                  </p>
+                </div>
+              </div>
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 mb-10 w-full max-w-xs sm:max-w-none justify-center">
+                <button
+                  onClick={onSponsorClick}
+                  className="px-8 py-3.5 bg-gold text-[#1a0a00] rounded-full text-sm sm:text-base font-bold hover:bg-cream transition-colors shadow-xl w-full sm:w-auto flex items-center justify-center gap-2 group"
+                >
+                  ♡ Donate now
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+                <button
+                  onClick={scrollToMission}
+                  className="px-7 py-3.5 bg-black/25 backdrop-blur-sm border border-cream/40 text-cream rounded-full text-sm sm:text-base font-medium hover:bg-black/35 transition-colors w-full sm:w-auto"
+                >
+                  Discover our mission
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ── Slides 2–3: standard text layout ── */}
+          {currentSlide > 1 && (
             <motion.div
               key={`slide-${currentSlide}`}
               initial={{ opacity: 0, y: 15 }}
@@ -244,11 +299,13 @@ export function Hero({ onSponsorClick }: HeroProps) {
                 <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
                   {slides[currentSlide].h1}
                 </h1>
-                <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium
-                              px-4 py-3 rounded-xl bg-black/20 backdrop-blur-[2px]
-                              shadow-[0_2px_16px_rgba(0,0,0,0.18)]">
-                  {slides[currentSlide].body}
-                </p>
+                {'body' in slides[currentSlide] && (
+                  <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium
+                                px-4 py-3 rounded-xl bg-black/20 backdrop-blur-[2px]
+                                shadow-[0_2px_16px_rgba(0,0,0,0.18)]">
+                    {(slides[currentSlide] as { body: string }).body}
+                  </p>
+                )}
               </div>
               {/* Buttons */}
               <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 mb-12 w-full max-w-xs sm:max-w-none justify-center">

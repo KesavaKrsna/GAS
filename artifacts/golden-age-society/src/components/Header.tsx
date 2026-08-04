@@ -41,6 +41,11 @@ export function Header() {
     navigate('/newsletter');
   };
 
+  const goToPrograms = () => {
+    setMobileMenuOpen(false);
+    navigate('/programs');
+  };
+
   const scrollTo = (id: string) => {
     setMobileMenuOpen(false);
     const el = document.getElementById(id);
@@ -77,6 +82,12 @@ export function Header() {
             </button>
           ))}
           <button
+            onClick={goToPrograms}
+            className="px-5 py-2.5 rounded-full text-[15px] font-medium transition-colors text-text hover:text-wine hover:bg-[#f8f5ed]/50"
+          >
+            Programs
+          </button>
+          <button
             onClick={goToNewsletter}
             className="px-5 py-2.5 rounded-full text-[15px] font-medium transition-colors text-text hover:text-wine hover:bg-[#f8f5ed]/50"
           >
@@ -107,6 +118,12 @@ export function Header() {
               {link.label}
             </button>
           ))}
+          <button
+            onClick={goToPrograms}
+            className="text-left text-lg py-3 px-4 rounded-xl text-text"
+          >
+            Programs
+          </button>
           <button
             onClick={goToNewsletter}
             className="text-left text-lg py-3 px-4 rounded-xl text-text"

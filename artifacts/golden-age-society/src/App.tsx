@@ -6,6 +6,7 @@ import Home from '@/pages/Home';
 import DonatePage from '@/pages/DonatePage';
 import NewsletterPage from '@/pages/NewsletterPage';
 import LegalPage from '@/pages/LegalPage';
+import ProgramsPage from '@/pages/ProgramsPage';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -14,6 +15,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/programs" component={ProgramsPage} />
       <Route path="/donate" component={DonatePage} />
       <Route path="/newsletter" component={NewsletterPage} />
       <Route path="/legal/:page" component={LegalPage} />
