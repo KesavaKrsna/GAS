@@ -1,0 +1,60 @@
+# Replit Agent Prompt — Golden Age Society Website Update
+
+Copy everything below the line into the Replit Agent / AI chat inside your goldenage-society.org project.
+
+---
+
+I need you to update this website (Golden Age Society / GAS) to fix technical issues and better reflect our organisation's actual vision, mission, and programs. Please make the following changes:
+
+## 1. Fix metadata (do this first — quick win)
+- Replace the placeholder meta description ("Golden Age Society — built on Replit. Update this description to reflect the app.") on every page.
+- New meta description: "Golden Age Society (GAS) ignites Krishna Consciousness in South African townships through Kasi Kirtan, Krishna Prasadam outreach, book distribution in African languages, and township-led spiritual centres — under Lord Caitanya's 10,000-year Golden Age."
+- Set matching Open Graph (`og:title`, `og:description`, `og:image`) and Twitter card tags so links shared on WhatsApp/Facebook look professional, not generic.
+- Set a proper `og:image` (a real photo from an outreach event, temple, or the GAS logo — not a placeholder).
+- Update the page `<title>` tags to be specific per page (e.g. "Donate | Golden Age Society", "Our Programs | Golden Age Society") instead of just "Golden Age Society" everywhere.
+
+## 2. Homepage — lead with vision and mission
+- Add a hero section above the fold with our tagline "Where Bhakti Sparks Become Flames" and a one-sentence vision statement: "Ushering in Lord Caitanya Mahaprabhu's Golden Age by establishing vibrant centres of Krishna Consciousness in every township and village across Africa."
+- Add a short mission statement directly beneath it: "Expanding the sankirtana movement through Harinam, Prasadam, book distribution, spiritual education, cultural expression, and sustainable African-led temple development."
+- Add a prominent, high-contrast "Donate" button in the hero section and in the site navigation/header on every page (not buried in a menu).
+
+## 3. Donate / Support page — lead with the tax benefit
+- Add clear, plain-language Section 18A messaging near the top of the donate page: "Your donation is tax-deductible. GAS operates under the Oasis Community Skills Academy (OCSA), a registered nonprofit holding a Section 18A certificate (PBO Reference No. 930070132). You'll receive a tax-deductible receipt, and companies can claim CSI credit."
+- Build a sponsorship tier menu (as cards or a simple list) instead of one generic donate box:
+  - **Sponsor a Prasadam Pot** — funds one township outreach feeding session (kirtan + prasadam + book distribution)
+  - **Sponsor a Kasi Kirtan Outreach Day** — covers instruments, transport, and sound for a harinam/kirtan day
+  - **Sponsor a Translated Book** — funds translation/printing of a Prabhupada title into Zulu, Sotho, Tswana, Pedi, Xhosa, or Afrikaans
+  - **Adopt a Kasi Kirtan Academy Student** — monthly recurring gift for one child's instrument lessons and mentorship
+  - **Bhakti Connect App Partner** — funds app hosting and content development
+  - **Corporate CSI Partner** — larger annual commitment with reporting and site visits
+  - (Leave a placeholder Rand amount field next to each tier — I'll confirm exact figures separately.)
+- Add a monthly/recurring giving option and label it clearly as the preferred way to give ("Become a Bhakti Builder — give monthly"), with one-off giving as a secondary option.
+- Integrate a South African payment gateway button (PayFast, Yoco, SnapScan, or Zapper — use whichever the org has an account with; if none yet, add a placeholder button labelled "Donate via PayFast (coming soon)" and a fallback bank-transfer/EFT block with account details).
+
+## 4. Programs pages — one page or clear section per pillar
+Create (or clean up existing) dedicated sections/pages for each of these, each with a short description and at least one photo placeholder:
+- **Kasi Kirtan** — township Harinam Sankirtan outreach; mention the long-term Kasi Kirtan Academy vision for teaching children instruments and Bhakti principles.
+- **Krishna Prasadam** — feeding outreach, partnership approach with FFLSA for sponsored prasadam pots.
+- **Book Translation & Distribution** — translation into Zulu, Sotho, Tswana, Pedi, Xhosa, Afrikaans; partnership with BBT Africa.
+- **Reuniting Township Devotees** — Kasi Reunions, mentorship circles, counselling support.
+- **Bhakti Connect App** — daily spiritual content, event management, devotee database, outreach tracking; include an app store / download link block (or "coming soon").
+- **Sannyasi Support & African Collaboration** — support for His Holiness Bhakti Narasimha Swami and His Holiness Bhakti Sarvajña Gauranga Swami; relationships with ISKCON Kenya, Ghana, and other African yatras.
+
+## 5. Our Temples / Locations page
+- Add a page listing our centres: ISKCON Hammanskraal and ISKCON Klerksdorp (New Vrindavan Hare Krishna Centre), with address/contact info and a short description of each.
+- Add our geographic roadmap as a simple visual or list: **Immediate** — Soweto, Tembisa, Katlehong, Daveyton; **Mid-term** — Mamelodi, Alexandra; **Long-term** — Vosloorus, Khayelitsha, Umlazi.
+
+## 6. Events / Calendar page
+- Add a simple events/calendar page listing our major annual festivals (Gaura Purnima, Ratha Yatra, Janmashtami, Diwali/Govardhan Puja) alongside our own community outreach days, so visitors and donors can see when to get involved.
+
+## 7. Impact / Stories page
+- Add a page or homepage section for impact stories and numbers (e.g. meals served, kirtan outreach days, books distributed, devotees reunited) with space for real photos and testimonials. Use placeholder stats/photos for now that I can replace with real data.
+- Add a simple quarterly "Impact Update" block that can be updated easily (a short text block, not something requiring a redesign each time).
+
+## 8. General / technical
+- Make sure the whole site is mobile-responsive — most of our township donors and visitors will be on phones.
+- Make sure the donate button and navigation are sticky/visible on scroll on mobile.
+- Check page load speed and compress any large images.
+- Add a simple contact page with WhatsApp, email, and social media links (Facebook, Instagram) prominently displayed.
+
+Please implement these changes step by step, and show me a preview after each major section so I can review before you move to the next one. Start with Section 1 (metadata) and Section 3 (donate page), since those have the most immediate impact on fundraising.
