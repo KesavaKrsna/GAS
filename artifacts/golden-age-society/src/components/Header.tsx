@@ -30,26 +30,28 @@ export function Header() {
 
   const navLinks = [
     { id: 'home',    label: 'Home' },
-    { id: 'mission', label: 'Our mission' },
-    { id: 'stories', label: 'Stories' },
+    { id: 'mission', label: 'Mission' },
     { id: 'gallery', label: 'Gallery' },
     { id: 'contact', label: 'Contact' },
   ];
 
-  const goToNewsletter = () => {
-    setMobileMenuOpen(false);
-    navigate('/newsletter');
-  };
-
-  const goToPrograms = () => {
-    setMobileMenuOpen(false);
-    navigate('/programs');
-  };
+  const pageLinks = [
+    { label: 'Programs',  path: '/programs' },
+    { label: 'Temples',   path: '/temples' },
+    { label: 'Events',    path: '/events' },
+    { label: 'Impact',    path: '/impact' },
+    { label: 'Newsletter', path: '/newsletter' },
+  ];
 
   const scrollTo = (id: string) => {
     setMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+  };
+
+  const goTo = (path: string) => {
+    setMobileMenuOpen(false);
+    navigate(path);
   };
 
   const goToDonate = () => {
@@ -58,21 +60,24 @@ export function Header() {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-[96px] flex items-center bg-[#fffdf8] ${isScrolled ? 'shadow-sm' : ''}`}>
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between h-full">
-        <button onClick={() => scrollTo('home')} className="flex items-center gap-4 hover:opacity-90 transition-opacity">
-          <img src={gasLogo} alt="Golden Age Society" className="w-[65px] h-[72px] object-contain" />
-          <span className="font-serif text-wine text-xl leading-tight font-semibold hidden sm:block">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-[80px] flex items-center bg-[#fffdf8] ${isScrolled ? 'shadow-sm' : ''}`}>
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-full gap-3">
+
+        {/* Logo */}
+        <button onClick={() => scrollTo('home')} className="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0">
+          <img src={gasLogo} alt="Golden Age Society" className="w-[52px] h-[58px] object-contain" />
+          <span className="font-serif text-wine text-[17px] leading-tight font-semibold hidden lg:block">
             Golden Age<br/>Society
           </span>
         </button>
 
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-0.5 flex-1 justify-center">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => scrollTo(link.id)}
-              className={`px-5 py-2.5 rounded-full text-[15px] font-medium transition-colors ${
+              className={`px-3.5 py-2 rounded-full text-[13px] font-medium transition-colors whitespace-nowrap ${
                 activeSection === link.id
                   ? 'bg-[#f8f5ed] text-wine'
                   : 'text-text hover:text-wine hover:bg-[#f8f5ed]/50'
@@ -81,61 +86,77 @@ export function Header() {
               {link.label}
             </button>
           ))}
-          <button
-            onClick={goToPrograms}
-            className="px-5 py-2.5 rounded-full text-[15px] font-medium transition-colors text-text hover:text-wine hover:bg-[#f8f5ed]/50"
-          >
-            Programs
-          </button>
-          <button
-            onClick={goToNewsletter}
-            className="px-5 py-2.5 rounded-full text-[15px] font-medium transition-colors text-text hover:text-wine hover:bg-[#f8f5ed]/50"
-          >
-            Newsletter
-          </button>
-          <button
-            onClick={goToDonate}
-            className="ml-2 px-6 py-2.5 bg-wine text-cream rounded-full text-[15px] font-medium hover:bg-plum transition-colors shadow-sm flex items-center gap-2"
-          >
-            <span>♡</span> Donate
-          </button>
-        </nav>
-
-        <button className="md:hidden text-wine p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="absolute top-[96px] left-0 right-0 bg-cream shadow-xl border-t border-paper p-6 flex flex-col gap-4 md:hidden">
-          {navLinks.map((link) => (
+          {pageLinks.map((link) => (
             <button
-              key={link.id}
-              onClick={() => scrollTo(link.id)}
-              className={`text-left text-lg py-3 px-4 rounded-xl ${activeSection === link.id ? 'bg-paper text-wine font-medium' : 'text-text'}`}
+              key={link.path}
+              onClick={() => goTo(link.path)}
+              className="px-3.5 py-2 rounded-full text-[13px] font-medium transition-colors text-text hover:text-wine hover:bg-[#f8f5ed]/50 whitespace-nowrap"
             >
               {link.label}
             </button>
           ))}
-          <button
-            onClick={goToPrograms}
-            className="text-left text-lg py-3 px-4 rounded-xl text-text"
-          >
-            Programs
-          </button>
-          <button
-            onClick={goToNewsletter}
-            className="text-left text-lg py-3 px-4 rounded-xl text-text"
-          >
-            Newsletter
-          </button>
+        </nav>
+
+        {/* Right actions */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Donate — always visible, including mobile */}
           <button
             onClick={goToDonate}
-            className="mt-4 px-6 py-4 bg-wine text-cream rounded-xl text-lg font-medium hover:bg-plum transition-colors shadow-sm flex items-center justify-center gap-2"
+            className="px-4 md:px-5 py-2 bg-wine text-cream rounded-full text-[13px] md:text-[14px] font-semibold hover:bg-plum transition-colors shadow-sm flex items-center gap-1.5"
           >
-            <span>♡</span> Donate
+            <span>♡</span>
+            <span>Donate</span>
           </button>
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden text-wine p-1.5"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile slide-down menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-[80px] left-0 right-0 bg-cream shadow-xl border-t border-paper py-4 px-5 flex flex-col gap-1 md:hidden max-h-[80vh] overflow-y-auto">
+          {/* Home sections */}
+          <div className="text-[10px] uppercase tracking-widest text-text/40 font-semibold px-3 pt-2 pb-1">Home</div>
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className={`text-left text-base py-2.5 px-3 rounded-xl ${activeSection === link.id ? 'bg-paper text-wine font-medium' : 'text-text'}`}
+            >
+              {link.label}
+            </button>
+          ))}
+          {/* Page links */}
+          <div className="text-[10px] uppercase tracking-widest text-text/40 font-semibold px-3 pt-3 pb-1">Explore</div>
+          {pageLinks.map((link) => (
+            <button
+              key={link.path}
+              onClick={() => goTo(link.path)}
+              className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors"
+            >
+              {link.label}
+            </button>
+          ))}
+          {/* Social links */}
+          <div className="text-[10px] uppercase tracking-widest text-text/40 font-semibold px-3 pt-3 pb-1">Connect</div>
+          <a href="https://wa.me/27000000000" target="_blank" rel="noopener noreferrer"
+            className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors flex items-center gap-2">
+            <span>💬</span> WhatsApp
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+            className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors flex items-center gap-2">
+            <span>📘</span> Facebook
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+            className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors flex items-center gap-2">
+            <span>📷</span> Instagram
+          </a>
         </div>
       )}
     </header>

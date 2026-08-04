@@ -71,7 +71,7 @@ export function ContactForm() {
               about our mission — reach out and we'll get back to you with devotion.
             </motion.p>
 
-            <motion.div {...fadeUp(0.18)} className="space-y-5">
+            <motion.div {...fadeUp(0.18)} className="space-y-4">
               {[
                 { icon: '✉️', label: 'Email', value: 'ocsacademy2020@gmail.com', href: 'mailto:ocsacademy2020@gmail.com' },
                 { icon: '📍', label: 'Based in', value: 'No.5, Fourth Avenue, Edenvale 1609', href: null },
@@ -87,6 +87,34 @@ export function ContactForm() {
                   </div>
                 </div>
               ))}
+
+              {/* Social & messaging links */}
+              <div className="pt-2 flex flex-wrap gap-3">
+                <a
+                  href="https://wa.me/27000000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
+                >
+                  💬 WhatsApp
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
+                >
+                  📘 Facebook
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
+                >
+                  📷 Instagram
+                </a>
+              </div>
             </motion.div>
           </div>
 
