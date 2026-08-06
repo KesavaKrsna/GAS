@@ -27,6 +27,7 @@ const PILLARS: Pillar[] = [
     icon: '🎶',
     kicker: 'Pillar 1',
     title: 'Kasi Kirtan',
+    image: '/kasi-kirtan-outreach.png',
     body: (
       <>
         <p>
