@@ -85,6 +85,7 @@ const PILLARS: Pillar[] = [
     ),
   },
   {
+    image: '/reuniting-devotees.png',
     id: 'reuniting-devotees',
     icon: '🤝',
     kicker: 'Pillar 4',
