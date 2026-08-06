@@ -47,6 +47,7 @@ const PILLARS: Pillar[] = [
     icon: '🍲',
     kicker: 'Pillar 2',
     title: 'Krishna Prasadam',
+    image: '/prasadam-outreach.png',
     body: (
       <>
         <p>
@@ -146,7 +147,14 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-function PillarPhoto({ alt }: { alt: string }) {
+function PillarPhoto({ alt, src }: { alt: string; src?: string }) {
+  if (src) {
+    return (
+      <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+        <img src={src} alt={alt} className="w-full h-full object-cover" />
+      </div>
+    );
+  }
   return (
     <div className="w-full aspect-[4/3] rounded-2xl bg-gradient-to-br from-wine/10 to-gold/10 border border-gold/20 flex items-center justify-center">
       <div className="text-center text-text/30 px-6">
@@ -240,7 +248,7 @@ export default function ProgramsPage() {
 
               {/* Photo */}
               <div>
-                <PillarPhoto alt={pillar.title} />
+                <PillarPhoto alt={pillar.title} src={(pillar as any).image} />
               </div>
             </motion.div>
           );
