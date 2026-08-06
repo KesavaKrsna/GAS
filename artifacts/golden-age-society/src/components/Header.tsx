@@ -38,7 +38,6 @@ export function Header() {
   const pageLinks = [
     { label: 'Programs',  path: '/programs' },
     { label: 'Temples',   path: '/temples' },
-    { label: 'Events',    path: '/events' },
     { label: 'Impact',    path: '/impact' },
     { label: 'Newsletter', path: '/newsletter' },
   ];

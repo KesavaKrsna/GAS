@@ -64,8 +64,7 @@ export function Footer({ onSponsorClick }: FooterProps) {
                 <button onClick={() => navigate('/temples')} className="hover:text-gold transition-colors">Temples & Locations</button>
               </li>
               <li>
-                <button onClick={() => navigate('/events')} className="hover:text-gold transition-colors">Events</button>
-              </li>
+                </li>
               <li>
                 <button onClick={() => navigate('/impact')} className="hover:text-gold transition-colors">Impact & Stories</button>
               </li>
