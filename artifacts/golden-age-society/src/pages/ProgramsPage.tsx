@@ -107,6 +107,7 @@ const PILLARS: Pillar[] = [
   },
   {
     id: 'bhakti-connect',
+    image: '/bhakti-connect-app.jpg',
     icon: '📱',
     kicker: 'Pillar 5',
     title: 'Bhakti Connect App',
@@ -125,27 +126,6 @@ const PILLARS: Pillar[] = [
     ),
     cta: { label: 'Coming soon to app stores' },
     tag: 'Coming soon',
-  },
-  {
-    id: 'sannyasi-support',
-    icon: '🛕',
-    kicker: 'Pillar 6',
-    title: 'Sannyasi Support & African Collaboration',
-    body: (
-      <>
-        <p>
-          GAS actively supports the work of senior renounced Vaishnava teachers who are dedicated to
-          Africa's spiritual upliftment — including <strong>HH Bhakti Narasimha Swami</strong> and
-          <strong> HH Bhakti Sarvajña Gauranga Swami</strong>, whose decades of service on the continent
-          provide the GAS mission with deep roots and guidance.
-        </p>
-        <p>
-          GAS collaborates with <strong>ISKCON Kenya</strong> and <strong>ISKCON Ghana</strong> to share
-          resources, coordinate pan-African harinam initiatives, and build a unified African Vaishnava
-          voice within the worldwide ISKCON family.
-        </p>
-      </>
-    ),
   },
 ];
 
@@ -197,13 +177,13 @@ export default function ProgramsPage() {
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `repeating-radial-gradient(circle at center, transparent 0, transparent 30px, rgba(251,178,38,0.4) 30px, rgba(251,178,38,0.4) 31px)` }} />
         <div className="relative max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-            ✦ Six Pillars of Outreach
+            ✦ Five Pillars of Outreach
           </div>
           <h1 className="text-4xl md:text-5xl font-serif text-cream mb-4 leading-tight">
             Our <em className="text-gold">Programs</em>
           </h1>
           <p className="text-cream/80 text-lg max-w-xl mx-auto leading-relaxed">
-            Six interconnected pillars that carry Lord Caitanya's Golden Age vision into the townships and villages of Africa.
+            Five interconnected pillars that carry Lord Caitanya's Golden Age vision into the townships and villages of Africa.
           </p>
         </div>
       </div>
