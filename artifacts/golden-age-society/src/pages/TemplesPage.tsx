@@ -32,8 +32,8 @@ const CENTRES = [
     contact: 'ocsacademy2020@gmail.com',
     phone: null,
     description:
-      'The New Vrindavan Hare Krishna Centre in Klerksdorp is one of GAS\'s established pillars of outreach in the North West Province. It provides a temple space for regular deity worship, harinam, and community gatherings that draw devotees from surrounding townships.',
-    tags: ['Deity worship', 'Harinam', 'Community gatherings'],
+      'The New Vrindavan Hare Krishna Centre in Klerksdorp is one of GAS\'s established pillars of outreach in the North West Province. It serves as a hub for Krishna Prasadam distribution, Kasi Kirtan outreach, and weekly Bhakti programmes — nourishing the bodies and souls of devotees and seekers across the North West.',
+    tags: ['Prasadam', 'Kasi Kirtan', 'Bhakti programmes'],
   },
 ];
 
