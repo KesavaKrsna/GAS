@@ -65,6 +65,7 @@ const PILLARS: Pillar[] = [
     ),
   },
   {
+    image: '/book-distribution.png',
     id: 'book-distribution',
     icon: '📖',
     kicker: 'Pillar 3',
