@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { SparkField } from './visual/SparkField';
 
 interface ImpactProps {
   onSponsorClick: () => void;
@@ -9,18 +10,16 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
 function VideoCard({
   src,
-  poster,
   title,
   description,
   delay = 0,
 }: {
   src: string;
-  poster?: string;
   title: string;
   description: string;
   delay?: number;
@@ -31,34 +30,32 @@ function VideoCard({
   const toggle = () => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) { v.play(); setPlaying(true); }
-    else { v.pause(); setPlaying(false); }
+    if (v.paused) {
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
   };
 
   return (
     <motion.div {...fadeUp(delay)} className="flex flex-col gap-4">
       <div
-        className="relative rounded-2xl overflow-hidden bg-wine/10 cursor-pointer group shadow-md"
+        className="relative rounded-[1.75rem] overflow-hidden bg-wine/10 cursor-pointer group foil-frame"
         style={{ aspectRatio: '16/9' }}
         onClick={toggle}
       >
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover"
-          playsInline
-          preload="none"
-          onEnded={() => setPlaying(false)}
-        >
+        <video ref={videoRef} className="w-full h-full object-cover" playsInline preload="none" onEnded={() => setPlaying(false)}>
           <source src={src} type="video/mp4" />
         </video>
-        {/* Play/pause overlay */}
         <div
           className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
             playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'
           }`}
-          style={{ background: playing ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.32)' }}
+          style={{ background: playing ? 'rgba(0,0,0,0.15)' : 'rgba(20,8,13,0.38)' }}
         >
-          <div className="w-14 h-14 rounded-full bg-gold/90 flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 rounded-full bg-gold flex items-center justify-center shadow-lg gold-glow">
             {playing ? (
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-wine">
                 <rect x="6" y="4" width="4" height="16" rx="1" />
@@ -73,32 +70,64 @@ function VideoCard({
         </div>
       </div>
       <div>
-        <h3 className="font-serif text-lg text-wine mb-1">{title}</h3>
-        <p className="text-sm text-text/70 leading-relaxed">{description}</p>
+        <h3 className="font-serif text-xl text-cream mb-1">{title}</h3>
+        <p className="text-sm text-cream/70 leading-relaxed">{description}</p>
       </div>
     </motion.div>
   );
 }
 
+function AnimatedStat({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setShown(true);
+      },
+      { threshold: 0.4 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="text-center py-5">
+      <div
+        className={`text-4xl md:text-5xl font-serif font-bold text-gold mb-2 transition-all duration-700 ${
+          shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+        }`}
+      >
+        {value}
+      </div>
+      <div className="text-xs uppercase tracking-[0.18em] text-cream/65 font-semibold">{label}</div>
+    </div>
+  );
+}
+
 export function Impact({ onSponsorClick }: ImpactProps) {
   return (
-    <section className="py-24 md:py-[105px] bg-[#efe9d9] border-y border-gold/10">
-      <div className="container mx-auto px-6 md:px-12 max-w-6xl">
-
-        {/* Header */}
+    <section className="relative py-24 md:py-[110px] bg-plum overflow-hidden grain">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(251,178,38,0.22),_transparent_55%)]" />
+      <SparkField />
+      <div className="container relative z-10 mx-auto px-6 md:px-12 max-w-6xl">
         <div className="text-center mb-14">
-          <motion.div {...fadeUp(0)} className="kicker mb-4">Our reach</motion.div>
-          <motion.h2 {...fadeUp(0.08)} className="text-4xl md:text-5xl text-wine mb-5">
+          <motion.div {...fadeUp(0)} className="kicker !text-gold mb-4">
+            Our reach
+          </motion.div>
+          <motion.h2 {...fadeUp(0.08)} className="text-4xl md:text-6xl text-cream mb-5">
             One spark can <em>light a thousand lamps.</em>
           </motion.h2>
-          <motion.p {...fadeUp(0.14)} className="text-lg text-text/75 leading-relaxed max-w-2xl mx-auto">
-            Every gathering, every plate of prasadam, and every mantra chanted creates a ripple of
-            positive change. With the support of our generous community, the flame of devotion
-            continues to spread across South Africa and beyond.
+          <motion.p {...fadeUp(0.14)} className="text-lg text-cream/75 leading-relaxed max-w-2xl mx-auto">
+            Every gathering, every plate of prasadam, and every mantra chanted creates a ripple of positive change.
+            With the support of our generous community, the flame of devotion continues to spread across South Africa
+            and beyond.
           </motion.p>
         </div>
 
-        {/* Video */}
         <div className="max-w-2xl mx-auto mb-14">
           <VideoCard
             src="/in-every-town.mp4"
@@ -108,35 +137,22 @@ export function Impact({ onSponsorClick }: ImpactProps) {
           />
         </div>
 
-        {/* Stats row */}
         <motion.div
           {...fadeUp(0.2)}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-paper rounded-2xl p-6 md:p-10 shadow-sm border border-gold/10"
+          className="grid grid-cols-2 md:grid-cols-4 gap-2 bg-wine/50 backdrop-blur-sm rounded-[1.75rem] p-4 md:p-8 border border-gold/25"
         >
-          {[
-            { value: '~300', label: 'Fed weekly across SA' },
-            { value: '28,500+', label: 'Meals shared to date' },
-            { value: '47', label: 'Community gatherings' },
-            { value: '320+', label: 'Active volunteers' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center py-4">
-              <div className="text-3xl md:text-4xl font-serif font-bold text-wine mb-1">{stat.value}</div>
-              <div className="text-xs uppercase tracking-widest text-text/55 font-semibold">{stat.label}</div>
-            </div>
-          ))}
+          <AnimatedStat value="~300" label="Fed weekly across SA" />
+          <AnimatedStat value="28,500+" label="Meals shared to date" />
+          <AnimatedStat value="47" label="Community gatherings" />
+          <AnimatedStat value="320+" label="Active volunteers" />
         </motion.div>
 
-        {/* CTA */}
-        <motion.div {...fadeUp(0.25)} className="text-center mt-10">
-          <button
-            onClick={onSponsorClick}
-            className="px-8 py-3.5 bg-wine text-cream rounded-full text-base font-medium hover:bg-plum transition-colors shadow-sm inline-flex items-center gap-2 group"
-          >
+        <motion.div {...fadeUp(0.25)} className="text-center mt-12">
+          <button onClick={onSponsorClick} className="btn-gold group">
             Sponsor the movement
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </button>
         </motion.div>
-
       </div>
     </section>
   );

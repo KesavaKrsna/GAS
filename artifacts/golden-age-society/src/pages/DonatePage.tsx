@@ -3,7 +3,9 @@ import { useLocation } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import gasLogo from '@assets/gas-logo.png';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { PageHero } from '@/components/visual/PageHero';
 
 declare global {
   interface Window {
@@ -225,52 +227,21 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-[#f5f1e7]">
+      <Header />
 
-      {/* ── Sticky nav header ──────────────────────────────────────── */}
-      <header className="bg-[#fffdf8] border-b border-paper shadow-sm sticky top-0 z-40 h-[64px] flex items-center">
-        <div className="container mx-auto px-4 md:px-12 flex items-center justify-between">
-          <button onClick={() => navigate('/')} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src={gasLogo} alt="Golden Age Society" className="w-10 h-[44px] object-contain" />
-            <span className="font-serif text-wine text-base leading-tight font-semibold hidden sm:block">
-              Golden Age<br/>Society
-            </span>
-          </button>
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/')} className="text-sm text-text/60 hover:text-wine transition-colors">
-              ← Home
-            </button>
-            <button
-              onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="px-4 py-2 bg-wine text-cream rounded-full text-sm font-semibold hover:bg-plum transition-colors"
-            >
-              ♡ Donate now
-            </button>
-          </div>
+      <PageHero
+        kicker="Tax-Deductible · Section 18A Approved"
+        title={<>Become a Bhakti Builder.<br /><em>Give monthly.</em></>}
+      >
+        <div className="bg-white/10 border border-gold/25 rounded-2xl px-6 py-5 text-left max-w-2xl mx-auto mt-8">
+          <p className="text-cream/90 text-sm md:text-base leading-relaxed">
+            <span className="text-gold font-semibold">Your donation is tax-deductible.</span>{' '}
+            GAS operates under the <strong>Oasis Community Skills Academy (OCSA)</strong>, a registered nonprofit
+            holding a Section 18A certificate (<strong>PBO Reference No. 930070132</strong>).
+            You'll receive a tax-deductible receipt, and companies can claim <strong>CSI / B-BBEE credit</strong>.
+          </p>
         </div>
-      </header>
-
-      {/* ── Hero / Section 18A callout ─────────────────────────────── */}
-      <div className="bg-wine py-12 px-4 md:px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `repeating-radial-gradient(circle at center, transparent 0, transparent 30px, rgba(251,178,38,0.4) 30px, rgba(251,178,38,0.4) 31px)` }} />
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-            ✦ Tax-Deductible · Section 18A Approved
-          </div>
-          <h1 className="text-3xl md:text-5xl font-serif text-cream mb-5 leading-tight">
-            Become a Bhakti Builder.<br/>
-            <em className="text-gold">Give monthly.</em>
-          </h1>
-          {/* OCSA / Section 18A plain-language block */}
-          <div className="bg-white/10 border border-white/20 rounded-2xl px-6 py-5 text-left max-w-2xl mx-auto">
-            <p className="text-cream/90 text-sm md:text-base leading-relaxed">
-              <span className="text-gold font-semibold">Your donation is tax-deductible.</span>{' '}
-              GAS operates under the <strong>Oasis Community Skills Academy (OCSA)</strong>, a registered nonprofit
-              holding a Section 18A certificate (<strong>PBO Reference No. 930070132</strong>).
-              You'll receive a tax-deductible receipt, and companies can claim <strong>CSI / B-BBEE credit</strong>.
-            </p>
-          </div>
-        </div>
-      </div>
+      </PageHero>
 
       {/* ── Sponsorship tiers ──────────────────────────────────────── */}
       <div className="bg-[#fffdf7] border-b border-gold/10 py-14 px-4 md:px-12">
@@ -729,6 +700,7 @@ export default function DonatePage() {
           </AnimatePresence>
         </div>
       </div>
+      <Footer onSponsorClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
     </div>
   );
 }

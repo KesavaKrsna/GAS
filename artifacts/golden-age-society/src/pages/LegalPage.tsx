@@ -379,12 +379,12 @@ export default function LegalPage() {
     <div className="min-h-screen bg-[#fffdf7]">
       <Header />
 
-      {/* Masthead */}
-      <div className="bg-[#32111e] pt-36 pb-14 px-6">
-        <div className="max-w-3xl mx-auto flex items-center gap-5">
+      <div className="bg-plum pt-32 pb-14 px-6 relative overflow-hidden grain">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(251,178,38,0.2),_transparent_55%)]" />
+        <div className="relative max-w-3xl mx-auto flex items-center gap-5">
           <img src={gasLogo} alt="" className="w-12 h-12 object-contain filter brightness-[8] opacity-80" />
           <div>
-            <p className="text-gold/70 text-xs uppercase tracking-widest font-semibold mb-1">Golden Age Society</p>
+            <p className="text-gold/80 text-xs uppercase tracking-widest font-semibold mb-1">Golden Age Society</p>
             <h1 className="font-serif text-3xl md:text-4xl text-cream">{doc.title}</h1>
           </div>
         </div>
