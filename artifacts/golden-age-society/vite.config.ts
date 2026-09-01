@@ -55,7 +55,8 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(import.meta.dirname, 'dist/public'),
+    // Relative to this package. Vercel copies this tree to repo-root ./public.
+    outDir: 'dist/public',
     emptyOutDir: true,
   },
   server: {

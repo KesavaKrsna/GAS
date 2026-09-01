@@ -4,7 +4,18 @@ Public website for Golden Age Society (Vite + React) with an Express API for con
 
 ## Deploy on Vercel
 
-Import **this GitHub repository** at [vercel.com/new](https://vercel.com/new). Leave **Root Directory** as the repo root (`.`). `vercel.json` already sets the install command, Vite build, static output folder, SPA fallback, and `/api` function.
+Import **this GitHub repository** at [vercel.com/new](https://vercel.com/new). Leave **Root Directory** as the repo root (`.`). Do not set it to `artifacts/golden-age-society`.
+
+In **Settings → General → Build & Development Settings**, either clear the overrides (use `vercel.json`) or set:
+
+- Framework Preset: **Other**
+- Install Command: `pnpm install --frozen-lockfile`
+- Build Command: `pnpm run vercel-build`
+- Output Directory: `public`
+
+A Vite preset looking for `public` will fail if those dashboard fields still point at the default `public` source folder without running this build — the script copies the Vite output there.
+
+`vercel.json` already sets SPA fallback and the `/api` function. The build pre-bundles Express to `api/index.mjs` so Vercel does not have to compile the pnpm workspace TypeScript (that step is where deploys were stopping after `Using TypeScript 5.9.3`).
 
 ### Environment variables
 

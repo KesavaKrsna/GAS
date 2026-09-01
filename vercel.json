@@ -1,11 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
+  "framework": null,
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @workspace/golden-age-society run build",
-  "outputDirectory": "artifacts/golden-age-society/dist/public",
+  "buildCommand": "pnpm run vercel-build",
+  "outputDirectory": "public",
   "functions": {
-    "api/index.ts": {
+    "api/index.mjs": {
       "includeFiles": "attached_assets/gas-logo.png"
     }
   },
