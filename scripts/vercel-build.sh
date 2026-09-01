@@ -22,3 +22,16 @@ cp -a "$SRC"/. "$ROOT/public/"
 
 echo "Copied Vite output to $ROOT/public"
 ls -la "$ROOT/public/index.html"
+
+# Pre-bundle Express so Vercel does not compile workspace TypeScript.
+node "$ROOT/artifacts/api-server/build-vercel.mjs"
+if [[ ! -f "$ROOT/api/index.mjs" ]]; then
+  echo "API bundle was not written to api/index.mjs" >&2
+  exit 1
+fi
+size="$(wc -c < "$ROOT/api/index.mjs")"
+if [[ "$size" -lt 10000 ]]; then
+  echo "API bundle is too small (${size} bytes); esbuild likely failed" >&2
+  exit 1
+fi
+echo "API bundle ${size} bytes"

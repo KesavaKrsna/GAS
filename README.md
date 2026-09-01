@@ -15,7 +15,7 @@ In **Settings → General → Build & Development Settings**, either clear the o
 
 A Vite preset looking for `public` will fail if those dashboard fields still point at the default `public` source folder without running this build — the script copies the Vite output there.
 
-`vercel.json` already sets SPA fallback and the `/api` function.
+`vercel.json` already sets SPA fallback and the `/api` function. The build pre-bundles Express to `api/index.mjs` so Vercel does not have to compile the pnpm workspace TypeScript (that step is where deploys were stopping after `Using TypeScript 5.9.3`).
 
 ### Environment variables
 

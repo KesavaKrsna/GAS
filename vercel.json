@@ -5,7 +5,7 @@
   "buildCommand": "pnpm run vercel-build",
   "outputDirectory": "public",
   "functions": {
-    "api/index.ts": {
+    "api/index.mjs": {
       "includeFiles": "attached_assets/gas-logo.png"
     }
   },
