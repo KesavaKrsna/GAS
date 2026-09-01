@@ -2,7 +2,9 @@ import React from 'react';
 import { useLocation } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { motion } from 'framer-motion';
-import gasLogo from '@assets/gas-logo.png';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { PageHero } from '@/components/visual/PageHero';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -53,36 +55,13 @@ export default function ImpactPage() {
 
   return (
     <div className="min-h-screen bg-cream">
+      <Header />
 
-      {/* ── Nav ──────────────────────────────────────────────────── */}
-      <header className="bg-[#fffdf8] border-b border-paper shadow-sm sticky top-0 z-40 h-[64px] flex items-center">
-        <div className="container mx-auto px-4 md:px-12 flex items-center justify-between">
-          <button onClick={() => navigate('/')} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src={gasLogo} alt="Golden Age Society" className="w-10 h-[44px] object-contain" />
-            <span className="font-serif text-wine text-base leading-tight font-semibold hidden sm:block">Golden Age<br/>Society</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/')} className="text-sm text-text/60 hover:text-wine transition-colors">← Home</button>
-            <button onClick={() => navigate('/donate')} className="px-4 py-2 bg-wine text-cream rounded-full text-sm font-semibold hover:bg-plum transition-colors">♡ Donate</button>
-          </div>
-        </div>
-      </header>
-
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <div className="bg-wine py-16 px-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `repeating-radial-gradient(circle at center, transparent 0, transparent 30px, rgba(251,178,38,0.4) 30px, rgba(251,178,38,0.4) 31px)` }} />
-        <div className="relative max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-            ✦ Making the Mission Visible
-          </div>
-          <h1 className="text-4xl md:text-5xl font-serif text-cream mb-4 leading-tight">
-            Impact & <em className="text-gold">Stories</em>
-          </h1>
-          <p className="text-cream/80 text-lg max-w-xl mx-auto leading-relaxed">
-            Every meal served, every kirtan held, every book distributed is a spark of the Golden Age. Here is what GAS has accomplished — and where it is going.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        kicker="Making the Mission Visible"
+        title={<>Impact & <em>Stories</em></>}
+        subtitle="Every meal served, every kirtan held, every book distributed is a spark of the Golden Age. Here is what GAS has accomplished — and where it is going."
+      />
 
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-16">
 
@@ -179,14 +158,14 @@ export default function ImpactPage() {
 
       </div>
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
-      <div className="bg-wine py-14 px-4 text-center">
+      <div className="bg-plum py-14 px-4 text-center grain relative overflow-hidden">
         <h2 className="font-serif text-3xl text-cream mb-4">Be part of the next chapter.</h2>
         <p className="text-cream/80 mb-8 max-w-md mx-auto">Every donation adds to this story.</p>
-        <button onClick={() => navigate('/donate')} className="px-10 py-4 bg-gold text-[#1a0a00] rounded-full font-bold text-base hover:bg-cream transition-colors shadow-xl">
+        <button onClick={() => navigate('/donate')} className="btn-gold">
           ♡ Donate now →
         </button>
       </div>
+      <Footer onSponsorClick={() => navigate('/donate')} />
     </div>
   );
 }

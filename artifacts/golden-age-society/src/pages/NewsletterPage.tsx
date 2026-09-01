@@ -3,13 +3,13 @@ import { useLocation } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import gasLogo from '@assets/gas-logo.png';
+import { PageHero } from '@/components/visual/PageHero';
 import { motion } from 'framer-motion';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
 /* ─── Newsletter issue data ─── */
@@ -162,27 +162,12 @@ export default function NewsletterPage() {
     <div className="min-h-[100dvh] flex flex-col bg-cream font-sans text-text">
       <Header />
 
-      <main className="flex-1 pt-[96px]">
-
-        {/* ── Masthead ── */}
-        <div className="bg-wine relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-plum/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-orange/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-
-          <div className="container relative z-10 mx-auto px-6 md:px-12 max-w-5xl py-16 md:py-20 flex flex-col md:flex-row items-center gap-8 md:gap-14">
-            <img src={gasLogo} alt="GAS Logo" className="w-20 h-20 md:w-28 md:h-28 object-contain filter brightness-[10] shrink-0" />
-            <div>
-              <div className="kicker !text-gold mb-3">Golden Age Society</div>
-              <h1 className="text-4xl md:text-5xl text-cream mb-3 leading-tight">
-                Our <em>Newsletter</em>
-              </h1>
-              <p className="text-cream/70 text-base md:text-lg max-w-xl leading-relaxed">
-                Updates, briefs and communications from the Golden Age Society — keeping our
-                community and partners informed, transparently and with devotion.
-              </p>
-            </div>
-          </div>
-        </div>
+      <main className="flex-1">
+        <PageHero
+          kicker="Golden Age Society"
+          title={<>Our <em>Newsletter</em></>}
+          subtitle="Updates, briefs and communications from the Golden Age Society — keeping our community and partners informed, transparently and with devotion."
+        />
 
         {/* ── Issue list ── */}
         {!openIssue && (

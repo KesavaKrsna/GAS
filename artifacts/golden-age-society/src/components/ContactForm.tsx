@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SparkField } from './visual/SparkField';
+import { LotusMark } from './visual/LotusMark';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
@@ -18,7 +20,7 @@ export function ContactForm() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm(f => ({ ...f, [field]: e.target.value }));
+    setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,8 +38,8 @@ export function ContactForm() {
       }
       setStatus('success');
       setForm({ name: '', email: '', phone: '', subject: '', message: '' });
-    } catch (err: any) {
-      setErrorMsg(err.message ?? 'Something went wrong.');
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong.');
       setStatus('error');
     }
   };
@@ -46,29 +48,30 @@ export function ContactForm() {
     focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold/50 transition text-sm`;
 
   return (
-    <section id="contact-form" className="py-24 md:py-[105px] bg-wine relative overflow-hidden">
-
-      {/* Background Decor */}
+    <section id="contact-form" className="py-24 md:py-[110px] bg-wine relative overflow-hidden grain">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-plum/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange/25 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <SparkField />
+      <div className="absolute -left-16 bottom-10 opacity-10 pointer-events-none">
+        <LotusMark className="w-64 h-64" />
+      </div>
 
       <div className="container relative z-10 mx-auto px-6 md:px-12 max-w-5xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
-
-          {/* Left — intro */}
           <div>
-            {/* Decorative element */}
-            <div className="hidden lg:flex mb-8 w-16 h-16 rounded-full border-2 border-gold/30 items-center justify-center">
+            <div className="hidden lg:flex mb-8 w-16 h-16 rounded-full border-2 border-gold/40 items-center justify-center bg-gold/10">
               <span className="text-3xl text-gold font-serif pb-1">✦</span>
             </div>
 
-            <motion.div {...fadeUp(0)} className="kicker !text-gold mb-4">Get in touch</motion.div>
+            <motion.div {...fadeUp(0)} className="kicker !text-gold mb-4">
+              Get in touch
+            </motion.div>
             <motion.h2 {...fadeUp(0.07)} className="text-4xl md:text-5xl text-cream mb-6 leading-tight">
               We'd love to <em>hear from you.</em>
             </motion.h2>
             <motion.p {...fadeUp(0.13)} className="text-cream/80 leading-relaxed mb-10 text-base md:text-lg">
-              Whether you'd like to join a gathering, volunteer, partner with us, or simply learn more
-              about our mission — reach out and we'll get back to you with devotion.
+              Whether you'd like to join a gathering, volunteer, partner with us, or simply learn more about our
+              mission — reach out and we'll get back to you with devotion.
             </motion.p>
 
             <motion.div {...fadeUp(0.18)} className="space-y-4">
@@ -76,50 +79,43 @@ export function ContactForm() {
                 { icon: '✉️', label: 'Email', value: 'ocsacademy2020@gmail.com', href: 'mailto:ocsacademy2020@gmail.com' },
                 { icon: '📍', label: 'Based in', value: 'No.5, Fourth Avenue, Edenvale 1609', href: null },
                 { icon: '🕐', label: 'Response time', value: 'Within 2–3 business days', href: null },
-              ].map(item => (
+              ].map((item) => (
                 <div key={item.label} className="flex items-start gap-4">
                   <span className="text-xl mt-0.5">{item.icon}</span>
                   <div>
                     <div className="text-xs uppercase tracking-widest text-cream/50 font-semibold mb-0.5">{item.label}</div>
-                    {item.href
-                      ? <a href={item.href} className="text-gold hover:text-cream transition-colors font-medium">{item.value}</a>
-                      : <span className="text-cream/80 font-medium">{item.value}</span>}
+                    {item.href ? (
+                      <a href={item.href} className="text-gold hover:text-cream transition-colors font-medium">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span className="text-cream/80 font-medium">{item.value}</span>
+                    )}
                   </div>
                 </div>
               ))}
 
-              {/* Social & messaging links */}
               <div className="pt-2 flex flex-wrap gap-3">
-                <a
-                  href="https://wa.me/27000000000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
-                >
-                  💬 WhatsApp
-                </a>
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
-                >
-                  📘 Facebook
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
-                >
-                  📷 Instagram
-                </a>
+                {[
+                  { href: 'https://wa.me/27000000000', label: 'WhatsApp' },
+                  { href: 'https://facebook.com', label: 'Facebook' },
+                  { href: 'https://instagram.com', label: 'Instagram' },
+                ].map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-cream/20 rounded-full text-sm text-cream hover:bg-gold/20 hover:border-gold/40 hover:text-gold transition-all"
+                  >
+                    {s.label}
+                  </a>
+                ))}
               </div>
             </motion.div>
           </div>
 
-          {/* Right — form */}
-          <motion.div {...fadeUp(0.1)} className="bg-white/5 rounded-2xl border border-cream/10 p-8 md:p-10">
+          <motion.div {...fadeUp(0.1)} className="bg-white/8 rounded-[1.75rem] border border-gold/20 p-8 md:p-10 backdrop-blur-sm">
             <AnimatePresence mode="wait">
               {status === 'success' ? (
                 <motion.div
@@ -150,58 +146,92 @@ export function ContactForm() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  {/* Name + Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">Name *</label>
+                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">
+                        Name *
+                      </label>
                       <input
-                        type="text" required value={form.name} onChange={set('name')}
-                        placeholder="Your name" className={inputCls}
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={set('name')}
+                        placeholder="Your name"
+                        className={inputCls}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">Email *</label>
+                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">
+                        Email *
+                      </label>
                       <input
-                        type="email" required value={form.email} onChange={set('email')}
-                        placeholder="you@example.com" className={inputCls}
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={set('email')}
+                        placeholder="you@example.com"
+                        className={inputCls}
                       />
                     </div>
                   </div>
 
-                  {/* Phone + Subject */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">Phone</label>
+                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">
+                        Phone
+                      </label>
                       <input
-                        type="tel" value={form.phone} onChange={set('phone')}
-                        placeholder="+27 ..." className={inputCls}
+                        type="tel"
+                        value={form.phone}
+                        onChange={set('phone')}
+                        placeholder="+27 ..."
+                        className={inputCls}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">Subject</label>
+                      <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">
+                        Subject
+                      </label>
                       <select value={form.subject} onChange={set('subject')} className={inputCls}>
-                        <option value="" className="bg-wine text-cream">Select a topic…</option>
-                        <option value="General enquiry" className="bg-wine text-cream">General enquiry</option>
-                        <option value="Volunteering" className="bg-wine text-cream">Volunteering</option>
-                        <option value="Partnership" className="bg-wine text-cream">Partnership</option>
-                        <option value="Join a gathering" className="bg-wine text-cream">Join a gathering</option>
-                        <option value="Donation enquiry" className="bg-wine text-cream">Donation enquiry</option>
-                        <option value="Media / Press" className="bg-wine text-cream">Media / Press</option>
+                        <option value="" className="bg-wine text-cream">
+                          Select a topic…
+                        </option>
+                        <option value="General enquiry" className="bg-wine text-cream">
+                          General enquiry
+                        </option>
+                        <option value="Volunteering" className="bg-wine text-cream">
+                          Volunteering
+                        </option>
+                        <option value="Partnership" className="bg-wine text-cream">
+                          Partnership
+                        </option>
+                        <option value="Join a gathering" className="bg-wine text-cream">
+                          Join a gathering
+                        </option>
+                        <option value="Donation enquiry" className="bg-wine text-cream">
+                          Donation enquiry
+                        </option>
+                        <option value="Media / Press" className="bg-wine text-cream">
+                          Media / Press
+                        </option>
                       </select>
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">Message *</label>
+                    <label className="block text-xs font-semibold uppercase tracking-widest text-cream/55 mb-1.5">
+                      Message *
+                    </label>
                     <textarea
-                      required value={form.message} onChange={set('message')}
-                      rows={5} placeholder="Tell us how we can help…"
+                      required
+                      value={form.message}
+                      onChange={set('message')}
+                      rows={5}
+                      placeholder="Tell us how we can help…"
                       className={`${inputCls} resize-none`}
                     />
                   </div>
 
-                  {/* Error */}
                   {status === 'error' && (
                     <p className="text-sm text-red-200 bg-red-900/40 rounded-lg px-4 py-3">{errorMsg}</p>
                   )}
@@ -209,31 +239,14 @@ export function ContactForm() {
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="w-full py-3.5 bg-cream text-wine rounded-xl font-bold text-base
-                               hover:bg-gold hover:text-wine transition-all shadow-sm
-                               disabled:opacity-60 disabled:cursor-not-allowed
-                               flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-gold text-[#1a0a00] rounded-xl font-bold text-base hover:bg-cream transition-all gold-glow disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {status === 'sending' ? (
-                      <>
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                        </svg>
-                        Sending…
-                      </>
-                    ) : (
-                      <>
-                        Send message
-                        <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
-                      </>
-                    )}
+                    {status === 'sending' ? 'Sending…' : 'Send message →'}
                   </button>
                 </motion.form>
               )}
             </AnimatePresence>
           </motion.div>
-
         </div>
       </div>
     </section>
