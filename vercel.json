@@ -4,7 +4,16 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter @workspace/golden-age-society run build",
   "outputDirectory": "artifacts/golden-age-society/dist/public",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "attached_assets/gas-logo.png"
+    }
+  },
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"

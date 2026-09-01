@@ -18,8 +18,10 @@ const basePath = process.env.BASE_PATH || '/';
 export default defineConfig({
   base: basePath,
   define: {
-    // Expose server-side secret to the browser bundle (public key is safe to embed)
-    'import.meta.env.VITE_PAYSTACK_PUBLIC_KEY': JSON.stringify(process.env.PAYSTACK_PUBLIC_KEY ?? ''),
+    // Public key is safe to embed. Accept either Replit or Vercel naming.
+    'import.meta.env.VITE_PAYSTACK_PUBLIC_KEY': JSON.stringify(
+      process.env.VITE_PAYSTACK_PUBLIC_KEY || process.env.PAYSTACK_PUBLIC_KEY || '',
+    ),
   },
   plugins: [
     react(),

@@ -1,6 +1,7 @@
 import { PDFDocument, StandardFonts, rgb, type PDFPage } from 'pdf-lib';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { existsSync, readFileSync } from 'fs';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 export interface CertificateData {
   certificateNumber: string;
@@ -62,7 +63,14 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
 
   // ── Logo (top-left of header) ─────────────────────────────────────────────
   try {
-    const logoPath = resolve(process.cwd(), '..', '..', 'attached_assets', 'gas-logo.png');
+    const here = dirname(fileURLToPath(import.meta.url));
+    const logoPath = [
+      resolve(process.cwd(), 'attached_assets', 'gas-logo.png'),
+      resolve(process.cwd(), 'artifacts/golden-age-society/public/gas-logo.png'),
+      resolve(here, '../../../../attached_assets/gas-logo.png'),
+      resolve(here, '../../../golden-age-society/public/gas-logo.png'),
+    ].find((candidate) => existsSync(candidate));
+    if (!logoPath) throw new Error('logo not found');
     const logoBytes = readFileSync(logoPath);
     const logoImage = await doc.embedPng(logoBytes);
     const logoSize = 62; // pt
