@@ -281,7 +281,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
             >
               <div>
                 <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
-                  Come through · Sing, dance, feast
+                  Come through · Chant, dance, feast
                 </div>
                 <h1 className="text-[1.7rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
                   Golden Age Society
