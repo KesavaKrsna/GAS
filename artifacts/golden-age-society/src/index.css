@@ -163,16 +163,32 @@
       0 22px 50px rgba(57, 18, 31, 0.28);
   }
 
-  .launch-scrim {
+  .launch-sky {
+    background-color: #7a1430;
+    background-image:
+      radial-gradient(ellipse 92% 58% at 50% -10%, rgba(255, 236, 170, 0.96) 0%, rgba(255, 186, 64, 0.58) 22%, rgba(255, 122, 40, 0.16) 44%, transparent 64%),
+      repeating-conic-gradient(
+        from -3deg at 50% -18%,
+        #ffd15a 0deg 6.5deg,
+        #ff8a1a 6.5deg 13deg,
+        #e4255c 13deg 19.5deg,
+        #8e1438 19.5deg 26deg
+      );
+  }
+
+  .launch-glow {
     background:
-      linear-gradient(180deg, rgba(18, 4, 8, 0.05) 0%, rgba(18, 4, 8, 0.18) 34%, rgba(12, 3, 6, 0.78) 68%, rgba(8, 2, 4, 0.92) 100%);
+      radial-gradient(circle at 8% 86%, rgba(255, 64, 130, 0.38), transparent 34%),
+      radial-gradient(circle at 92% 70%, rgba(255, 196, 40, 0.32), transparent 30%),
+      radial-gradient(ellipse at 50% 46%, rgba(90, 10, 28, 0.02) 0%, rgba(42, 6, 16, 0.38) 80%);
   }
 }
 
-@media (min-width: 768px) {
-  .launch-scrim {
-    background:
-      linear-gradient(90deg, rgba(8, 2, 4, 0.86) 0%, rgba(12, 3, 6, 0.72) 28%, rgba(12, 3, 6, 0.38) 52%, rgba(12, 3, 6, 0.08) 100%);
+/* Short phones: pin the launch hero to the top so the donate actions stay on screen. */
+@media (max-height: 700px) {
+  section.launch-hero {
+    align-items: flex-start;
+    padding-top: 0.35rem;
   }
 }
 
