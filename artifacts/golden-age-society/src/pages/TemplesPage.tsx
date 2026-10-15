@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageHero } from '@/components/visual/PageHero';
+import { AshramaTimeline, ASHRAMA_NOTE, KatlehongFeature, SectionHeading } from '@/components/sections/ProposalBlocks';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -79,6 +80,12 @@ export default function TemplesPage() {
         title={<>Where the <em>Flame Burns</em></>}
         subtitle="Our existing centres and the geographic roadmap for bringing Krishna Consciousness to every township in Africa."
       />
+
+      {/* ── Katlehong: first working model ─ */}
+      <div className="max-w-5xl mx-auto px-4 md:px-12 pt-16">
+        <SectionHeading kicker="First working model" title={<>Katlehong <em>outreach centre</em></>} intro="Saturday Harināma and prasādam, supported by devotees from Soweto, Edenvale, Hammanskraal and Johannesburg." />
+        <KatlehongFeature showChecklist={false} />
+      </div>
 
       {/* ── Centre Cards ─────────────────────────────────────────── */}
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-8">
@@ -180,6 +187,32 @@ export default function TemplesPage() {
           ♡ Donate now →
         </button>
       </div>
+      {/* ── Āśrama roadmap ─ */}
+      <div id="ashrama" className="max-w-6xl mx-auto px-4 md:px-12 py-16 scroll-mt-24">
+        <SectionHeading kicker="Āśrama development" title={<>Four stages to a <em>brahmacārī āśrama</em></>} intro={ASHRAMA_NOTE} />
+        <AshramaTimeline />
+      </div>
+
+      {/* ── Partners ─ */}
+      <div className="bg-paper/60 border-t border-gold/10 py-16 px-4 md:px-12">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading kicker="Partners" title={<>Supporting other <em>kīrtanas</em></>} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              ['🛕', 'ISKCON temples', 'We coordinate respectfully with local ISKCON temples, sharing dates and inviting devotees to their programmes.'],
+              ['🎶', 'Other kīrtanas', 'We bring devotees and transport to support kīrtanas run by others, rather than competing with them.'],
+              ['🍲', 'Food for Life SA', 'We work alongside FFLSA on prasādam distribution.'],
+            ].map(([icon, t, b]) => (
+              <div key={t} className="bg-white rounded-[1.5rem] p-6 border border-gold/15">
+                <div className="text-3xl mb-3">{icon}</div>
+                <h3 className="font-serif text-xl text-wine mb-2">{t}</h3>
+                <p className="text-sm text-text/70 leading-relaxed">{b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <Footer onSponsorClick={() => navigate('/donate')} />
     </div>
   );

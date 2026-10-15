@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { WHATSAPP_CULTIVATION_GROUP_URL, mailto } from '@/config/site';
 import { PageHero } from '@/components/visual/PageHero';
 import { motion } from 'framer-motion';
 
@@ -14,6 +15,15 @@ const fadeUp = (delay = 0) => ({
 
 /* ─── Newsletter issue data ─── */
 const issues = [
+  {
+    id: 'development-brief',
+    issue: 'Issue 002',
+    date: 'October 2026',
+    tag: 'Development Brief',
+    title: 'Development Booklet: our next 90 days',
+    subtitle: 'Cultivating devotees who can cultivate other devotees',
+    preview: 'A summary of the GAS Development Booklet: seven pillars, Katlehong as our first outreach centre, a weekly rhythm, honest finances and the 90-day roadmap.',
+  },
   {
     id: 'launch-brief',
     issue: 'Issue 001',
@@ -152,6 +162,69 @@ const LaunchBrief = () => (
   </article>
 );
 
+const DevelopmentBrief = () => (
+  <article className="max-w-3xl mx-auto">
+    <div className="mb-10">
+      <div className="flex items-center gap-3 mb-6 flex-wrap">
+        <span className="kicker">Issue 002</span>
+        <span className="text-text/30">·</span>
+        <span className="kicker !text-text/50">October 2026</span>
+        <span className="text-text/30">·</span>
+        <span className="kicker !text-text/50">Development Brief</span>
+      </div>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-wine mb-4 leading-tight">
+        Development Booklet:<br/><em>our next 90 days</em>
+      </h1>
+      <p className="text-lg text-text/70 leading-relaxed font-medium border-l-4 border-gold pl-5 py-1">
+        A working proposal from our core team, Keshav Krsna Prabhu and Premvkay.
+      </p>
+    </div>
+    <div className="space-y-8 text-text/85 leading-relaxed text-base md:text-[1.05rem]">
+      <section>
+        <h2 className="text-2xl text-wine font-serif mb-3">Our vision</h2>
+        <p>Thriving Kṛṣṇa-conscious communities across South Africa, starting in the townships, by cultivating devotees who can cultivate other devotees.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl text-wine font-serif mb-3">Seven pillars</h2>
+        <p>Bhakti education · Saṅkīrtana · Devotee care · Prasādam &amp; welfare · Community partnerships · Finance &amp; resources · Āśrama development.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl text-wine font-serif mb-3">Katlehong first</h2>
+        <p>Katlehong is our first outreach centre: Saturday Harināma and prasādam (donated in kind), with devotees from Soweto, Edenvale, Hammanskraal and Johannesburg. Each programme day needs at least R2,000 for transport, for example 20 × R100, 10 × R200 or 5 × R400. Dates: Saturdays, details on request.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl text-wine font-serif mb-3">Priorities for the first 90 days</h2>
+        <ul className="list-disc pl-6 space-y-1.5">
+          <li>Confirm our legal host and authority to receive funds before any tax claims.</li>
+          <li>Appoint coordinators for finance, safeguarding, outreach, prasādam, transport and records.</li>
+          <li>Start an opt-in member register and two WhatsApp groups (cultivation and operations).</li>
+          <li>Fund Katlehong transport days and reconcile each one.</li>
+          <li>Keep a ledger with receipts and two-person sign-off, and publish monthly reports.</li>
+          <li>Consent before publishing any photos; welfare kept confidential and separate from commerce.</li>
+        </ul>
+      </section>
+    </div>
+  </article>
+);
+
+function OptIn() {
+  return (
+    <div className="bg-paper border border-gold/20 rounded-2xl p-6 md:p-8 mt-12 text-center">
+      <div className="kicker mb-2">Stay in touch</div>
+      <h2 className="text-2xl text-wine font-serif mb-3">Get the next brief</h2>
+      <p className="text-text/65 text-sm mb-5 max-w-md mx-auto">Opt in by email, or ask to join the WhatsApp cultivation group. You can leave at any time.</p>
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href={mailto('Newsletter opt-in')} className="px-6 py-3 bg-wine text-cream rounded-full text-sm font-semibold hover:bg-plum transition-colors">Subscribe by email</a>
+        {WHATSAPP_CULTIVATION_GROUP_URL ? (
+          <a href={WHATSAPP_CULTIVATION_GROUP_URL} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Join the WhatsApp group</a>
+        ) : (
+          <a href={mailto('Please add me to the WhatsApp cultivation group')} className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Ask to join the WhatsApp group</a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Page ─── */
 export default function NewsletterPage() {
   usePageTitle('Newsletter');
@@ -200,6 +273,7 @@ export default function NewsletterPage() {
                 </motion.button>
               ))}
             </div>
+            <OptIn />
           </div>
         )}
 
@@ -212,7 +286,8 @@ export default function NewsletterPage() {
             >
               ← Back to all issues
             </button>
-            <LaunchBrief />
+            {openIssue === 'development-brief' ? <DevelopmentBrief /> : <LaunchBrief />}
+            <OptIn />
           </div>
         )}
 

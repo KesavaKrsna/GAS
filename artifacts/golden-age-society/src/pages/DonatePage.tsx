@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageHero } from '@/components/visual/PageHero';
+import { CONTACT_EMAIL, EFT_DETAILS, TRANSPORT_DAY_RAISED, TRANSPORT_DAY_TARGET, mailto } from '@/config/site';
 
 declare global {
   interface Window {
@@ -24,7 +25,7 @@ interface DonorForm {
 }
 
 type Frequency = 'once' | 'monthly';
-type Step = 'form' | 'processing' | 'success' | 'error';
+type Step = 'form' | 'processing' | 'success' | 'error' | 'fallback';
 
 function formatZAR(n: number) {
   return `R ${n.toLocaleString('en-ZA')}`;
@@ -42,6 +43,15 @@ interface Tier {
 }
 
 const TIERS: Tier[] = [
+  {
+    id: 'transport',
+    icon: '🚌',
+    name: 'Sponsor a Transport Day – R2,000',
+    description: 'Get devotees from Soweto, Edenvale, Hammanskraal and Johannesburg to the Saturday Harināma & prasādam in Katlehong. Share it: R100, R200 or R400 all count.',
+    suggestedAmount: 2000,
+    preferredFrequency: 'once',
+    tag: 'Katlehong',
+  },
   {
     id: 'prasadam-pot',
     icon: '🍲',
@@ -88,7 +98,7 @@ const TIERS: Tier[] = [
     id: 'corporate-csi',
     icon: '🏢',
     name: 'Corporate CSI Partner',
-    description: 'Larger annual commitment with impact reporting and site visits. Companies qualify for B-BBEE CSI recognition.',
+    description: 'Larger annual commitment with impact reporting and site visits. CSI / B-BBEE documentation on request, pending confirmation of legal host.',
     suggestedAmount: 5000,
     preferredFrequency: 'once',
     tag: 'CSI / B-BBEE',
@@ -117,6 +127,8 @@ export default function DonatePage() {
 
   // Load Paystack script
   useEffect(() => {
+    // Only load the payment script once a public key is configured (none is set yet).
+    if (!import.meta.env.VITE_PAYSTACK_PUBLIC_KEY) return;
     if (!document.getElementById('paystack-js')) {
       const s = document.createElement('script');
       s.id = 'paystack-js';
@@ -124,6 +136,19 @@ export default function DonatePage() {
       document.head.appendChild(s);
     }
   }, []);
+
+  // Preselect a tier from ?tier=... (e.g. /donate?tier=transport)
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tier');
+    const tier = TIERS.find((x) => x.id === t);
+    if (tier) {
+      setSelectedTierId(tier.id);
+      setSelectedAmount(tier.suggestedAmount);
+      setFrequency(tier.preferredFrequency);
+    }
+  }, []);
+
+  const amountOptions = selectedTierId === 'transport' ? [100, 200, 400, 2000] : [250, 350, 500, 750, 1000, 1500];
 
   const effectiveAmount = isCustom ? parseInt(customAmount || '0', 10) : selectedAmount;
 
@@ -147,7 +172,8 @@ export default function DonatePage() {
     }
     const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined;
     if (!publicKey) {
-      setErrorMsg('Payment is not configured yet. Please contact us directly.');
+      setErrorMsg('');
+      setStep('fallback');
       return;
     }
     if (!window.PaystackPop) {
@@ -230,15 +256,14 @@ export default function DonatePage() {
       <Header />
 
       <PageHero
-        kicker="Tax-Deductible · Section 18A Approved"
+        kicker="Katlehong · Saturday Harināma"
         title={<>Become a Bhakti Builder.<br /><em>Give monthly.</em></>}
       >
         <div className="bg-white/10 border border-gold/25 rounded-2xl px-6 py-5 text-left max-w-2xl mx-auto mt-8">
           <p className="text-cream/90 text-sm md:text-base leading-relaxed">
-            <span className="text-gold font-semibold">Your donation is tax-deductible.</span>{' '}
-            GAS operates under the <strong>Oasis Community Skills Academy (OCSA)</strong>, a registered nonprofit
-            holding a Section 18A certificate (<strong>PBO Reference No. 930070132</strong>).
-            You'll receive a tax-deductible receipt, and companies can claim <strong>CSI / B-BBEE credit</strong>.
+            <span className="text-gold font-semibold">Every rand goes to the programme you choose.</span>{' '}
+            Tax receipts (Section 18A) and CSI / B-BBEE documentation are available <strong>on request, pending
+            confirmation of our legal host</strong>. We will not claim tax status until it is confirmed in writing.
           </p>
         </div>
       </PageHero>
@@ -308,6 +333,18 @@ export default function DonatePage() {
             })}
           </div>
 
+          {/* Transport day progress (fed from config; real figures only) */}
+          <div className="mt-8 bg-white rounded-2xl border border-gold/25 p-5 max-w-2xl mx-auto">
+            <div className="flex justify-between text-sm mb-2">
+              <span className="font-serif text-wine">Next Katlehong transport day</span>
+              <span className="text-text/60">{formatZAR(TRANSPORT_DAY_RAISED)} of {formatZAR(TRANSPORT_DAY_TARGET)}</span>
+            </div>
+            <div className="h-3 rounded-full bg-paper overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-gold to-orange" style={{ width: `${Math.min(100, (TRANSPORT_DAY_RAISED / TRANSPORT_DAY_TARGET) * 100)}%` }} />
+            </div>
+            <p className="text-xs text-text/50 mt-2">Saturdays, details on request. Updated manually as gifts are confirmed.</p>
+          </div>
+
           {/* General donation option */}
           <p className="text-center text-sm text-text/50 mt-6">
             Prefer to give a general donation?{' '}
@@ -350,33 +387,49 @@ export default function DonatePage() {
               </motion.div>
             )}
 
-            {/* Section 18A details */}
+            {/* Legal host & tax receipts */}
             <div className="bg-white rounded-2xl border border-gold/30 shadow-sm overflow-hidden">
               <div className="bg-wine/5 border-b border-gold/20 px-5 py-4 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold">✓</span>
+                <span className="w-8 h-8 rounded-full bg-gold/20 text-wine flex items-center justify-center font-bold">i</span>
                 <div>
-                  <div className="font-bold text-wine text-sm uppercase tracking-wide">Section 18A Approved</div>
-                  <div className="text-xs text-text/60">SARS Approved Public Benefit Organisation</div>
+                  <div className="font-bold text-wine text-sm uppercase tracking-wide">Tax receipts: on request</div>
+                  <div className="text-xs text-text/60">Pending confirmation of legal host</div>
                 </div>
               </div>
-              <div className="px-5 py-5 space-y-3 text-sm">
-                {[
-                  ['Organisation', 'Oasis Community Skills Academy (OCSA)'],
-                  ['PBO Number', '930070132'],
-                  ['Income Tax Ref', '9884366171'],
-                  ['18A Approval Date', '07 September 2020'],
-                  ['Exemption', 'Section 10(1)(cN) Income Tax Act'],
-                  ['Donations Tax', 'Exempt — Section 56(1)(h)'],
-                ].map(([label, value]) => (
-                  <div key={label} className="flex justify-between gap-3">
-                    <span className="text-text/55 shrink-0">{label}</span>
-                    <span className="font-medium text-wine text-right text-xs">{value}</span>
-                  </div>
-                ))}
-                <p className="pt-2 text-xs text-text/45 leading-relaxed border-t border-paper mt-3">
-                  Donations qualify as tax-deductible subject to the limitations in Section 18A of the Income Tax Act. Companies may claim CSI credit.
+              <div className="px-5 py-5 space-y-3 text-sm text-text/70 leading-relaxed">
+                <p>
+                  We are confirming whether Golden Age Society receives funds as its own registered NPO or as a
+                  programme under a host organisation. Until that is confirmed, Section 18A receipts and PBO details
+                  are available <strong>on request only</strong> and are not guaranteed.
+                </p>
+                <p className="text-xs text-text/50">
+                  Questions? <a className="text-wine underline" href={mailto('Tax receipt enquiry')}>{CONTACT_EMAIL}</a>
                 </p>
               </div>
+            </div>
+
+            {/* Restricted donations + illustrative split */}
+            <div className="bg-white rounded-2xl border border-paper shadow-sm px-5 py-5">
+              <h3 className="font-serif text-lg text-wine mb-2">Restricted donations follow your instructions</h3>
+              <p className="text-sm text-text/65 leading-relaxed mb-4">
+                If you give to a specific tier (for example a Katlehong transport day), it is used only for that
+                purpose. Unrestricted gifts are shared across our work roughly as below.
+              </p>
+              <div className="text-[10px] uppercase tracking-widest font-bold text-wine/60 mb-2">Illustrative fund split (not audited figures)</div>
+              <ul className="space-y-2">
+                {[
+                  ['Prasādam', 30],
+                  ['Welfare & devotee care', 25],
+                  ['Transport', 20],
+                  ['Books', 15],
+                  ['Reserve', 10],
+                ].map(([label, pct]) => (
+                  <li key={label as string} className="text-sm">
+                    <div className="flex justify-between mb-1"><span>{label}</span><span className="font-semibold text-wine">{pct}%</span></div>
+                    <div className="h-2 rounded-full bg-paper overflow-hidden"><div className="h-full bg-gold" style={{ width: `${pct}%` }} /></div>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* What your donation supports */}
@@ -405,7 +458,7 @@ export default function DonatePage() {
               <div className="font-serif text-xl text-gold mb-2">Become a Bhakti Builder</div>
               <p className="text-cream/80 text-sm leading-relaxed">
                 Monthly giving gives us the predictability to plan long-term programmes — hiring teachers,
-                booking venues, printing books. You'll receive a Section 18A certificate for every payment.
+                booking venues, printing books. Tax receipts are available on request, pending confirmation of our legal host.
               </p>
             </div>
           </div>
@@ -427,7 +480,7 @@ export default function DonatePage() {
                     {selectedTier ? selectedTier.name : 'Make a donation'}
                   </h2>
                   <p className="text-sm text-text/60 mt-1">
-                    You'll receive a Section 18A certificate by email immediately.
+                    Tax receipts on request, pending confirmation of legal host.
                   </p>
                 </div>
 
@@ -477,7 +530,7 @@ export default function DonatePage() {
                       <span className="ml-2 text-text/35 font-normal normal-case tracking-normal">(suggested — adjust freely)</span>
                     </label>
                     <div className="grid grid-cols-3 gap-2 mb-3">
-                      {[250, 350, 500, 750, 1000, 1500].map(a => (
+                      {amountOptions.map(a => (
                         <button
                           key={a}
                           type="button"
@@ -621,7 +674,7 @@ export default function DonatePage() {
                   </button>
 
                   <p className="text-center text-xs text-text/40 leading-relaxed">
-                    Secured by Paystack · SSL encrypted · Section 18A certificate emailed instantly
+                    Card payments are being set up. If they are not live yet, we'll show you how to give directly.
                   </p>
                 </form>
               </motion.div>
@@ -663,13 +716,50 @@ export default function DonatePage() {
                     </div>
                   </div>
                   <p className="text-sm text-text/70 leading-relaxed">
-                    Your <strong>Section 18A Tax Certificate</strong> has been emailed to you. Keep it for your annual SARS tax return.
+                    We'll be in touch with your receipt. Tax receipts are available on request, pending confirmation of our legal host.
                   </p>
                   <button
                     onClick={() => navigate('/')}
                     className="w-full py-3.5 bg-wine text-cream rounded-xl font-semibold hover:bg-plum transition-colors"
                   >
                     Back to Golden Age Society
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+            {/* FALLBACK: online payment not live yet */}
+            {step === 'fallback' && (
+              <motion.div
+                key="fallback"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white rounded-2xl shadow-sm border border-paper p-8 text-center space-y-5"
+              >
+                <div className="w-16 h-16 rounded-full bg-gold/20 mx-auto flex items-center justify-center text-3xl">♡</div>
+                <h2 className="font-serif text-2xl text-wine">Contact us to give</h2>
+                <p className="text-sm text-text/70 leading-relaxed">
+                  Online card payments are not live yet. Thank you for your patience. Email us and we'll help you give
+                  {selectedTier ? <> to <strong>{selectedTier.name}</strong></> : null}
+                  {effectiveAmount >= 10 ? <> ({formatZAR(effectiveAmount)})</> : null}.
+                </p>
+                {EFT_DETAILS ? (
+                  <div className="bg-paper/50 rounded-xl px-5 py-4 text-left text-sm space-y-1">
+                    <div>Bank: {EFT_DETAILS.bank}</div>
+                    <div>Account name: {EFT_DETAILS.accountName}</div>
+                    <div>Account no.: {EFT_DETAILS.accountNumber}</div>
+                    <div>Branch code: {EFT_DETAILS.branchCode}</div>
+                    <div>Reference: {EFT_DETAILS.reference}</div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-text/50">EFT details coming soon.</p>
+                )}
+                <div className="flex flex-col gap-3">
+                  <a href={mailto('Donation Enquiry')} className="w-full py-3.5 bg-wine text-cream rounded-xl font-semibold hover:bg-plum transition-colors block">
+                    Email {CONTACT_EMAIL}
+                  </a>
+                  <button onClick={() => setStep('form')} className="w-full py-3.5 border border-wine text-wine rounded-xl font-semibold hover:bg-wine/5 transition-colors">
+                    Back to the form
                   </button>
                 </div>
               </motion.div>
