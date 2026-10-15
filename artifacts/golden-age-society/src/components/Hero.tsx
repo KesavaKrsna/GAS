@@ -37,17 +37,6 @@ const LAUNCH_HIGHLIGHTS = [
   },
 ];
 
-const PENNANT_COLORS = ['#ffd15a', '#ff4d88', '#ff8a1a', '#f6c445', '#e4255c', '#ffb11a', '#c2185b', '#ffe27a'];
-
-const CONFETTI = [
-  { top: '14%', left: '5%', color: '#ffe27a', rotate: 18, size: 9 },
-  { top: '22%', left: '94%', color: '#ff4d88', rotate: -24, size: 8 },
-  { top: '68%', left: '3%', color: '#ff8a1a', rotate: 32, size: 7 },
-  { top: '78%', left: '96%', color: '#ffd15a', rotate: -12, size: 10 },
-  { top: '40%', left: '97%', color: '#fffdf7', rotate: 20, size: 6 },
-  { top: '86%', left: '8%', color: '#ff4d88', rotate: 40, size: 6 },
-];
-
 function HighlightGlyph({ name }: { name: (typeof LAUNCH_HIGHLIGHTS)[number]['icon'] }) {
   const common = {
     width: 18,
@@ -107,33 +96,15 @@ function LaunchBackdrop() {
       transition={{ duration: 0.8 }}
       className="absolute inset-0"
     >
-      <div className="launch-sky absolute inset-0" />
-      <div className="launch-glow absolute inset-0" />
-      <div className="absolute inset-x-0 top-0 flex h-5" aria-hidden>
-        {PENNANT_COLORS.concat(PENNANT_COLORS, PENNANT_COLORS).map((color, i) => (
-          <span
-            key={i}
-            className="h-full flex-1"
-            style={{ background: color, clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
-          />
-        ))}
-      </div>
-      <div className="absolute inset-0" aria-hidden>
-        {CONFETTI.map((piece, i) => (
-          <span
-            key={i}
-            className="absolute rounded-[2px] opacity-90"
-            style={{
-              top: piece.top,
-              left: piece.left,
-              width: piece.size,
-              height: piece.size * 0.62,
-              background: piece.color,
-              transform: `rotate(${piece.rotate}deg)`,
-            }}
-          />
-        ))}
-      </div>
+      <picture>
+        <source media="(min-width: 768px)" srcSet="/launch-kirtan-feast-wide.jpg" />
+        <img
+          src="/launch-kirtan-feast-tall.jpg"
+          alt="Neighbours sharing a vegetarian feast and street kirtan in Katlehong"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+      </picture>
+      <div className="launch-scrim absolute inset-0" />
     </motion.div>
   );
 }
@@ -218,8 +189,10 @@ export function Hero({ onSponsorClick }: HeroProps) {
   return (
     <section
       id="home"
-      className={`relative w-full min-h-[640px] h-[92vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-plum mt-[83px] ${
-        currentSlide === 0 ? 'launch-hero' : ''
+      className={`relative w-full overflow-hidden bg-plum mt-[83px] flex ${
+        currentSlide === 0
+          ? 'h-[calc(100svh-83px)] min-h-[32rem] items-stretch md:h-[90vh] md:min-h-[640px]'
+          : 'min-h-[640px] h-[92vh] md:h-[90vh] items-center justify-center'
       }`}
     >
       <div className="absolute inset-0 pointer-events-none z-0">
@@ -289,7 +262,13 @@ export function Hero({ onSponsorClick }: HeroProps) {
         )}
       </AnimatePresence>
 
-      <div className="container relative z-10 mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center">
+      <div
+        className={`container relative z-10 mx-auto flex flex-col px-5 md:px-12 ${
+          currentSlide === 0
+            ? 'h-full w-full max-w-6xl justify-end pb-2 pt-16 text-left md:justify-center md:pb-4 md:pt-8'
+            : 'items-center justify-center px-6 text-center'
+        }`}
+      >
         <AnimatePresence mode="wait">
           {currentSlide === 0 && (
             <motion.div
@@ -298,11 +277,13 @@ export function Hero({ onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-2 pt-2 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-x-10 lg:gap-y-4 lg:pt-5"
+              className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5"
             >
-              <div className="order-1 lg:col-start-1 lg:row-start-1 lg:text-left">
-                <div className="kicker mb-2 !text-[#ffe7a3] drop-shadow-md">Come through · Chant, dance, feast</div>
-                <h1 className="text-[1.7rem] leading-[1.02] text-cream drop-shadow-[0_3px_16px_rgba(40,0,12,0.55)] sm:text-5xl lg:text-[3.35rem] xl:text-6xl">
+              <div>
+                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
+                  Come through · Chant, dance, feast
+                </div>
+                <h1 className="text-[1.7rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
                   Golden Age Society
                   <span className="mt-1 block">
                     Launch, <em>Katlehong</em>
@@ -310,28 +291,20 @@ export function Hero({ onSponsorClick }: HeroProps) {
                 </h1>
               </div>
 
-              <img
-                src="/launch-katlehong-scene.jpg"
-                alt="Neighbours sharing a vegetarian feast and street kirtan at the Golden Age Society launch in Katlehong"
-                width={1032}
-                height={316}
-                className="foil-frame order-2 h-[4.75rem] w-full rounded-[1.15rem] object-cover object-center sm:h-auto sm:max-h-36 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-h-none lg:object-contain"
-              />
-
-              <ul className="order-3 grid w-full grid-cols-2 gap-2 sm:grid-cols-4 lg:col-start-1 lg:row-start-2 lg:grid-cols-2">
+              <ul className="grid w-full grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
                 {LAUNCH_HIGHLIGHTS.map((item) => (
                   <li
                     key={item.title}
-                    className="flex items-center gap-2 rounded-2xl bg-cream/95 px-2.5 py-2 text-left shadow-[0_10px_24px_rgba(40,0,12,0.18)]"
+                    className="flex items-center gap-1.5 rounded-full bg-black/40 px-2 py-1.5 text-left backdrop-blur-[2px] sm:gap-2 sm:px-2.5"
                   >
-                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full sm:h-9 sm:w-9 ${item.tone}`}>
+                    <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full ${item.tone}`}>
                       <HighlightGlyph name={item.icon} />
                     </span>
                     <span className="min-w-0">
-                      <span className="block font-serif text-[0.88rem] leading-none text-wine sm:text-[0.98rem]">
+                      <span className="block font-serif text-[0.82rem] leading-none text-cream sm:text-[0.95rem]">
                         {item.title}
                       </span>
-                      <span className="mt-1 block text-[0.62rem] font-medium leading-tight text-[#7a3b36] sm:text-[0.68rem]">
+                      <span className="mt-0.5 block text-[0.6rem] font-medium leading-tight text-cream/80">
                         {item.detail}
                       </span>
                     </span>
@@ -339,42 +312,42 @@ export function Hero({ onSponsorClick }: HeroProps) {
                 ))}
               </ul>
 
-              <div className="order-4 flex flex-col items-center gap-2 lg:col-start-1 lg:row-start-3 lg:items-start">
-                <p className="max-w-xl text-[0.8rem] font-semibold leading-snug text-cream [text-shadow:0_2px_10px_rgba(40,0,12,0.55)] sm:text-base">
-                  Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong
-                </p>
-                <p className="inline-flex items-center rounded-full bg-cream px-3.5 py-1 text-xs font-bold tracking-wide text-wine shadow-md sm:text-sm">
-                  Free · All welcome
-                </p>
+              <p className="max-w-xl text-[0.8rem] font-semibold leading-snug text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-base">
+                Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong
+              </p>
+              <p className="inline-flex items-center rounded-full bg-cream px-3 py-1 text-xs font-bold tracking-wide text-wine sm:text-sm">
+                Free · All welcome
+              </p>
+
+              <div className="flex w-full flex-row items-center gap-2 sm:gap-3">
                 <Link
                   href="/donate"
-                  className="btn-gold group mt-1 min-h-14 w-full px-10 text-base shadow-[0_14px_36px_rgba(251,178,38,0.48)] sm:w-auto sm:text-lg"
+                  className="btn-gold group min-h-12 shrink-0 px-6 text-base shadow-[0_14px_36px_rgba(251,178,38,0.48)] sm:min-h-14 sm:px-10 sm:text-lg"
                 >
                   Donate
                   <span aria-hidden className="transition-transform group-hover:translate-x-1">
                     →
                   </span>
                 </Link>
-              </div>
-
-              <a
-                href={DONATE_URL}
-                className="order-5 mx-auto flex w-full max-w-sm items-center gap-3 rounded-2xl bg-cream px-2.5 py-2 text-left shadow-[0_10px_24px_rgba(40,0,12,0.2)] ring-2 ring-[#f0b429] lg:col-start-2 lg:row-start-3 lg:mx-0 lg:max-w-none"
-              >
-                <img
-                  src="/donate-qr.svg"
-                  alt="QR code for https://www.goldenage-society.org/donate"
-                  width={96}
-                  height={96}
-                  className="h-16 w-16 shrink-0 rounded-md bg-cream sm:h-20 sm:w-20"
-                />
-                <span className="min-w-0 pr-1">
-                  <span className="block font-serif text-base leading-none text-wine sm:text-lg">Scan to donate</span>
-                  <span className="mt-1 block text-[0.68rem] font-medium leading-snug text-[#6d3a32] sm:text-xs">
-                    goldenage-society.org/donate
+                <a
+                  href={DONATE_URL}
+                  className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl bg-cream px-2 py-1.5 text-left sm:max-w-xs sm:flex-none sm:gap-3 sm:px-2.5 sm:py-2"
+                >
+                  <img
+                    src="/donate-qr.svg"
+                    alt="QR code for https://www.goldenage-society.org/donate"
+                    width={80}
+                    height={80}
+                    className="h-12 w-12 shrink-0 rounded-md bg-cream sm:h-[4.5rem] sm:w-[4.5rem]"
+                  />
+                  <span className="min-w-0">
+                    <span className="block font-serif text-sm leading-none text-wine sm:text-base">Scan to donate</span>
+                    <span className="mt-1 hidden text-[0.68rem] font-medium leading-snug text-[#6d3a32] sm:block">
+                      goldenage-society.org/donate
+                    </span>
                   </span>
-                </span>
-              </a>
+                </a>
+              </div>
             </motion.div>
           )}
 
@@ -461,7 +434,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
           )}
         </AnimatePresence>
 
-        <div className="flex items-center gap-4 z-20 mt-auto">
+        <div className="z-20 mt-3 flex items-center gap-4 self-center md:mt-4">
           <button
             onClick={prevSlide}
             className="text-cream/70 hover:text-gold transition-colors p-2 text-xl"
