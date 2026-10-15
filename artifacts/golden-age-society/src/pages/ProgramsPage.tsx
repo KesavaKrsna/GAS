@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageHero } from '@/components/visual/PageHero';
+import { CONTACT_EMAIL, mailto } from '@/config/site';
+import { KatlehongFeature, SectionHeading, VolunteerForm, WeeklyRhythm } from '@/components/sections/ProposalBlocks';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -26,22 +28,59 @@ interface Pillar {
 
 const PILLARS: Pillar[] = [
   {
-    id: 'kasi-kirtan',
-    icon: '🎶',
+    id: 'bhakti-education',
+    icon: '📖',
     kicker: 'Pillar 1',
-    title: 'Kasi Kirtan',
+    title: 'Bhakti Education',
+    image: '/book-distribution.png',
+    body: (
+      <>
+        <p>
+          Cultivating devotees who can cultivate other devotees. A weekly rhythm of japa, an online class and
+          reading keeps sādhanā steady between gatherings.
+        </p>
+        <p>
+          <strong>Books in six languages.</strong> Working with BBT Africa, GAS supports translating and distributing
+          Śrīla Prabhupāda's books into Zulu, Sotho, Tswana, Pedi, Xhosa and Afrikaans.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'sankirtana',
+    icon: '🎶',
+    kicker: 'Pillar 2',
+    title: 'Saṅkīrtana',
     image: '/kasi-kirtan-outreach.png',
     body: (
       <>
         <p>
-          The Kasi Kirtan initiative takes the sacred chanting of the Hare Krishna mahā-mantra directly into
-          South African townships — the <em>kasi</em>. Devotees perform street harinam (congregational chanting),
-          bringing the transcendental sound vibration to communities that have rarely encountered Bhakti culture.
+          <strong>Kasi Kirtan</strong> takes the Hare Krishna mahā-mantra into South African townships through
+          street harināma. Katlehong is our first regular outreach centre.
         </p>
         <p>
-          The <strong>Kasi Kirtan Academy</strong> is GAS's vision for the next generation: a structured music and
-          spiritual education programme that trains township youth in mridanga, kartals, and devotional singing —
-          equipping them to become future leaders of the sankirtana movement in Africa.
+          The <strong>Kasi Kirtan Academy</strong> is our vision for training township youth in mṛdaṅga, kartālas and
+          devotional singing. We also support other kīrtanas (see Temples &amp; Centres).
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'devotee-care',
+    icon: '🤲',
+    kicker: 'Pillar 3',
+    title: 'Devotee Care & Welfare',
+    image: '/reuniting-devotees.png',
+    body: (
+      <>
+        <p>
+          Confidential, consent-based support: weekly check-ins, mentorship and help for devotees who have drifted
+          from practice (<strong>Kasi Reunions</strong>). Welfare is always kept separate from any commerce.
+        </p>
+        <p>
+          <strong>Safeguarding &amp; grievances:</strong> any concern can be raised privately by email to{' '}
+          <a className="text-wine underline" href={mailto('Confidential: devotee care / grievance')}>{CONTACT_EMAIL}</a>.
+          See our <a className="text-wine underline" href="/legal/privacy">privacy policy</a> for photo consent and safeguarding.
         </p>
       </>
     ),
@@ -49,62 +88,66 @@ const PILLARS: Pillar[] = [
   {
     id: 'prasadam',
     icon: '🍲',
-    kicker: 'Pillar 2',
-    title: 'Krishna Prasadam',
-    image: '/prasadam-outreach.png',
-    body: (
-      <>
-        <p>
-          "Food for Life" is one of the most powerful forms of devotional outreach. GAS distributes
-          sanctified <strong>Krishna Prasadam</strong> — food offered to the Lord — to township communities,
-          combining nourishment of the body with an experience of Bhakti culture.
-        </p>
-        <p>
-          GAS partners with <strong>Food for Life South Africa (FFLSA)</strong> to amplify reach, ensuring
-          that hundreds of meals are served at each outreach event. Every plate is an act of love and an
-          invitation to spiritual life.
-        </p>
-      </>
-    ),
-  },
-  {
-    image: '/book-distribution.png',
-    id: 'book-distribution',
-    icon: '📖',
-    kicker: 'Pillar 3',
-    title: 'Book Translation & Distribution',
-    body: (
-      <>
-        <p>
-          Śrīla Prabhupāda called book distribution the <em>brihad-mridanga</em> — the great drum whose sound
-          reaches farther than any harinam. GAS is committed to making his timeless teachings accessible to
-          every African heart in their mother tongue.
-        </p>
-        <p>
-          Working with <strong>BBT Africa</strong>, GAS funds the translation and distribution of Prabhupāda's
-          books into <strong>Zulu, Sotho, Tswana, Pedi, Xhosa, and Afrikaans</strong> — six of South Africa's
-          most widely spoken languages — so that no language barrier stands between the seeker and the truth.
-        </p>
-      </>
-    ),
-  },
-  {
-    image: '/reuniting-devotees.png',
-    id: 'reuniting-devotees',
-    icon: '🤝',
     kicker: 'Pillar 4',
-    title: 'Reuniting Township Devotees',
+    title: 'Prasādam & Welfare',
+    image: '/gallery-prasadam-3.jpeg',
     body: (
       <>
         <p>
-          Thousands of initiated devotees across South African townships have drifted from active practice due
-          to isolation, distance from temples, and lack of community. GAS actively seeks them out through
-          <strong> Kasi Reunions</strong> — gathering events that restore fellowship and reignite practice.
+          Sanctified vegetarian <strong>Krishna prasādam</strong> shared with communities, combining nourishment
+          with an experience of Bhakti culture. At Katlehong, prasādam is donated in kind.
         </p>
         <p>
-          Beyond reunions, GAS provides one-on-one <strong>mentorship and spiritual counselling</strong> to
-          help devotees rebuild their sādhanā, reconnect with their local ISKCON community, and find their
-          service in Lord Caitanya's mission.
+          GAS works alongside <strong>Food for Life South Africa (FFLSA)</strong> to extend its reach.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'partnerships',
+    icon: '🤝',
+    kicker: 'Pillar 5',
+    title: 'Community Partnerships',
+    image: '/gallery-prasadam-6.jpeg',
+    body: (
+      <>
+        <p>
+          Supporting other kīrtanas and coordinating respectfully with ISKCON temples, so that our outreach adds to
+          what local communities already do.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'finance',
+    icon: '📒',
+    kicker: 'Pillar 6',
+    title: 'Finance & Stewardship',
+    image: '/gallery-prasadam-8.jpeg',
+    body: (
+      <>
+        <p>
+          A ledger, receipts for every expense, two-person sign-off and a reconciliation after every event.
+          Restricted donations follow the donor's instructions.
+        </p>
+        <p>
+          We will publish monthly reports on the <a className="text-wine underline" href="/impact">Impact</a> page once
+          figures are verified.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'ashrama',
+    icon: '🛕',
+    kicker: 'Pillar 7',
+    title: 'Āśrama Development',
+    image: '/launch-kirtan-feast-wide.jpg',
+    body: (
+      <>
+        <p>
+          A four-stage path from home programmes to a brahmacārī āśrama. See the roadmap on{' '}
+          <a className="text-wine underline" href="/temples#ashrama">Temples &amp; Centres</a>.
         </p>
       </>
     ),
@@ -113,23 +156,17 @@ const PILLARS: Pillar[] = [
     id: 'bhakti-connect',
     image: '/bhakti-connect-app.jpg',
     icon: '📱',
-    kicker: 'Pillar 5',
+    kicker: 'Future',
     title: 'Bhakti Connect App',
     body: (
       <>
         <p>
-          The <strong>Bhakti Connect App</strong> is GAS's digital outreach platform — a devotee-facing mobile
-          application that delivers daily spiritual content, event announcements, and community connection
-          directly to township devotees' phones.
-        </p>
-        <p>
-          Features include a daily Bhakti reading, kirtan recordings, event management for harinam and
-          Prasadam days, and a devotee directory to help isolated practitioners find their nearest community.
+          A possible future devotee app. For now we start with WhatsApp groups, and will only build an app if
+          demand is sustained.
         </p>
       </>
     ),
-    cta: { label: 'Coming soon to app stores' },
-    tag: 'Coming soon',
+    tag: 'Future',
   },
 ];
 
@@ -160,10 +197,19 @@ export default function ProgramsPage() {
       <Header />
 
       <PageHero
-        kicker="Five Pillars of Outreach"
+        kicker="Seven Pillars"
         title={<>Our <em>Programs</em></>}
-        subtitle="Five interconnected pillars that carry Lord Caitanya's Golden Age vision into the townships and villages of Africa."
+        subtitle="Seven pillars for cultivating devotees who can cultivate other devotees, in townships and communities across South Africa."
       />
+
+      <div className="max-w-5xl mx-auto px-4 md:px-12 pt-16">
+        <SectionHeading kicker="Feature" title={<>Katlehong <em>Harināma</em></>} />
+        <KatlehongFeature />
+        <div className="mt-12">
+          <SectionHeading kicker="This week" title="Our weekly rhythm" />
+          <WeeklyRhythm />
+        </div>
+      </div>
 
       {/* ── Pillar sections ──────────────────────────────────────── */}
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-20">
@@ -212,6 +258,11 @@ export default function ProgramsPage() {
             </motion.div>
           );
         })}
+      </div>
+
+      <div id="volunteer" className="max-w-3xl mx-auto px-4 md:px-12 pb-16">
+        <SectionHeading kicker="Volunteer" title="Join the opt-in register" intro="Tell us where you travel from and how you'd like to serve." />
+        <VolunteerForm />
       </div>
 
       <div className="bg-plum py-16 px-4 text-center relative overflow-hidden grain">

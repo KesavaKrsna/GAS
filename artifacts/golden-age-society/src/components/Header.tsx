@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLocation } from 'wouter';
 import gasLogo from '@assets/gas-logo.png';
+import { SOCIAL_LINKS, mailto } from '@/config/site';
 
 export function Header() {
   const [location, navigate] = useLocation();
@@ -44,6 +45,8 @@ export function Header() {
     { label: 'Temples', path: '/temples' },
     { label: 'Impact', path: '/impact' },
     { label: 'Newsletter', path: '/newsletter' },
+    { label: 'About', path: '/about' },
+    { label: 'Get involved', path: '/get-involved' },
   ];
 
   const goSection = (id: string) => {
@@ -164,29 +167,22 @@ export function Header() {
             </button>
           ))}
           <div className="text-[10px] uppercase tracking-widest text-text/40 font-semibold px-3 pt-3 pb-1">Connect</div>
+          {SOCIAL_LINKS.map((sl) => (
+            <a
+              key={sl.label}
+              href={sl.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors"
+            >
+              {sl.label}
+            </a>
+          ))}
           <a
-            href="https://wa.me/27000000000"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={mailto('Hello from the website')}
             className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors"
           >
-            WhatsApp
-          </a>
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors"
-          >
-            Facebook
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-left text-base py-2.5 px-3 rounded-xl text-text hover:bg-paper hover:text-wine transition-colors"
-          >
-            Instagram
+            Email us
           </a>
         </div>
       )}
