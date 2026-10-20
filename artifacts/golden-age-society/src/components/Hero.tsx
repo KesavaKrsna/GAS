@@ -1,12 +1,113 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import gasLogo from '@assets/gas-logo.png';
 import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
 import heroPhoto from '@assets/hero_1784320482932.png';
 import heroMandate from '/hero-mandate.jpg';
-import heroSymposium from '/hero-symposium.png';
 import { SparkField } from './visual/SparkField';
 import { MandalaBackdrop, LotusMark } from './visual/LotusMark';
+
+const DONATE_URL = 'https://www.goldenage-society.org/donate';
+
+const LAUNCH_HIGHLIGHTS = [
+  {
+    title: 'Harinam',
+    detail: 'Street kirtan',
+    tone: 'bg-[#ee6424] text-cream',
+    icon: 'harinam' as const,
+  },
+  {
+    title: 'Prasadam',
+    detail: 'Free vegetarian feast',
+    tone: 'bg-[#1f8a4c] text-cream',
+    icon: 'prasadam' as const,
+  },
+  {
+    title: 'Books',
+    detail: 'Book distribution',
+    tone: 'bg-[#c2185b] text-cream',
+    icon: 'books' as const,
+  },
+  {
+    title: 'Sadhu-sanga',
+    detail: 'Uplifting association',
+    tone: 'bg-[#f0b429] text-[#3d150c]',
+    icon: 'sanga' as const,
+  },
+];
+
+function HighlightGlyph({ name }: { name: (typeof LAUNCH_HIGHLIGHTS)[number]['icon'] }) {
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true,
+  };
+  if (name === 'harinam') {
+    return (
+      <svg {...common}>
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </svg>
+    );
+  }
+  if (name === 'prasadam') {
+    return (
+      <svg {...common}>
+        <path d="M4 11h16" />
+        <path d="M6 11c.4 4.2 2.6 7 6 7s5.6-2.8 6-7" />
+        <path d="M12 4v4" />
+        <path d="M8 7c1.2-1.4 2.6-2 4-2s2.8.6 4 2" />
+      </svg>
+    );
+  }
+  if (name === 'books') {
+    return (
+      <svg {...common}>
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function LaunchBackdrop() {
+  return (
+    <motion.div
+      key="launch-bg"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+      className="absolute inset-0"
+    >
+      <picture>
+        <source media="(min-width: 768px)" srcSet="/launch-kirtan-feast-wide.jpg" />
+        <img
+          src="/launch-kirtan-feast-tall.jpg"
+          alt="Neighbours sharing a vegetarian feast and street kirtan in Katlehong"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+      </picture>
+      <div className="launch-scrim absolute inset-0" />
+    </motion.div>
+  );
+}
 
 interface HeroProps {
   onSponsorClick: () => void;
@@ -15,15 +116,15 @@ interface HeroProps {
 const slides = [
   {
     id: 0,
-    kicker: 'Upcoming event · 15 August 2026',
+    kicker: 'Launch gathering · Katlehong',
     h1: (
       <>
-        Inter-Faith
+        Golden Age Society
         <br />
-        <em>Symposium.</em>
+        Launch, <em>Katlehong</em>
       </>
     ),
-    body: 'Katlegong Resource Center · 13:30–16:00 · L824 Ramakonopi East, Katlegong. Many paths. One truth. One humanity. Meal will be served on the day.',
+    body: 'Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong. Harinam, Prasadam, Books and Sadhu-sanga. Free · All welcome.',
   },
   {
     id: 1,
@@ -85,29 +186,17 @@ export function Hero({ onSponsorClick }: HeroProps) {
     if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
   };
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact-form');
-    if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
-  };
-
   return (
     <section
       id="home"
-      className="relative w-full min-h-[640px] h-[92vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-plum mt-[83px]"
+      className={`relative w-full overflow-hidden bg-plum mt-[83px] flex ${
+        currentSlide === 0
+          ? 'h-[calc(100svh-83px)] min-h-[32rem] items-stretch md:h-[90vh] md:min-h-[640px]'
+          : 'min-h-[640px] h-[92vh] md:h-[90vh] items-center justify-center'
+      }`}
     >
       <div className="absolute inset-0 pointer-events-none z-0">
-        <AnimatePresence>
-          {currentSlide === 0 && (
-            <motion.div
-              key="symposium-bg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0 bg-[#14080d]"
-            />
-          )}
-        </AnimatePresence>
+        <AnimatePresence>{currentSlide === 0 && <LaunchBackdrop />}</AnimatePresence>
 
         <AnimatePresence>
           {currentSlide === 1 && (
@@ -139,13 +228,17 @@ export function Hero({ onSponsorClick }: HeroProps) {
           )}
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,_#fbb226_0%,_#ee6424_28%,_#751c2b_68%,_#39121f_100%)] opacity-80" />
-        <MandalaBackdrop />
-        <SparkField />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_32%,rgba(20,8,13,0.72)_100%)]" />
-        <div className="absolute bottom-20 left-8 md:left-16 opacity-20">
-          <LotusMark className="w-20 h-20 md:w-28 md:h-28" />
-        </div>
+        {currentSlide !== 0 && (
+          <>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,_#fbb226_0%,_#ee6424_28%,_#751c2b_68%,_#39121f_100%)] opacity-80" />
+            <MandalaBackdrop />
+            <SparkField />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_32%,rgba(20,8,13,0.72)_100%)]" />
+            <div className="absolute bottom-20 left-8 md:left-16 opacity-20">
+              <LotusMark className="w-20 h-20 md:w-28 md:h-28" />
+            </div>
+          </>
+        )}
       </div>
 
       <AnimatePresence>
@@ -169,33 +262,92 @@ export function Hero({ onSponsorClick }: HeroProps) {
         )}
       </AnimatePresence>
 
-      <div className="container relative z-10 mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center">
+      <div
+        className={`container relative z-10 mx-auto flex flex-col px-5 md:px-12 ${
+          currentSlide === 0
+            ? 'h-full w-full max-w-6xl justify-end pb-2 pt-16 text-left md:justify-center md:pb-4 md:pt-8'
+            : 'items-center justify-center px-6 text-center'
+        }`}
+      >
         <AnimatePresence mode="wait">
           {currentSlide === 0 && (
             <motion.div
-              key="symposium-slide"
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+              key="launch-slide"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center gap-4 py-4"
+              className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5"
             >
-              <div className="kicker !text-gold drop-shadow-md">Golden Age Society · Upcoming Event</div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl text-cream drop-shadow-lg leading-tight">
-                We're proud to co-host an <em>Inter-Faith Symposium</em>
-              </h1>
-              <img
-                src={heroSymposium}
-                alt="Inter-Faith Symposium — 15 August 2026"
-                className="max-h-[48vh] w-auto rounded-[1.5rem] foil-frame"
-              />
-              <p className="text-cream/80 text-sm sm:text-base italic tracking-wide">
-                Many paths. One truth. One humanity.
+              <div>
+                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
+                  Come through · Chant, dance, feast
+                </div>
+                <h1 className="text-[1.7rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+                  Golden Age Society
+                  <span className="mt-1 block">
+                    Launch, <em>Katlehong</em>
+                  </span>
+                </h1>
+              </div>
+
+              <ul className="grid w-full grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
+                {LAUNCH_HIGHLIGHTS.map((item) => (
+                  <li
+                    key={item.title}
+                    className="flex items-center gap-1.5 rounded-full bg-black/40 px-2 py-1.5 text-left backdrop-blur-[2px] sm:gap-2 sm:px-2.5"
+                  >
+                    <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full ${item.tone}`}>
+                      <HighlightGlyph name={item.icon} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-serif text-[0.82rem] leading-none text-cream sm:text-[0.95rem]">
+                        {item.title}
+                      </span>
+                      <span className="mt-0.5 block text-[0.6rem] font-medium leading-tight text-cream/80">
+                        {item.detail}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="max-w-xl text-[0.8rem] font-semibold leading-snug text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-base">
+                Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong
               </p>
-              <button onClick={scrollToContact} className="btn-gold group">
-                RSVP — get in touch
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </button>
+              <p className="inline-flex items-center rounded-full bg-cream px-3 py-1 text-xs font-bold tracking-wide text-wine sm:text-sm">
+                Free · All welcome
+              </p>
+
+              <div className="flex w-full flex-row items-center gap-2 sm:gap-3">
+                <Link
+                  href="/donate"
+                  className="btn-gold group min-h-12 shrink-0 px-6 text-base shadow-[0_14px_36px_rgba(251,178,38,0.48)] sm:min-h-14 sm:px-10 sm:text-lg"
+                >
+                  Donate
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+                <a
+                  href={DONATE_URL}
+                  className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl bg-cream px-2 py-1.5 text-left sm:max-w-xs sm:flex-none sm:gap-3 sm:px-2.5 sm:py-2"
+                >
+                  <img
+                    src="/donate-qr.svg"
+                    alt="QR code for https://www.goldenage-society.org/donate"
+                    width={80}
+                    height={80}
+                    className="h-12 w-12 shrink-0 rounded-md bg-cream sm:h-[4.5rem] sm:w-[4.5rem]"
+                  />
+                  <span className="min-w-0">
+                    <span className="block font-serif text-sm leading-none text-wine sm:text-base">Scan to donate</span>
+                    <span className="mt-1 hidden text-[0.68rem] font-medium leading-snug text-[#6d3a32] sm:block">
+                      goldenage-society.org/donate
+                    </span>
+                  </span>
+                </a>
+              </div>
             </motion.div>
           )}
 
@@ -282,7 +434,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
           )}
         </AnimatePresence>
 
-        <div className="flex items-center gap-4 z-20 mt-auto">
+        <div className="z-20 mt-3 flex items-center gap-4 self-center md:mt-4">
           <button
             onClick={prevSlide}
             className="text-cream/70 hover:text-gold transition-colors p-2 text-xl"
