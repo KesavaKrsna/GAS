@@ -29,7 +29,14 @@ export default function AboutPage() {
               ['Premvkay', 'Core team. Author of the GAS Development Booklet.'],
             ].map(([n, r]) => (
               <div key={n} className="bg-white rounded-[1.5rem] border border-gold/20 p-6 flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-wine text-gold font-serif text-2xl flex items-center justify-center shrink-0">{n[0]}</div>
+                {n === 'Keshav Krsna Prabhu' ? (
+                  <picture className="block w-14 h-14 rounded-full overflow-hidden shrink-0 border border-gold/30">
+                    <source srcSet="/team-kesava-krsna-das.webp" type="image/webp" />
+                    <img src="/team-kesava-krsna-das.jpg" alt="Kesava Krsna Das (Keshav Krsna Prabhu)" className="w-full h-full object-cover" />
+                  </picture>
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-wine text-gold font-serif text-2xl flex items-center justify-center shrink-0">{n[0]}</div>
+                )}
                 <div>
                   <h3 className="font-serif text-xl text-wine">{n}</h3>
                   <p className="text-sm text-text/65">{r}</p>
