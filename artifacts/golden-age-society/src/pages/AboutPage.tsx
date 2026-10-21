@@ -10,7 +10,7 @@ import { CONTACT_EMAIL, mailto } from '@/config/site';
 const ROLES = ['Finance', 'Safeguarding', 'Outreach', 'Prasādam', 'Transport', 'Records'];
 
 const TEAM_PHOTOS: Record<string, { src: string; alt: string }> = {
-  'Kesava Krsna Das': { src: '/team-kesava-krsna-das', alt: 'Kesava Krsna Das (Keshav Krsna Prabhu)' },
+  'Kesava Krsna Das': { src: '/team-kesava-krsna-das', alt: 'Kesava Krsna Das' },
   Premvkay: { src: '/team-prem', alt: 'Premvkay' },
 };
 
