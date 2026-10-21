@@ -9,7 +9,7 @@ type LegalSlug = 'terms' | 'privacy' | 'refunds' | 'contact';
 const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.ReactNode }> = {
   terms: {
     title: 'Terms of Use',
-    updated: 'August 2026',
+    updated: 'October 2026',
     content: (
       <>
         <Section heading="1. Acceptance of Terms">
@@ -41,11 +41,11 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
         </Section>
 
         <Section heading="5. Donations">
-          All donations made through this site are processed securely via Paystack. By making a
+          Online card payments are being set up; until they are live, donations are arranged by email. By making a
           donation you confirm that you are the authorised account holder and that the funds are
           given voluntarily. Please refer to our <InlineLink slug="refunds">Refund Policy</InlineLink> for
-          details on error refunds. Section 18A tax-deductibility certificates are issued where
-          applicable under South African tax law.
+          details on error refunds. Section 18A tax receipts are available on request, pending
+          confirmation of our legal host. These terms will be aligned with the confirmed legal entity.
         </Section>
 
         <Section heading="6. Third-Party Links">
@@ -87,7 +87,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
 
   privacy: {
     title: 'Privacy Policy',
-    updated: 'August 2026',
+    updated: 'October 2026',
     content: (
       <>
         <Section heading="1. Introduction">
@@ -109,7 +109,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
         <Section heading="3. How We Use Your Information">
           <ul className="list-disc pl-5 space-y-2">
             <li>To respond to enquiries you submit through the contact form.</li>
-            <li>To process donations and issue Section 18A tax certificates.</li>
+            <li>To process donations and, on request, tax receipts (pending confirmation of our legal host).</li>
             <li>To send acknowledgement emails relating to your interaction with us.</li>
             <li>To improve the website and our programmes.</li>
           </ul>
@@ -121,7 +121,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           <ul className="list-disc pl-5 space-y-2 mt-2">
             <li><strong>Consent</strong> — when you voluntarily submit a contact form or make a donation.</li>
             <li><strong>Legitimate interest</strong> — to operate and improve the website and respond to enquiries.</li>
-            <li><strong>Legal obligation</strong> — to issue tax certificates as required by SARS regulations.</li>
+            <li><strong>Legal obligation</strong> — to keep financial records and, once our legal host is confirmed, tax receipts as required by SARS.</li>
           </ul>
         </Section>
 
@@ -167,12 +167,39 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           transmitted over SSL/TLS encryption.
         </Section>
 
-        <Section heading="10. Changes to This Policy">
+        <Section heading="10. Photo Consent">
+          <ul className="list-disc pl-5 space-y-2">
+            <li>We ask for consent before publishing any photo or video in which a person can be identified.</li>
+            <li>Photos of children are only published with the written consent of a parent or guardian, and we avoid naming children.</li>
+            <li>We do not publish photos of vulnerable people, or of anyone receiving welfare support, in a way that identifies them.</li>
+            <li>You can ask us to remove a photo of yourself or your child at any time, and we will take it down promptly.</li>
+          </ul>
+        </Section>
+
+        <Section heading="11. Safeguarding">
+          Devotee care and welfare support is confidential and consent-based, and kept separate from
+          any commercial activity. Volunteers working with children or vulnerable people are expected
+          to follow the safeguarding guidelines being finalised by the core team. A safeguarding
+          coordinator is being appointed.
+        </Section>
+
+        <Section heading="12. Grievances and Concerns">
+          If you have a concern about how you were treated, about safeguarding, or about how your
+          information or photo was used, email{' '}
+          <a href="mailto:ocsacademy2020@gmail.com?subject=Confidential%20grievance" className="text-wine hover:underline">
+            ocsacademy2020@gmail.com
+          </a>{' '}
+          with "Confidential grievance" in the subject. It will be handled privately by the core team,
+          and you will not be treated unfairly for raising it. You may also contact the Information
+          Regulator of South Africa.
+        </Section>
+
+        <Section heading="13. Changes to This Policy">
           We may update this Privacy Policy from time to time. We will post the updated policy on
           this page with a revised "last updated" date.
         </Section>
 
-        <Section heading="11. Contact the Information Officer">
+        <Section heading="14. Contact the Information Officer">
           <p>
             Golden Age Society — Information Officer<br />
             Email:{' '}
@@ -188,7 +215,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
 
   refunds: {
     title: 'Refund Policy',
-    updated: 'August 2026',
+    updated: 'October 2026',
     content: (
       <>
         <Section heading="1. General Policy">
@@ -209,7 +236,7 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           <ul className="list-disc pl-5 space-y-2 mt-3">
             <li>Your full name and email address used during the donation.</li>
             <li>The date and approximate amount of the transaction.</li>
-            <li>Proof of payment (bank statement or Paystack receipt).</li>
+            <li>Proof of payment (bank statement or payment receipt).</li>
             <li>A brief description of the error.</li>
           </ul>
           <p className="mt-3">
@@ -218,17 +245,14 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
           </p>
         </Section>
 
-        <Section heading="3. Section 18A Tax Certificates">
-          Where a donation qualifies for a Section 18A deduction under the South African Income Tax
-          Act, a certificate will be issued by email within 30 days of a verified donation. If you
-          do not receive your certificate or if there is an error on the certificate, please contact
-          us at{' '}
+        <Section heading="3. Section 18A Tax Receipts">
+          Section 18A tax receipts are available on request, pending confirmation of our legal host.
+          We do not issue them automatically. To ask about a receipt, contact us at{' '}
           <a href="mailto:ocsacademy2020@gmail.com" className="text-wine hover:underline">
             ocsacademy2020@gmail.com
           </a>.
           <p className="mt-3">
-            Note: issuing a Section 18A certificate does not affect your right to request a refund
-            under clause 2 above, but the certificate will be voided if a refund is processed.
+            Note: if a receipt has been issued, it will be voided if a refund is processed.
           </p>
         </Section>
 
@@ -286,7 +310,7 @@ No.5, Fourth Avenue, Edenvale 1609, South Africa
                 ocsacademy2020@gmail.com
               </a>
             </ContactRow>
-            <ContactRow icon="💛" label="Donations &amp; Section 18A certificates">
+            <ContactRow icon="💛" label="Donations &amp; tax receipts (on request)">
               <a href="mailto:ocsacademy2020@gmail.com?subject=Donation%20Enquiry" className="text-wine hover:underline">
                 ocsacademy2020@gmail.com
               </a>

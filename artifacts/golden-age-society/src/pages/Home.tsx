@@ -40,7 +40,7 @@ export default function Home() {
         <StandFor />
         <Mission />
         <ProgramsTeaser />
-        <Impact onSponsorClick={goToDonate} />
+        {/* 'Our Reach' section (video + stats) removed for now; restore by re-enabling <Impact onSponsorClick={goToDonate} /> */}
         <Spotlight />
         <Gallery />
         <EventSection />

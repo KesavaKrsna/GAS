@@ -13,41 +13,27 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
-/* ─── Impact stats — update these with real figures ─────────────── */
-const STATS = [
-  { icon: '🍲', value: '—', unit: 'meals served', note: 'Update with real figure' },
-  { icon: '🎶', value: '—', unit: 'kirtan outreach days', note: 'Update with real figure' },
-  { icon: '📖', value: '—', unit: 'books distributed', note: 'Update with real figure' },
-  { icon: '🤝', value: '—', unit: 'devotees reunited', note: 'Update with real figure' },
-  { icon: '🏘️', value: '6+', unit: 'townships reached', note: 'Soweto, Tembisa, Katlehong & more' },
-  { icon: '🌍', value: '2', unit: 'active centres', note: 'Hammanskraal & Klerksdorp' },
+/* ─── Monthly report: §15 metrics. Values stay null until verified. ─── */
+// TODO Kgosi: fill in verified monthly figures (numbers or 'R …' strings). null = "to be published".
+const REPORT_MONTH: string | null = null;
+const MONTHLY_METRICS: { label: string; value: string | null }[] = [
+  { label: 'Classes held', value: null },
+  { label: 'Harināmas', value: null },
+  { label: 'Volunteers active', value: null },
+  { label: 'Prasādam plates served', value: null },
+  { label: 'Books distributed', value: null },
+  { label: 'Devotee-care follow-ups', value: null },
+  { label: 'Income by source', value: null },
+  { label: 'Spend by purpose', value: null },
+  { label: 'Balance', value: null },
 ];
 
-/* ─── Testimonials — replace with real quotes ────────────────────── */
-const TESTIMONIALS = [
-  {
-    quote: 'Placeholder testimonial — replace with a real story from a township devotee or community member.',
-    name: 'Devotee name',
-    location: 'Township, Gauteng',
-  },
-  {
-    quote: 'Placeholder testimonial — replace with a real story from someone who received Prasadam or attended a kirtan.',
-    name: 'Community member',
-    location: 'Township, Gauteng',
-  },
-];
+// TODO Kgosi: per-event reconciliation (real figures only). null = "to be published".
+const RECONCILIATION = { event: 'Katlehong Harināma transport day', target: 2000, raised: null as number | null, spent: null as number | null, carriedForward: null as number | null };
 
-/* ─── Quarterly Update — edit the text block below ───────────────── */
-const QUARTERLY_UPDATE = {
-  period: 'Q2 2026 (April – June)',
-  highlights: [
-    'Continued Kasi Kirtan outreach across Soweto and Tembisa.',
-    'Inter-Faith Symposium planned for 15 August 2026 at Katlegong Resource Centre.',
-    'Book translation project for Zulu and Tswana editions underway with BBT Africa.',
-    'Bhakti Connect App design phase in progress.',
-  ],
-  note: 'This section is updated each quarter. Edit the QUARTERLY_UPDATE constant in ImpactPage.tsx to reflect current activities.',
-};
+const PHOTOS = [1, 2, 4, 5, 7, 9].map((n) => `/gallery-prasadam-${n}.jpeg`);
+
+const zar = (n: number | null) => (n === null ? 'To be published' : `R ${n.toLocaleString('en-ZA')}`);
 
 export default function ImpactPage() {
   usePageTitle('Impact & Stories');
@@ -60,97 +46,64 @@ export default function ImpactPage() {
       <PageHero
         kicker="Making the Mission Visible"
         title={<>Impact & <em>Stories</em></>}
-        subtitle="Every meal served, every kirtan held, every book distributed is a spark of the Golden Age. Here is what GAS has accomplished — and where it is going."
+        subtitle="Honest monthly reporting: what we did, what came in and what was spent. Figures appear here once verified."
       />
 
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-16">
 
-        {/* ── Stat blocks ──────────────────────────────────────── */}
-        <div>
-          <div className="text-center mb-10">
-            <div className="kicker mb-3">By the numbers</div>
-            <h2 className="font-serif text-3xl md:text-4xl text-wine">Our reach so far</h2>
-            <p className="text-text/55 text-sm mt-2">Stats will be updated as verified figures are confirmed.</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {STATS.map((stat, i) => (
-              <motion.div key={stat.unit} {...fadeUp(i * 0.07)}
-                className="bg-white rounded-2xl border border-gold/15 p-5 md:p-6 text-center hover:shadow-md hover:border-gold/35 transition-all">
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="font-serif text-3xl md:text-4xl text-wine font-bold mb-1">{stat.value}</div>
-                <div className="text-sm font-semibold text-text/70 mb-1">{stat.unit}</div>
-                <div className="text-[11px] text-text/40 leading-tight">{stat.note}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Quarterly Update ─────────────────────────────────── */}
-        <motion.div {...fadeUp(0.1)} className="bg-gradient-to-br from-wine/5 to-gold/5 border-2 border-gold/20 rounded-2xl p-8">
+        {/* ── Monthly report ─────────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)} className="bg-gradient-to-br from-wine/5 to-gold/5 border-2 border-gold/20 rounded-2xl p-8">
           <div className="flex items-start gap-4 mb-6">
             <span className="text-3xl">📋</span>
             <div>
-              <div className="text-xs font-bold uppercase tracking-widest text-wine/60 mb-0.5">Quarterly Impact Update</div>
-              <h3 className="font-serif text-2xl text-wine">{QUARTERLY_UPDATE.period}</h3>
+              <div className="text-xs font-bold uppercase tracking-widest text-wine/60 mb-0.5">Monthly report</div>
+              <h3 className="font-serif text-2xl text-wine">{REPORT_MONTH ?? 'First report: figures to be published'}</h3>
             </div>
           </div>
-          <ul className="space-y-3 mb-5">
-            {QUARTERLY_UPDATE.highlights.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-text/75 leading-relaxed">
-                <span className="text-gold mt-0.5 flex-shrink-0">✦</span>
-                {item}
-              </li>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {MONTHLY_METRICS.map((m) => (
+              <div key={m.label} className="bg-white rounded-xl border border-gold/15 p-4">
+                <div className="text-xs text-text/50 uppercase tracking-wider mb-1">{m.label}</div>
+                <div className={`font-serif ${m.value ? 'text-2xl text-wine font-bold' : 'text-sm text-text/45 italic'}`}>{m.value ?? 'Figures to be published'}</div>
+              </div>
             ))}
-          </ul>
-          <div className="bg-white/60 border border-gold/20 rounded-xl px-4 py-3">
-            <p className="text-xs text-text/50 italic leading-relaxed">
-              ✏️ {QUARTERLY_UPDATE.note}
-            </p>
           </div>
+          <p className="text-xs text-text/50 mt-4">We only publish figures that have been checked against the ledger and receipts.</p>
         </motion.div>
 
-        {/* ── Testimonials ─────────────────────────────────────── */}
-        <div>
-          <div className="text-center mb-10">
-            <div className="kicker mb-3">Stories from the field</div>
-            <h2 className="font-serif text-3xl md:text-4xl text-wine">Voices of the community</h2>
-            <p className="text-text/55 text-sm mt-2 max-w-md mx-auto">
-              Replace these placeholders with real testimonials from township devotees and community members.
-            </p>
+        {/* ── Reconciliation card ─────────────────────────────── */}
+        <motion.div {...fadeUp(0.1)} className="bg-white rounded-2xl border border-gold/25 shadow-sm overflow-hidden max-w-xl mx-auto">
+          <div className="bg-wine/5 border-b border-gold/20 px-6 py-4">
+            <div className="text-xs font-bold uppercase tracking-widest text-wine/60">Event reconciliation</div>
+            <div className="font-serif text-xl text-wine">{RECONCILIATION.event}</div>
+            <div className="text-xs text-text/50">Saturdays, details on request</div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} {...fadeUp(i * 0.1)} className="bg-white rounded-2xl border border-gold/15 p-6 shadow-sm">
-                {/* Photo placeholder */}
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine/10 to-gold/10 border border-gold/20 flex items-center justify-center mb-4">
-                  <span className="text-2xl">🙏</span>
-                </div>
-                <blockquote className="text-sm text-text/70 leading-relaxed italic mb-4 border-l-2 border-gold/40 pl-4">
-                  "{t.quote}"
-                </blockquote>
-                <div>
-                  <div className="font-semibold text-wine text-sm">{t.name}</div>
-                  <div className="text-xs text-text/50">{t.location}</div>
-                </div>
-              </motion.div>
+          <dl className="px-6 py-5 space-y-3 text-sm">
+            {[
+              ['Target', zar(RECONCILIATION.target)],
+              ['Raised', zar(RECONCILIATION.raised)],
+              ['Spent', zar(RECONCILIATION.spent)],
+              ['Balance carried forward', zar(RECONCILIATION.carriedForward)],
+            ].map(([k, v]) => (
+              <div key={k} className="flex justify-between gap-3">
+                <dt className="text-text/55">{k}</dt>
+                <dd className={v === 'To be published' ? 'text-text/45 italic' : 'font-semibold text-wine'}>{v === 'To be published' ? 'Figures to be published' : v}</dd>
+              </div>
             ))}
-          </div>
-        </div>
+          </dl>
+          <p className="px-6 pb-5 text-xs text-text/45">Two-person sign-off on every reconciliation.</p>
+        </motion.div>
 
-        {/* ── Photo gallery placeholder ─────────────────────────── */}
+        {/* ── Photos ─────────────────────────────────────────── */}
         <div>
           <div className="text-center mb-8">
             <div className="kicker mb-3">From the field</div>
-            <h2 className="font-serif text-3xl text-wine">Impact in photos</h2>
-            <p className="text-text/55 text-sm mt-2">Real outreach photos coming soon.</p>
+            <h2 className="font-serif text-3xl text-wine">Prasādam outreach</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-square rounded-2xl bg-gradient-to-br from-wine/8 to-gold/8 border border-gold/15 flex items-center justify-center">
-                <div className="text-center text-text/25">
-                  <div className="text-3xl mb-1">🖼</div>
-                  <div className="text-xs">Photo {i + 1}</div>
-                </div>
+            {PHOTOS.map((src) => (
+              <div key={src} className="aspect-square rounded-2xl overflow-hidden border border-gold/15">
+                <img src={src} alt="GAS prasādam outreach" loading="lazy" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
