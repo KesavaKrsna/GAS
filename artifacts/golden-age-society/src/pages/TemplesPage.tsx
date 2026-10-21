@@ -14,32 +14,6 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
-const CENTRES = [
-  {
-    id: 'hammanskraal',
-    name: 'ISKCON Hammanskraal',
-    location: 'Hammanskraal, Gauteng',
-    address: 'Hammanskraal, Gauteng, South Africa',
-    contact: 'ocsacademy2020@gmail.com',
-    phone: null,
-    description:
-      'A growing centre of Krishna Consciousness in the Hammanskraal township community. This centre serves as a hub for Prasadam distribution, Kasi Kirtan outreach, and weekly Bhakti programmes — meeting devotees and seekers where they live.',
-    tags: ['Prasadam', 'Kasi Kirtan', 'Bhakti programmes'],
-  },
-  {
-    id: 'klerksdorp',
-    name: 'ISKCON Klerksdorp',
-    subtitle: 'New Vrindavan Hare Krishna Centre',
-    location: 'Klerksdorp, North West',
-    address: 'Klerksdorp, North West Province, South Africa',
-    contact: 'ocsacademy2020@gmail.com',
-    phone: null,
-    description:
-      'The New Vrindavan Hare Krishna Centre in Klerksdorp is one of GAS\'s established pillars of outreach in the North West Province. It serves as a hub for Krishna Prasadam distribution, Kasi Kirtan outreach, and weekly Bhakti programmes — nourishing the bodies and souls of devotees and seekers across the North West.',
-    tags: ['Prasadam', 'Kasi Kirtan', 'Bhakti programmes'],
-  },
-];
-
 const ROADMAP = [
   {
     phase: 'Immediate',
@@ -87,50 +61,7 @@ export default function TemplesPage() {
         <KatlehongFeature showChecklist={false} />
       </div>
 
-      {/* ── Centre Cards ─────────────────────────────────────────── */}
-      <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-8">
-        <div className="text-center mb-10">
-          <div className="kicker mb-3">Active Centres</div>
-          <h2 className="font-serif text-3xl md:text-4xl text-wine">Our temple communities</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {CENTRES.map((centre, i) => (
-            <motion.div key={centre.id} {...fadeUp(i * 0.08)} className="bg-white rounded-2xl border border-gold/20 shadow-sm overflow-hidden">
-              {/* Card header */}
-              <div className="bg-wine/5 border-b border-gold/15 px-6 py-5">
-                <div className="flex items-start gap-3">
-                  <span className="text-3xl mt-0.5">🛕</span>
-                  <div>
-                    <h3 className="font-serif text-xl text-wine leading-tight">{centre.name}</h3>
-                    {centre.subtitle && <div className="text-xs text-text/50 italic mt-0.5">{centre.subtitle}</div>}
-                    <div className="flex items-center gap-1.5 mt-1.5 text-xs text-text/55">
-                      <span>📍</span> {centre.location}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Body */}
-              <div className="px-6 py-5 space-y-4">
-                <p className="text-sm text-text/70 leading-relaxed">{centre.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {centre.tags.map(tag => (
-                    <span key={tag} className="text-[11px] uppercase tracking-wider font-semibold px-3 py-1 bg-gold/10 text-wine/80 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="pt-2 border-t border-paper space-y-1.5 text-sm">
-                  <div className="flex items-center gap-2 text-text/60">
-                    <span>✉️</span>
-                    <a href={`mailto:${centre.contact}`} className="text-wine hover:underline">{centre.contact}</a>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      {/* Active Centres section (centre cards) removed. */}
 
       {/* ── Geographic Roadmap ───────────────────────────────────── */}
       <div className="bg-[#fffdf7] border-t border-gold/10 py-16 px-4 md:px-12">

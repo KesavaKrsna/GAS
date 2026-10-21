@@ -113,6 +113,10 @@ interface HeroProps {
   onSponsorClick: () => void;
 }
 
+// Hero rotation paused for the launch: only the GAS launch (Katlehong) slide shows, as a static hero.
+// Set to true after the event to resume the other slides (kept below, assets untouched).
+const HERO_ROTATION_ENABLED = false;
+
 const slides = [
   {
     id: 0,
@@ -171,6 +175,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    if (!HERO_ROTATION_ENABLED) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6500);
@@ -434,6 +439,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
           )}
         </AnimatePresence>
 
+        {HERO_ROTATION_ENABLED && (
         <div className="z-20 mt-3 flex items-center gap-4 self-center md:mt-4">
           <button
             onClick={prevSlide}
@@ -462,6 +468,7 @@ export function Hero({ onSponsorClick }: HeroProps) {
             →
           </button>
         </div>
+        )}
       </div>
     </section>
   );

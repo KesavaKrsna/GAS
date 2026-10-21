@@ -71,8 +71,8 @@ export function Footer({ onSponsorClick }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/newsletter')} className="hover:text-gold transition-colors">
-                  Newsletter
+                <button onClick={() => navigate('/resources')} className="hover:text-gold transition-colors">
+                  Resources
                 </button>
               </li>
               <li>

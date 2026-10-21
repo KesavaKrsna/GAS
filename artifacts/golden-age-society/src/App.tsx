@@ -25,6 +25,7 @@ function Router() {
       <Route path="/temples" component={TemplesPage} />
       <Route path="/impact" component={ImpactPage} />
       <Route path="/donate" component={DonatePage} />
+      <Route path="/resources" component={NewsletterPage} />
       <Route path="/newsletter" component={NewsletterPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/get-involved" component={GetInvolvedPage} />

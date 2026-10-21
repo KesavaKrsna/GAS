@@ -225,9 +225,79 @@ function OptIn() {
   );
 }
 
+/* ─── Bhagavad-gītā As It Is reader (embeds vedabase.io; no BBT text is copied into this site) ─── */
+const BG_CHAPTERS = [
+  'Observing the Armies on the Battlefield of Kurukṣetra',
+  'Contents of the Gītā Summarized',
+  'Karma-yoga',
+  'Transcendental Knowledge',
+  'Karma-yoga – Action in Kṛṣṇa Consciousness',
+  'Dhyāna-yoga',
+  'Knowledge of the Absolute',
+  'Attaining the Supreme',
+  'The Most Confidential Knowledge',
+  'The Opulence of the Absolute',
+  'The Universal Form',
+  'Devotional Service',
+  'Nature, the Enjoyer and Consciousness',
+  'The Three Modes of Material Nature',
+  'The Yoga of the Supreme Person',
+  'The Divine and Demoniac Natures',
+  'The Divisions of Faith',
+  'Conclusion – The Perfection of Renunciation',
+];
+
+function GitaReader() {
+  const [chapter, setChapter] = React.useState(1);
+  const url = `https://vedabase.io/en/library/bg/${chapter}/`;
+  return (
+    <section className="mb-16">
+      <div className="kicker mb-2">Read</div>
+      <h2 className="text-2xl text-wine mb-3 font-serif">Bhagavad-gītā As It Is</h2>
+      <p className="text-text/65 text-sm mb-6 max-w-2xl">
+        Read Śrīla Prabhupāda's Bhagavad-gītā As It Is on Vedabase, the official online library of the Bhaktivedanta
+        Book Trust. Choose a chapter below.
+      </p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-6">
+        {BG_CHAPTERS.map((title, i) => (
+          <button
+            key={title}
+            onClick={() => setChapter(i + 1)}
+            title={title}
+            className={`text-left rounded-xl border px-3 py-2 text-xs transition-colors ${
+              chapter === i + 1 ? 'bg-wine text-cream border-wine' : 'bg-paper border-gold/20 text-wine hover:border-gold/50'
+            }`}
+          >
+            <span className="block font-bold">Chapter {i + 1}</span>
+            <span className="block opacity-75 line-clamp-2">{title}</span>
+          </button>
+        ))}
+      </div>
+      <div className="rounded-2xl overflow-hidden border border-gold/20 bg-white">
+        <iframe
+          key={url}
+          src={url}
+          title={`Bhagavad-gītā As It Is, Chapter ${chapter}`}
+          className="w-full h-[70vh] min-h-[480px]"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex flex-wrap gap-3 mt-4 text-sm">
+        <a href={url} target="_blank" rel="noopener noreferrer" className="text-wine underline">
+          Open Chapter {chapter} on Vedabase ↗
+        </a>
+        <a href="https://vedabase.io/en/library/bg/" target="_blank" rel="noopener noreferrer" className="text-wine underline">
+          Full table of contents ↗
+        </a>
+      </div>
+      <p className="text-[11px] text-text/45 mt-3">Text © The Bhaktivedanta Book Trust International, shown from vedabase.io.</p>
+    </section>
+  );
+}
+
 /* ─── Page ─── */
 export default function NewsletterPage() {
-  usePageTitle('Newsletter');
+  usePageTitle('Resources');
   const [, navigate] = useLocation();
   const [openIssue, setOpenIssue] = React.useState<string | null>(null);
 
@@ -238,14 +308,15 @@ export default function NewsletterPage() {
       <main className="flex-1">
         <PageHero
           kicker="Golden Age Society"
-          title={<>Our <em>Newsletter</em></>}
+          title={<>Our <em>Resources</em></>}
           subtitle="Updates, briefs and communications from the Golden Age Society — keeping our community and partners informed, transparently and with devotion."
         />
 
         {/* ── Issue list ── */}
         {!openIssue && (
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-16 md:py-20">
-            <h2 className="text-2xl text-wine mb-8 font-serif">All issues</h2>
+            <GitaReader />
+            <h2 className="text-2xl text-wine mb-8 font-serif">Blogs &amp; newsletters</h2>
             <div className="space-y-5">
               {issues.map((issue, i) => (
                 <motion.button

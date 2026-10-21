@@ -123,7 +123,7 @@ const PILLARS: Pillar[] = [
     icon: '📒',
     kicker: 'Pillar 6',
     title: 'Finance & Stewardship',
-    image: '/gallery-prasadam-8.jpeg',
+    image: '/ashram-devotee-community.png',
     body: (
       <>
         <p>

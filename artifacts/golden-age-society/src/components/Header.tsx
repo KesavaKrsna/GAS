@@ -44,7 +44,7 @@ export function Header() {
     { label: 'Programs', path: '/programs' },
     { label: 'Temples', path: '/temples' },
     { label: 'Impact', path: '/impact' },
-    { label: 'Newsletter', path: '/newsletter' },
+    { label: 'Resources', path: '/resources' },
     { label: 'About', path: '/about' },
     { label: 'Get involved', path: '/get-involved' },
   ];
