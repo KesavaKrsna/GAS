@@ -9,6 +9,11 @@ import { CONTACT_EMAIL, mailto } from '@/config/site';
 
 const ROLES = ['Finance', 'Safeguarding', 'Outreach', 'Prasādam', 'Transport', 'Records'];
 
+const TEAM_PHOTOS: Record<string, { src: string; alt: string }> = {
+  'Keshav Krsna Prabhu': { src: '/team-kesava-krsna-das', alt: 'Kesava Krsna Das (Keshav Krsna Prabhu)' },
+  Premvkay: { src: '/team-prem', alt: 'Premvkay' },
+};
+
 export default function AboutPage() {
   usePageTitle('About & Team');
   const [, navigate] = useLocation();
@@ -29,10 +34,10 @@ export default function AboutPage() {
               ['Premvkay', 'Core team. Author of the GAS Development Booklet.'],
             ].map(([n, r]) => (
               <div key={n} className="bg-white rounded-[1.5rem] border border-gold/20 p-6 flex items-center gap-4">
-                {n === 'Keshav Krsna Prabhu' ? (
+                {TEAM_PHOTOS[n] ? (
                   <picture className="block w-14 h-14 rounded-full overflow-hidden shrink-0 border border-gold/30">
-                    <source srcSet="/team-kesava-krsna-das.webp" type="image/webp" />
-                    <img src="/team-kesava-krsna-das.jpg" alt="Kesava Krsna Das (Keshav Krsna Prabhu)" className="w-full h-full object-cover" />
+                    <source srcSet={`${TEAM_PHOTOS[n].src}.webp`} type="image/webp" />
+                    <img src={`${TEAM_PHOTOS[n].src}.jpg`} alt={TEAM_PHOTOS[n].alt} className="w-full h-full object-cover" />
                   </picture>
                 ) : (
                   <div className="w-14 h-14 rounded-full bg-wine text-gold font-serif text-2xl flex items-center justify-center shrink-0">{n[0]}</div>
