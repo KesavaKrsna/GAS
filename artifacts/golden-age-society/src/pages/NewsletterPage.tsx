@@ -225,7 +225,7 @@ function OptIn() {
   );
 }
 
-/* ─── Bhagavad-gītā As It Is reader (embeds vedabase.io; no BBT text is copied into this site) ─── */
+/* ─── Bhagavad-gītā As It Is reader (links out to vedabase.cc — it sends CSP frame-ancestors 'self', so it cannot be embedded; no book text is copied into this site) ─── */
 const BG_CHAPTERS = [
   'Observing the Armies on the Battlefield of Kurukṣetra',
   'Contents of the Gītā Summarized',
@@ -249,14 +249,14 @@ const BG_CHAPTERS = [
 
 function GitaReader() {
   const [chapter, setChapter] = React.useState(1);
-  const url = `https://vedabase.io/en/library/bg/${chapter}/`;
+  const url = `https://vedabase.cc/bg/${chapter}/`;
   return (
     <section className="mb-16">
       <div className="kicker mb-2">Read</div>
       <h2 className="text-2xl text-wine mb-3 font-serif">Bhagavad-gītā As It Is</h2>
       <p className="text-text/65 text-sm mb-6 max-w-2xl">
-        Read Śrīla Prabhupāda's Bhagavad-gītā As It Is on Vedabase, the official online library of the Bhaktivedanta
-        Book Trust. Choose a chapter below.
+        Read Śrīla Prabhupāda's Bhagavad-gītā As It Is on Vedabase Original (vedabase.cc), which presents
+        the original 1972 edition. Choose a chapter below to open it in a new tab.
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-6">
         {BG_CHAPTERS.map((title, i) => (
@@ -273,24 +273,28 @@ function GitaReader() {
           </button>
         ))}
       </div>
-      <div className="rounded-2xl overflow-hidden border border-gold/20 bg-white">
-        <iframe
-          key={url}
-          src={url}
-          title={`Bhagavad-gītā As It Is, Chapter ${chapter}`}
-          className="w-full h-[70vh] min-h-[480px]"
-          loading="lazy"
-        />
+      {/* vedabase.cc forbids framing (frame-ancestors 'self'), so show an open-in-new-tab card instead of an iframe. */}
+      <div className="rounded-2xl border border-gold/20 bg-paper p-6 md:p-8">
+        <div className="kicker mb-1">Chapter {chapter}</div>
+        <h3 className="text-xl text-wine font-serif mb-4">{BG_CHAPTERS[chapter - 1]}</h3>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block rounded-full bg-wine text-cream px-5 py-2 text-sm font-semibold hover:opacity-90"
+        >
+          Read Chapter {chapter} on Vedabase Original ↗
+        </a>
       </div>
       <div className="flex flex-wrap gap-3 mt-4 text-sm">
         <a href={url} target="_blank" rel="noopener noreferrer" className="text-wine underline">
-          Open Chapter {chapter} on Vedabase ↗
+          Open Chapter {chapter} on vedabase.cc ↗
         </a>
-        <a href="https://vedabase.io/en/library/bg/" target="_blank" rel="noopener noreferrer" className="text-wine underline">
+        <a href="https://vedabase.cc/bg/" target="_blank" rel="noopener noreferrer" className="text-wine underline">
           Full table of contents ↗
         </a>
       </div>
-      <p className="text-[11px] text-text/45 mt-3">Text © The Bhaktivedanta Book Trust International, shown from vedabase.io.</p>
+      <p className="text-[11px] text-text/45 mt-3">Bhagavad-gītā As It Is (original 1972 edition) hosted by Vedabase Original at vedabase.cc. Opens in a new tab.</p>
     </section>
   );
 }
