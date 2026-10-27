@@ -14,6 +14,9 @@ export const WHATSAPP_CULTIVATION_GROUP_URL = '';
 
 export const CONTACT_EMAIL = 'ocsacademy2020@gmail.com';
 
+/** Kārtika morning japa. The hero button opens this Google Meet in a new tab. */
+export const KARTIK_JAPA_MEET_URL = 'https://meet.google.com/wmc-kugp-rjk';
+
 // TODO Kgosi: EFT bank details once the legal host is confirmed. Leave empty to show "EFT details coming".
 export const EFT_DETAILS: { bank: string; accountName: string; accountNumber: string; branchCode: string; reference: string } | null = null;
 
