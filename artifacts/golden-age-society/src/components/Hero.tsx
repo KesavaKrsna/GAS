@@ -363,19 +363,22 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                 <p className="kartika-sub">
                   Offer a lamp to Lord <em>Dāmodara</em> this holy month
                 </p>
-                <a
-                  href={KARTIK_JAPA_MEET_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="kartika-btn"
-                >
-                  <svg className="diya" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2c2 3 2.6 5 1.6 6.6A2 2 0 0 1 10.4 8.6C9.6 7 10 5 12 2z" fill="#ffd27a" />
-                    <path d="M3 13h18c-1 4.2-4.6 7-9 7s-8-2.8-9-7z" fill="#f2c462" />
-                  </svg>
-                  Join Kārtika Japa
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
+                <div className="kartika-cta">
+                  <a
+                    href={KARTIK_JAPA_MEET_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="kartika-btn"
+                  >
+                    <svg className="diya" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2c2 3 2.6 5 1.6 6.6A2 2 0 0 1 10.4 8.6C9.6 7 10 5 12 2z" fill="#ffd27a" />
+                      <path d="M3 13h18c-1 4.2-4.6 7-9 7s-8-2.8-9-7z" fill="#f2c462" />
+                    </svg>
+                    Join Kārtika Japa
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                  <p className="kartika-when">Daily · 4:30–6:30 AM (SAST)</p>
+                </div>
               </div>
             </motion.div>
           )}
