@@ -7,15 +7,15 @@ const DONATE_URL = 'https://www.goldenage-society.org/donate';
 
 /**
  * Hero rotation, then back to the start:
- * 1. The live Katlehong launch hero, unchanged.
- * 2. Kārtika welcome.
- * 3. Katlehong Harināma & prasādam — existing 14 Nov gathering and feature copy only.
+ * 1. Kārtika 2026 — the opening screen.
+ * 2. The existing Katlehong launch slide and its feast image.
+ * 3. Katlehong Harināma & prasādam — the existing 14 Nov gathering, unchanged.
  */
 const SLIDE_COUNT = 3;
 const AUTO_MS = 6500;
 const SLIDE_LABELS = [
-  'Golden Age Society Launch, Katlehong',
   'Kārtika 2026',
+  'Golden Age Society Launch, Katlehong',
   'Katlehong Harināma and Prasādam',
 ] as const;
 
@@ -243,18 +243,18 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
       className="relative mt-[83px] flex h-[calc(100svh-83px)] min-h-[32rem] w-full items-stretch overflow-hidden bg-plum md:h-[90vh] md:min-h-[640px]"
     >
       <div className="pointer-events-none absolute inset-0 z-0">
-        <AnimatePresence>{(currentSlide === 0 || currentSlide === 2) && <LaunchBackdrop />}</AnimatePresence>
-        <AnimatePresence>{currentSlide === 1 && <KartikaBackdrop />}</AnimatePresence>
+        <AnimatePresence>{currentSlide === 0 && <KartikaBackdrop />}</AnimatePresence>
+        <AnimatePresence>{(currentSlide === 1 || currentSlide === 2) && <LaunchBackdrop />}</AnimatePresence>
       </div>
 
       <AnimatePresence mode="wait">
-          {currentSlide === 0 && (
+          {currentSlide === 1 && (
             <motion.div
               key="launch-slide"
-              id="hero-slide-0"
+              id="hero-slide-1"
               role="group"
               aria-roledescription="slide"
-              aria-label={`1 of ${SLIDE_COUNT}`}
+              aria-label={`2 of ${SLIDE_COUNT}`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
@@ -335,13 +335,13 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
             </motion.div>
           )}
 
-          {currentSlide === 1 && (
+          {currentSlide === 0 && (
             <motion.div
               key="kartika-slide"
-              id="hero-slide-1"
+              id="hero-slide-0"
               role="group"
               aria-roledescription="slide"
-              aria-label={`2 of ${SLIDE_COUNT}`}
+              aria-label={`1 of ${SLIDE_COUNT}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
