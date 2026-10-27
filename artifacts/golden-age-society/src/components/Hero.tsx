@@ -12,7 +12,20 @@ const DONATE_URL = 'https://www.goldenage-society.org/donate';
  * 3. Katlehong Harināma & prasādam — the existing 14 Nov gathering, unchanged.
  */
 const SLIDE_COUNT = 3;
-const AUTO_MS = 6500;
+/** Every slide, including each Katlehong slide. Katlehong is not given a longer timer. */
+const SLIDE_MS = 6500;
+/**
+ * Kārtika keeps its image up while the headline changes, the same way the
+ * Katlehong photo stays through its two 6.5s slides. Two phases, 6.5s each.
+ */
+const KARTIKA_PHASE_MS = SLIDE_MS;
+const KARTIKA_SLIDE_MS = KARTIKA_PHASE_MS * 2;
+const TEXT_FADE = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -12 },
+  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+};
 const SLIDE_LABELS = [
   'Kārtika 2026',
   'Golden Age Society Launch, Katlehong',
@@ -147,6 +160,7 @@ interface HeroProps {
 
 export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [kartikaPhase, setKartikaPhase] = useState(0);
   const [paused, setPaused] = useState(false);
   const [announcement, setAnnouncement] = useState('');
 
@@ -202,10 +216,23 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
 
   useEffect(() => {
     if (paused) return;
-    const timer = window.setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % SLIDE_COUNT);
-    }, AUTO_MS);
-    return () => window.clearInterval(timer);
+    if (currentSlide !== 0) {
+      const timer = window.setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % SLIDE_COUNT);
+      }, SLIDE_MS);
+      return () => window.clearTimeout(timer);
+    }
+
+    setKartikaPhase(0);
+    const phaseTimer = window.setTimeout(() => setKartikaPhase(1), KARTIKA_PHASE_MS);
+    const slideTimer = window.setTimeout(() => {
+      setKartikaPhase(0);
+      setCurrentSlide(1);
+    }, KARTIKA_SLIDE_MS);
+    return () => {
+      window.clearTimeout(phaseTimer);
+      window.clearTimeout(slideTimer);
+    };
   }, [paused, currentSlide]);
 
   useEffect(() => {
@@ -349,20 +376,35 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
               className="kartika-frame"
             >
               <div className="kartika-copy">
-                <p className="kartika-eyebrow">The month of Dāmodara</p>
-                <h1>
-                  <span className="kartika-word">Kārtika</span>
-                  <span className="kartika-year">2026</span>
-                </h1>
-                <svg className="kartika-lotus" viewBox="0 0 64 28" fill="none" stroke="#f2c462" strokeWidth="1.6" aria-hidden="true">
-                  <path d="M32 3c-5 6-5 13 0 21 5-8 5-15 0-21z" />
-                  <path d="M32 24c-4-7-11-11-18-11 2 7 9 11 18 11z" />
-                  <path d="M32 24c4-7 11-11 18-11-2 7-9 11-18 11z" />
-                  <path d="M4 25h22M38 25h22" />
-                </svg>
-                <p className="kartika-sub">
-                  Offer a lamp to Lord <em>Dāmodara</em> this holy month
-                </p>
+                <div className="kartika-phase-slot" aria-live="polite">
+                  <AnimatePresence mode="wait">
+                    {kartikaPhase === 0 ? (
+                      <motion.div key="kartika-phase-0" {...TEXT_FADE} className="kartika-phase">
+                        <p className="kartika-eyebrow">The month of Dāmodara</p>
+                        <h1>
+                          <span className="kartika-word">Kārtika</span>
+                          <span className="kartika-year">2026</span>
+                        </h1>
+                        <svg className="kartika-lotus" viewBox="0 0 64 28" fill="none" stroke="#f2c462" strokeWidth="1.6" aria-hidden="true">
+                          <path d="M32 3c-5 6-5 13 0 21 5-8 5-15 0-21z" />
+                          <path d="M32 24c-4-7-11-11-18-11 2 7 9 11 18 11z" />
+                          <path d="M32 24c4-7 11-11 18-11-2 7-9 11-18 11z" />
+                          <path d="M4 25h22M38 25h22" />
+                        </svg>
+                        <p className="kartika-sub">
+                          Offer a lamp to Lord <em>Dāmodara</em> this holy month
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.div key="kartika-phase-1" {...TEXT_FADE} className="kartika-phase">
+                        <p className="kartika-explainer">
+                          Kārtika is the most sacred month of the Vaishnava year, dedicated to Lord Krishna as Dāmodara.
+                          Devotees chant more japa, offer lamps and take up simple austerities.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                 <div className="kartika-cta">
                   <a
                     href={KARTIK_JAPA_MEET_URL}
