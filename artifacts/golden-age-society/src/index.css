@@ -220,22 +220,6 @@
   width: 100%;
 }
 
-.kartika-phase-title {
-  margin: 0;
-  font-family: "Kaushan Script", cursive;
-  font-weight: 400;
-  font-style: normal;
-  font-size: clamp(46px, 12vw, 78px);
-  line-height: 1.05;
-  letter-spacing: 0;
-  color: #fff4dc;
-  text-shadow:
-    0 0 18px rgba(255, 200, 110, 0.55),
-    0 0 46px rgba(255, 170, 60, 0.35),
-    0 3px 6px rgba(40, 14, 0, 0.55);
-  text-wrap: balance;
-}
-
 .kartika-explainer {
   margin: 0;
   font-family: "Cormorant Garamond", Georgia, serif;
@@ -488,10 +472,6 @@
 
   .kartika-copy h1 {
     margin: 0.18em 0 0.1em;
-  }
-
-  .kartika-phase-title {
-    font-size: clamp(52px, 4.4vw, 80px);
   }
 
   .kartika-explainer {

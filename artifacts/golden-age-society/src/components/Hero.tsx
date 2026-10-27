@@ -380,7 +380,20 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                   <AnimatePresence mode="wait">
                     {kartikaPhase === 0 ? (
                       <motion.div key="kartika-phase-0" {...TEXT_FADE} className="kartika-phase">
-                        <h1 className="kartika-phase-title">The Month of Kārtika</h1>
+                        <p className="kartika-eyebrow">The month of Dāmodara</p>
+                        <h1>
+                          <span className="kartika-word">Kārtika</span>
+                          <span className="kartika-year">2026</span>
+                        </h1>
+                        <svg className="kartika-lotus" viewBox="0 0 64 28" fill="none" stroke="#f2c462" strokeWidth="1.6" aria-hidden="true">
+                          <path d="M32 3c-5 6-5 13 0 21 5-8 5-15 0-21z" />
+                          <path d="M32 24c-4-7-11-11-18-11 2 7 9 11 18 11z" />
+                          <path d="M32 24c4-7 11-11 18-11-2 7-9 11-18 11z" />
+                          <path d="M4 25h22M38 25h22" />
+                        </svg>
+                        <p className="kartika-sub">
+                          Offer a lamp to Lord <em>Dāmodara</em> this holy month
+                        </p>
                       </motion.div>
                     ) : (
                       <motion.div key="kartika-phase-1" {...TEXT_FADE} className="kartika-phase">
