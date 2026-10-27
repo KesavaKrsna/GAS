@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,600;1,9..144,700&family=Lilita+One&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,600;1,9..144,700&family=Kaushan+Script&family=Outfit:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -176,71 +176,277 @@
   }
 }
 
-/* Kārtika slide: keep faces clear, and darken only where the headline sits. */
+/* Kārtika slide — overlay from the approved hero-v01.2 composition. */
+.kartika-photo {
+  object-fit: cover;
+  object-position: center bottom;
+}
+
 .kartika-scrim {
   background:
-    linear-gradient(180deg, rgba(48, 16, 6, 0.04) 0%, rgba(48, 16, 6, 0) 46%, rgba(28, 8, 6, 0.55) 68%, rgba(14, 4, 4, 0.9) 100%);
+    radial-gradient(ellipse 80% 26% at 50% 17%, rgba(46, 20, 4, 0.5) 0%, rgba(46, 20, 4, 0.22) 60%, rgba(46, 20, 4, 0) 100%),
+    linear-gradient(180deg, rgba(40, 16, 2, 0.38) 0%, rgba(40, 16, 2, 0.12) 26%, rgba(40, 16, 2, 0) 36%);
 }
 
-@media (min-width: 768px) {
-  .kartika-scrim {
-    background:
-      linear-gradient(90deg, rgba(40, 12, 4, 0) 0%, rgba(40, 12, 4, 0.02) 42%, rgba(28, 8, 6, 0.45) 62%, rgba(16, 5, 4, 0.84) 100%);
-  }
-}
-
-.kartika-title {
+.kartika-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 0.15rem 0.65rem;
-  margin: 0;
-  line-height: 0.8;
-  letter-spacing: 0;
+  align-items: flex-start;
+  justify-content: center;
+  pointer-events: none;
 }
 
-.kartika-script {
-  font-family: "Caveat Brush", cursive;
+.kartika-copy {
+  width: 92vw;
+  margin: 0;
+  padding-top: 3.6vh;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  color: #fff4dc;
+}
+
+.kartika-copy a {
+  pointer-events: auto;
+}
+
+.kartika-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9em;
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(11px, 3.1vw, 34px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #f2c462;
+  opacity: 0.95;
+  text-shadow: 0 1px 10px rgba(30, 10, 0, 0.7);
+}
+
+.kartika-eyebrow::before,
+.kartika-eyebrow::after {
+  content: "";
+  height: 1px;
+  width: 2.6em;
+  background: linear-gradient(90deg, transparent, #f2c462);
+}
+
+.kartika-eyebrow::after {
+  transform: scaleX(-1);
+}
+
+.kartika-copy h1 {
+  margin: 0.12em 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 400;
   font-style: normal;
-  color: #fffdf8;
-  font-size: clamp(4.1rem, 13vw, 6.8rem);
-  line-height: 0.78;
+  line-height: 0.9;
+  letter-spacing: 0;
+  color: #fff4dc;
+}
+
+.kartika-word {
+  display: block;
+  font-family: "Kaushan Script", cursive;
+  font-size: clamp(54px, 17vw, 190px);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  color: #fff4dc;
   text-shadow:
-    0 0 0 #fffdf8,
-    1px 0 0 rgba(255, 248, 230, 0.9),
-    -1px 0 0 rgba(255, 248, 230, 0.9),
-    0 3px 0 #7a2810,
-    0 12px 22px rgba(30, 6, 4, 0.55);
+    0 0 18px rgba(255, 200, 110, 0.55),
+    0 0 46px rgba(255, 170, 60, 0.35),
+    0 3px 6px rgba(40, 14, 0, 0.55);
+  transform: rotate(-4deg);
+  transform-origin: center;
 }
 
 .kartika-year {
-  font-family: "Lilita One", sans-serif;
+  display: block;
+  margin-top: -0.14em;
+  margin-left: 30%;
+  font-family: "Kaushan Script", cursive;
+  font-size: clamp(34px, 10vw, 110px);
   font-weight: 400;
-  font-style: normal;
-  color: #ffc83d;
-  font-size: clamp(2.5rem, 7vw, 4.4rem);
-  line-height: 0.85;
-  padding-bottom: 0.28rem;
-  text-shadow:
-    0 3px 0 #7a3010,
-    0 8px 16px rgba(30, 6, 4, 0.45);
+  line-height: 0.9;
+  background: linear-gradient(180deg, #ffe7a6 0%, #f2c462 45%, #c98a26 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(255, 180, 70, 0.45)) drop-shadow(0 2px 3px rgba(40, 14, 0, 0.6));
+  transform: rotate(-4deg);
+  transform-origin: center;
 }
 
-.kartika-banner {
-  display: inline-block;
-  margin-top: 0.15rem;
-  background: #f0b429;
-  color: #3d150c;
-  font-family: Fraunces, serif;
+.kartika-lotus {
+  display: none;
+  margin: 0.9em auto 0.6em;
+  width: clamp(42px, 2.8vw, 58px);
+  height: auto;
+  opacity: 0.9;
+}
+
+.kartika-sub {
+  max-width: none;
+  margin: 0.3em auto 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(16px, 4.4vw, 48px);
+  line-height: 1.3;
+  color: #fff4dc;
+  text-shadow:
+    0 1px 12px rgba(30, 10, 0, 0.85),
+    0 0 2px rgba(30, 10, 0, 0.6);
+  text-wrap: balance;
+}
+
+.kartika-sub em {
   font-style: italic;
   font-weight: 600;
-  font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+  color: #f2c462;
+}
+
+.kartika-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: clamp(12px, 3vw, 34px);
+  padding: 0.72em 1.9em 0.76em;
+  border: 2px solid #f2c462;
+  border-radius: 999px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(15px, 4vw, 42px);
+  letter-spacing: 0.06em;
   line-height: 1;
-  padding: 0.38rem 0.85rem 0.48rem;
-  border-radius: 0.4rem;
-  transform: rotate(-1.5deg);
-  box-shadow: 0 8px 18px rgba(70, 20, 8, 0.35);
+  color: #fff3d6;
+  text-decoration: none;
+  text-shadow: 0 1px 2px rgba(60, 10, 0, 0.6);
+  background: linear-gradient(180deg, #d8611f 0%, #b23d16 45%, #7b1626 100%);
+  box-shadow:
+    0 0 0 4px rgba(242, 196, 98, 0.18),
+    0 10px 28px rgba(60, 12, 0, 0.55),
+    inset 0 1px 0 rgba(255, 220, 150, 0.55);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.kartika-btn .diya {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+}
+
+.kartika-btn:hover,
+.kartika-btn:focus-visible {
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, #e8782a 0%, #c44a18 45%, #8e1b2c 100%);
+  color: #fff;
+  box-shadow:
+    0 0 0 5px rgba(242, 196, 98, 0.35),
+    0 0 32px rgba(255, 190, 90, 0.55),
+    0 14px 32px rgba(60, 12, 0, 0.6),
+    inset 0 1px 0 rgba(255, 230, 170, 0.7);
+  outline: none;
+}
+
+@media (max-width: 767px) and (max-aspect-ratio: 1/1) and (min-aspect-ratio: 3/4) {
+  .kartika-photo {
+    object-position: center 18%;
+  }
+
+  .kartika-copy {
+    padding-top: 3.2vh;
+  }
+
+  .kartika-word {
+    font-size: 15.5vw;
+  }
+
+  .kartika-year {
+    font-size: 9.4vw;
+  }
+
+  .kartika-sub {
+    font-size: 4.1vw;
+  }
+
+  .kartika-btn {
+    margin-top: 2.4vw;
+    font-size: 3.6vw;
+  }
+}
+
+@media (min-width: 768px) {
+  .kartika-photo {
+    object-position: center center;
+  }
+
+  .kartika-scrim {
+    background:
+      radial-gradient(ellipse 48% 62% at 20% 46%, rgba(46, 20, 4, 0.58) 0%, rgba(46, 20, 4, 0.32) 55%, rgba(46, 20, 4, 0) 100%),
+      linear-gradient(90deg, rgba(40, 16, 2, 0.42) 0%, rgba(40, 16, 2, 0.18) 30%, rgba(40, 16, 2, 0) 44%);
+  }
+
+  .kartika-frame {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .kartika-copy {
+    width: 31vw;
+    margin-left: 7.2vw;
+    margin-top: -4vh;
+    padding-top: 0;
+  }
+
+  .kartika-eyebrow {
+    font-size: clamp(14px, 1.05vw, 22px);
+    letter-spacing: 0.32em;
+  }
+
+  .kartika-copy h1 {
+    margin: 0.18em 0 0.1em;
+  }
+
+  .kartika-word {
+    font-size: clamp(64px, 8.6vw, 176px);
+  }
+
+  .kartika-year {
+    margin-top: -0.08em;
+    margin-left: 22%;
+    font-size: clamp(44px, 5.2vw, 106px);
+  }
+
+  .kartika-lotus {
+    display: block;
+  }
+
+  .kartika-sub {
+    max-width: 20em;
+    margin-top: 0;
+    font-size: clamp(20px, 1.75vw, 36px);
+  }
+
+  .kartika-btn {
+    margin-top: clamp(22px, 2.4vw, 44px);
+    padding: 0.82em 2.1em 0.86em;
+    font-size: clamp(19px, 1.45vw, 30px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kartika-btn {
+    transition: none;
+  }
 }
 
 @layer utilities {

@@ -129,11 +129,11 @@ function KartikaBackdrop() {
       className="absolute inset-0"
     >
       <picture>
-        <source media="(min-width: 768px)" srcSet="/kartika-damodara-wide.jpg" />
+        <source media="(min-width: 768px)" srcSet="/kartika-hero-desktop.jpg" />
         <img
-          src="/kartika-damodara-tall.jpg"
-          alt="Mother Yashoda tying a rope around Krishna, their faces and hands close together"
-          className="absolute inset-0 h-full w-full object-cover object-[center_18%] md:object-center"
+          src="/kartika-hero-mobile.jpg"
+          alt="Mother Yashoda tying a rope around Krishna beside a clay pot, with oil lamps along the ground"
+          className="kartika-photo absolute inset-0 h-full w-full"
         />
       </picture>
       <div className="kartika-scrim absolute inset-0" />
@@ -213,7 +213,7 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
-    link.href = wide ? '/kartika-damodara-wide.jpg' : '/kartika-damodara-tall.jpg';
+    link.href = wide ? '/kartika-hero-desktop.jpg' : '/kartika-hero-mobile.jpg';
     document.head.appendChild(link);
     return () => link.remove();
   }, []);
@@ -247,12 +247,7 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
         <AnimatePresence>{currentSlide === 1 && <KartikaBackdrop />}</AnimatePresence>
       </div>
 
-      <div
-        className={`container relative z-10 mx-auto flex h-full w-full flex-col justify-end px-5 pb-24 pt-16 text-left md:px-12 md:pt-8 ${
-          currentSlide === 1 ? 'max-w-none md:justify-center md:pb-16' : 'max-w-6xl md:justify-center md:pb-4'
-        }`}
-      >
-        <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
           {currentSlide === 0 && (
             <motion.div
               key="launch-slide"
@@ -264,8 +259,9 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5"
+              className="container relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-5 pb-24 pt-16 text-left md:justify-center md:px-12 md:pb-4 md:pt-8"
             >
+            <div className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5">
               <div>
                 <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
                   Come through · Chant, dance, feast
@@ -335,6 +331,7 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                   </span>
                 </a>
               </div>
+            </div>
             </motion.div>
           )}
 
@@ -345,33 +342,41 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
               role="group"
               aria-roledescription="slide"
               aria-label={`2 of ${SLIDE_COUNT}`}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex w-full max-w-md flex-col items-start gap-2.5 md:ml-auto md:w-[min(28rem,38vw)] md:max-w-none md:gap-3.5"
+              className="kartika-frame"
             >
-              <h1 className="kartika-title">
-                <span className="kartika-script">Kārtika</span>
-                <span className="kartika-year">2026</span>
-              </h1>
-              <p className="kartika-banner">is starting</p>
-              <p className="max-w-md text-sm font-medium leading-snug text-cream [text-shadow:0_2px_12px_rgba(0,0,0,0.75)] sm:text-base">
-                Let us deepen our japa. Kārtika is especially dear to Lord Krishna, Damodara — a time to offer lamps
-                and to chant the Hare Krishna mahā-mantra.
-              </p>
-              <a
-                href={KARTIK_JAPA_MEET_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-gold group w-full max-w-xl whitespace-normal px-5 py-3.5 text-center text-[0.95rem] leading-snug shadow-[0_14px_36px_rgba(251,178,38,0.48)] sm:w-auto sm:px-8 sm:text-base"
-              >
-                Join Kārtika Japa – every morning 4:30–6:30 (SAST), online
-                <span className="sr-only"> (opens in a new tab)</span>
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </a>
+              <div className="kartika-copy">
+                <p className="kartika-eyebrow">The month of Dāmodara</p>
+                <h1>
+                  <span className="kartika-word">Kārtika</span>
+                  <span className="kartika-year">2026</span>
+                </h1>
+                <svg className="kartika-lotus" viewBox="0 0 64 28" fill="none" stroke="#f2c462" strokeWidth="1.6" aria-hidden="true">
+                  <path d="M32 3c-5 6-5 13 0 21 5-8 5-15 0-21z" />
+                  <path d="M32 24c-4-7-11-11-18-11 2 7 9 11 18 11z" />
+                  <path d="M32 24c4-7 11-11 18-11-2 7-9 11-18 11z" />
+                  <path d="M4 25h22M38 25h22" />
+                </svg>
+                <p className="kartika-sub">
+                  Offer a lamp to Lord <em>Dāmodara</em> this holy month
+                </p>
+                <a
+                  href={KARTIK_JAPA_MEET_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="kartika-btn"
+                >
+                  <svg className="diya" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2c2 3 2.6 5 1.6 6.6A2 2 0 0 1 10.4 8.6C9.6 7 10 5 12 2z" fill="#ffd27a" />
+                    <path d="M3 13h18c-1 4.2-4.6 7-9 7s-8-2.8-9-7z" fill="#f2c462" />
+                  </svg>
+                  Join Kārtika Japa
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </div>
             </motion.div>
           )}
 
@@ -386,8 +391,9 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5"
+              className="container relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-5 pb-24 pt-16 text-left md:justify-center md:px-12 md:pb-4 md:pt-8"
             >
+            <div className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5">
               <div>
                 <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
                   First outreach centre
@@ -423,10 +429,10 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                   Volunteer
                 </Link>
               </div>
+            </div>
             </motion.div>
           )}
-        </AnimatePresence>
-      </div>
+      </AnimatePresence>
 
       <div className="absolute inset-x-0 bottom-3 z-20 flex justify-center md:bottom-5">
         <div
