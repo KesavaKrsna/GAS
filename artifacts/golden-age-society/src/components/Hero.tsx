@@ -15,7 +15,7 @@ const SLIDE_COUNT = 3;
 const AUTO_MS = 6500;
 const SLIDE_LABELS = [
   'Golden Age Society Launch, Katlehong',
-  'Welcome to Kārtika',
+  'Kārtika 2026',
   'Katlehong Harināma and Prasādam',
 ] as const;
 
@@ -129,14 +129,14 @@ function KartikaBackdrop() {
       className="absolute inset-0"
     >
       <picture>
-        <source media="(min-width: 768px)" srcSet="/kartika-sunrise-wide.jpg" />
+        <source media="(min-width: 768px)" srcSet="/kartika-damodara-wide.jpg" />
         <img
-          src="/kartika-sunrise-tall.jpg"
-          alt="Ghee lamps, flowers and fruit offered at sunrise"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          src="/kartika-damodara-tall.jpg"
+          alt="Mother Yashoda tying a rope around Krishna, their faces and hands close together"
+          className="absolute inset-0 h-full w-full object-cover object-[center_18%] md:object-center"
         />
       </picture>
-      <div className="launch-scrim absolute inset-0" />
+      <div className="kartika-scrim absolute inset-0" />
     </motion.div>
   );
 }
@@ -213,7 +213,7 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
-    link.href = wide ? '/kartika-sunrise-wide.jpg' : '/kartika-sunrise-tall.jpg';
+    link.href = wide ? '/kartika-damodara-wide.jpg' : '/kartika-damodara-tall.jpg';
     document.head.appendChild(link);
     return () => link.remove();
   }, []);
@@ -247,7 +247,11 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
         <AnimatePresence>{currentSlide === 1 && <KartikaBackdrop />}</AnimatePresence>
       </div>
 
-      <div className="container relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-5 pb-24 pt-16 text-left md:justify-center md:px-12 md:pb-4 md:pt-8">
+      <div
+        className={`container relative z-10 mx-auto flex h-full w-full flex-col justify-end px-5 pb-24 pt-16 text-left md:px-12 md:pt-8 ${
+          currentSlide === 1 ? 'max-w-none md:justify-center md:pb-16' : 'max-w-6xl md:justify-center md:pb-4'
+        }`}
+      >
         <AnimatePresence mode="wait">
           {currentSlide === 0 && (
             <motion.div
@@ -345,22 +349,16 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex w-full max-w-xl flex-col items-start gap-3 md:max-w-2xl md:gap-4"
+              className="flex w-full max-w-md flex-col items-start gap-2.5 md:ml-auto md:w-[min(28rem,38vw)] md:max-w-none md:gap-3.5"
             >
-              <div>
-                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
-                  Holy month
-                </div>
-                <h1 className="text-[1.85rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
-                  Welcome to
-                  <span className="mt-1 block">
-                    <em>Kārtika</em>
-                  </span>
-                </h1>
-              </div>
-              <p className="max-w-xl text-sm font-medium leading-relaxed text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-lg">
-                Kārtika is especially dear to Lord Krishna, Damodara. This is a time to deepen our chanting of the
-                Hare Krishna mahā-mantra, to offer lamps, and to offer our devotion.
+              <h1 className="kartika-title">
+                <span className="kartika-script">Kārtika</span>
+                <span className="kartika-year">2026</span>
+              </h1>
+              <p className="kartika-banner">is starting</p>
+              <p className="max-w-md text-sm font-medium leading-snug text-cream [text-shadow:0_2px_12px_rgba(0,0,0,0.75)] sm:text-base">
+                Let us deepen our japa. Kārtika is especially dear to Lord Krishna, Damodara — a time to offer lamps
+                and to chant the Hare Krishna mahā-mantra.
               </p>
               <a
                 href={KARTIK_JAPA_MEET_URL}
