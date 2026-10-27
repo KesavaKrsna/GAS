@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import gasLogo from '@assets/gas-logo.png';
-import prabhupadaImg from '@assets/Srila_Prabhupada_1784293998582.png';
-import heroPhoto from '@assets/hero_1784320482932.png';
-import heroMandate from '/hero-mandate.jpg';
-import { SparkField } from './visual/SparkField';
-import { MandalaBackdrop, LotusMark } from './visual/LotusMark';
+import { KARTIK_JAPA_MEET_URL } from '@/config/site';
 
 const DONATE_URL = 'https://www.goldenage-society.org/donate';
+
+/**
+ * Hero rotation, then back to the start:
+ * 1. The live Katlehong launch hero, unchanged.
+ * 2. Kārtika welcome.
+ * 3. Katlehong Harināma & prasādam — existing 14 Nov gathering and feature copy only.
+ */
+const SLIDE_COUNT = 3;
+const AUTO_MS = 6500;
+const SLIDE_LABELS = [
+  'Golden Age Society Launch, Katlehong',
+  'Welcome to Kārtika',
+  'Katlehong Harināma and Prasādam',
+] as const;
 
 const LAUNCH_HIGHLIGHTS = [
   {
@@ -109,175 +118,144 @@ function LaunchBackdrop() {
   );
 }
 
+function KartikaBackdrop() {
+  return (
+    <motion.div
+      key="kartika-bg"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+      className="absolute inset-0"
+    >
+      <picture>
+        <source media="(min-width: 768px)" srcSet="/kartika-sunrise-wide.jpg" />
+        <img
+          src="/kartika-sunrise-tall.jpg"
+          alt="Ghee lamps, flowers and fruit offered at sunrise"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+      </picture>
+      <div className="launch-scrim absolute inset-0" />
+    </motion.div>
+  );
+}
+
 interface HeroProps {
   onSponsorClick: () => void;
 }
 
-// Hero rotation paused for the launch: only the GAS launch (Katlehong) slide shows, as a static hero.
-// Set to true after the event to resume the other slides (kept below, assets untouched).
-const HERO_ROTATION_ENABLED = false;
-
-const slides = [
-  {
-    id: 0,
-    kicker: 'Launch gathering · Katlehong',
-    h1: (
-      <>
-        Golden Age Society
-        <br />
-        Launch, <em>Katlehong</em>
-      </>
-    ),
-    body: 'Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong. Harinam, Prasadam, Books and Sadhu-sanga. Free · All welcome.',
-  },
-  {
-    id: 1,
-    kicker: 'Golden Age Society',
-    h1: (
-      <>
-        Where Bhakti Sparks
-        <br />
-        <em>Become Flames.</em>
-      </>
-    ),
-    vision:
-      "Ushering in Lord Caitanya Mahāprabhu's Golden Age by establishing vibrant centres of Krishna Consciousness in every township and village across Africa.",
-    mission:
-      'Expanding the sankirtana movement through Harinam, Prasadam, book distribution, spiritual education, cultural expression, and sustainable African-led temple development.',
-  },
-  {
-    id: 2,
-    kicker: 'Learn with Golden Age Society',
-    h1: (
-      <>
-        Meet <em>Śrīla Prabhupāda,</em>
-        <br />
-        our guiding teacher.
-      </>
-    ),
-    body: 'The founder-acharya of the worldwide Hare Krishna movement who brought the timeless wisdom of Bhakti Yoga to the modern world, transforming countless hearts with extraordinary compassion.',
-  },
-  {
-    id: 3,
-    kicker: 'Our mandate in action',
-    h1: (
-      <>
-        Nourishing body,
-        <br />
-        <em>mind and soul.</em>
-      </>
-    ),
-    body: 'Prasadam distribution, sacred book distribution, uplifting kirtan — and growing our township presence through vibrant centres and temples where every heart is welcome.',
-  },
-];
-
-export function Hero({ onSponsorClick }: HeroProps) {
+export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {
-    if (!HERO_ROTATION_ENABLED) return;
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6500);
-    return () => clearInterval(timer);
-  }, [currentSlide]);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reasons = { hover: false, focus: false, hidden: document.hidden, reduced: reduced.matches };
+    const sync = () => setPaused(reasons.hover || reasons.focus || reasons.hidden || reasons.reduced);
+    sync();
 
-  const goToSlide = (index: number) => setCurrentSlide(index);
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    const onReduced = () => {
+      reasons.reduced = reduced.matches;
+      sync();
+    };
+    const onVis = () => {
+      reasons.hidden = document.hidden;
+      sync();
+    };
+    reduced.addEventListener('change', onReduced);
+    document.addEventListener('visibilitychange', onVis);
 
-  const scrollToMission = () => {
-    const el = document.getElementById('mission');
-    if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
+    const root = document.getElementById('home');
+    const onEnter = () => {
+      reasons.hover = true;
+      sync();
+    };
+    const onLeave = () => {
+      reasons.hover = false;
+      sync();
+    };
+    const onFocusIn = () => {
+      reasons.focus = true;
+      sync();
+    };
+    const onFocusOut = (event: FocusEvent) => {
+      if (root && event.relatedTarget instanceof Node && root.contains(event.relatedTarget)) return;
+      reasons.focus = false;
+      sync();
+    };
+    root?.addEventListener('mouseenter', onEnter);
+    root?.addEventListener('mouseleave', onLeave);
+    root?.addEventListener('focusin', onFocusIn);
+    root?.addEventListener('focusout', onFocusOut);
+
+    return () => {
+      reduced.removeEventListener('change', onReduced);
+      document.removeEventListener('visibilitychange', onVis);
+      root?.removeEventListener('mouseenter', onEnter);
+      root?.removeEventListener('mouseleave', onLeave);
+      root?.removeEventListener('focusin', onFocusIn);
+      root?.removeEventListener('focusout', onFocusOut);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % SLIDE_COUNT);
+    }, AUTO_MS);
+    return () => window.clearInterval(timer);
+  }, [paused, currentSlide]);
+
+  useEffect(() => {
+    const wide = window.matchMedia('(min-width: 768px)').matches;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = wide ? '/kartika-sunrise-wide.jpg' : '/kartika-sunrise-tall.jpg';
+    document.head.appendChild(link);
+    return () => link.remove();
+  }, []);
+
+  const showSlide = (index: number) => {
+    const next = (index + SLIDE_COUNT) % SLIDE_COUNT;
+    setCurrentSlide(next);
+    setAnnouncement(`Slide ${next + 1} of ${SLIDE_COUNT}: ${SLIDE_LABELS[next]}`);
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      showSlide(currentSlide + 1);
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      showSlide(currentSlide - 1);
+    }
   };
 
   return (
     <section
       id="home"
-      className={`relative w-full overflow-hidden bg-plum mt-[83px] flex ${
-        currentSlide === 0
-          ? 'h-[calc(100svh-83px)] min-h-[32rem] items-stretch md:h-[90vh] md:min-h-[640px]'
-          : 'min-h-[640px] h-[92vh] md:h-[90vh] items-center justify-center'
-      }`}
+      aria-roledescription="carousel"
+      aria-label="Featured"
+      onKeyDown={onKeyDown}
+      className="relative mt-[83px] flex h-[calc(100svh-83px)] min-h-[32rem] w-full items-stretch overflow-hidden bg-plum md:h-[90vh] md:min-h-[640px]"
     >
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <AnimatePresence>{currentSlide === 0 && <LaunchBackdrop />}</AnimatePresence>
-
-        <AnimatePresence>
-          {currentSlide === 1 && (
-            <motion.img
-              key="hero-photo"
-              src={heroPhoto}
-              alt=""
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.1 }}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-            />
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {currentSlide === 3 && (
-            <motion.img
-              key="hero-mandate"
-              src={heroMandate}
-              alt=""
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.1 }}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-            />
-          )}
-        </AnimatePresence>
-
-        {currentSlide !== 0 && (
-          <>
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,_#fbb226_0%,_#ee6424_28%,_#751c2b_68%,_#39121f_100%)] opacity-80" />
-            <MandalaBackdrop />
-            <SparkField />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_32%,rgba(20,8,13,0.72)_100%)]" />
-            <div className="absolute bottom-20 left-8 md:left-16 opacity-20">
-              <LotusMark className="w-20 h-20 md:w-28 md:h-28" />
-            </div>
-          </>
-        )}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <AnimatePresence>{(currentSlide === 0 || currentSlide === 2) && <LaunchBackdrop />}</AnimatePresence>
+        <AnimatePresence>{currentSlide === 1 && <KartikaBackdrop />}</AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {currentSlide === 2 && (
-          <motion.div
-            key="prabhupada"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 40 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute bottom-10 right-0 md:right-8 lg:right-16 z-10 pointer-events-none select-none h-[62%] sm:h-[74%] md:h-[96%] lg:h-[111%] max-h-[780px] flex items-end"
-          >
-            <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-gold/15 via-transparent to-transparent rounded-full blur-3xl animate-pulse-glow" />
-            <img
-              src={prabhupadaImg}
-              alt="Śrīla Prabhupāda"
-              className="h-full w-auto object-contain relative"
-              style={{ mixBlendMode: 'screen' }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div
-        className={`container relative z-10 mx-auto flex flex-col px-5 md:px-12 ${
-          currentSlide === 0
-            ? 'h-full w-full max-w-6xl justify-end pb-2 pt-16 text-left md:justify-center md:pb-4 md:pt-8'
-            : 'items-center justify-center px-6 text-center'
-        }`}
-      >
+      <div className="container relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-5 pb-24 pt-16 text-left md:justify-center md:px-12 md:pb-4 md:pt-8">
         <AnimatePresence mode="wait">
           {currentSlide === 0 && (
             <motion.div
               key="launch-slide"
+              id="hero-slide-0"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`1 of ${SLIDE_COUNT}`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
@@ -358,118 +336,148 @@ export function Hero({ onSponsorClick }: HeroProps) {
 
           {currentSlide === 1 && (
             <motion.div
-              key="slide-1"
-              initial={{ opacity: 0, y: 15 }}
+              key="kartika-slide"
+              id="hero-slide-1"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`2 of ${SLIDE_COUNT}`}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center w-full max-w-3xl"
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex w-full max-w-xl flex-col items-start gap-3 md:max-w-2xl md:gap-4"
             >
-              <img
-                src={gasLogo}
-                alt="Golden Age Society Mark"
-                className="w-[80px] h-[67px] md:w-[96px] md:h-[80px] object-contain mb-5 filter brightness-[10] drop-shadow-md"
-              />
-              <div className="kicker mb-3 !text-gold drop-shadow-md">Golden Age Society</div>
-              <h1 className="text-[2.15rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-6 drop-shadow-lg leading-[1.05] text-center">
-                Where Bhakti Sparks
-                <br />
-                <em className="text-gold">Become Flames.</em>
-              </h1>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mb-7 px-2">
-                <div className="bg-plum/50 backdrop-blur-md border border-gold/25 rounded-2xl px-4 py-4 text-left">
-                  <div className="text-xs font-bold uppercase tracking-widest text-gold mb-1.5">Vision</div>
-                  <p className="text-cream/90 text-xs sm:text-sm leading-relaxed">{slides[1].vision}</p>
+              <div>
+                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
+                  Holy month
                 </div>
-                <div className="bg-plum/50 backdrop-blur-md border border-gold/25 rounded-2xl px-4 py-4 text-left">
-                  <div className="text-xs font-bold uppercase tracking-widest text-gold mb-1.5">Mission</div>
-                  <p className="text-cream/90 text-xs sm:text-sm leading-relaxed">{slides[1].mission}</p>
-                </div>
+                <h1 className="text-[1.85rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+                  Welcome to
+                  <span className="mt-1 block">
+                    <em>Kārtika</em>
+                  </span>
+                </h1>
               </div>
-              <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 w-full max-w-xs sm:max-w-none justify-center">
-                <button onClick={onSponsorClick} className="btn-gold w-full sm:w-auto group">
-                  ♡ Donate now
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
-                <button onClick={scrollToMission} className="btn-ghost w-full sm:w-auto">
-                  Discover our mission
-                </button>
-              </div>
+              <p className="max-w-xl text-sm font-medium leading-relaxed text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-lg">
+                Kārtika is especially dear to Lord Krishna, Damodara. This is a time to deepen our chanting of the
+                Hare Krishna mahā-mantra, to offer lamps, and to offer our devotion.
+              </p>
+              <a
+                href={KARTIK_JAPA_MEET_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold group w-full max-w-xl whitespace-normal px-5 py-3.5 text-center text-[0.95rem] leading-snug shadow-[0_14px_36px_rgba(251,178,38,0.48)] sm:w-auto sm:px-8 sm:text-base"
+              >
+                Join Kārtika Japa – every morning 4:30–6:30 (SAST), online
+                <span className="sr-only"> (opens in a new tab)</span>
+                <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
             </motion.div>
           )}
 
-          {currentSlide > 1 && (
+          {currentSlide === 2 && (
             <motion.div
-              key={`slide-${currentSlide}`}
-              initial={{ opacity: 0, y: 15 }}
+              key="katlehong-feeding-slide"
+              id="hero-slide-2"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`3 of ${SLIDE_COUNT}`}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center w-full"
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-2xl md:gap-3.5"
             >
-              <img
-                src={gasLogo}
-                alt="Golden Age Society Mark"
-                className="w-[90px] h-[75px] md:w-[110px] md:h-[92px] object-contain mb-8 filter brightness-[10] drop-shadow-md"
-              />
-              <div
-                className={`flex flex-col items-center w-full max-w-3xl ${
-                  currentSlide === 2 ? 'md:items-start md:text-left md:pr-[36%]' : ''
-                }`}
-              >
-                <div className="kicker mb-4 !text-gold drop-shadow-md">{slides[currentSlide].kicker}</div>
-                <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-7xl text-cream mb-5 drop-shadow-lg leading-tight">
-                  {slides[currentSlide].h1}
+              <div>
+                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
+                  First outreach centre
+                </div>
+                <h1 className="text-[1.7rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+                  Katlehong
+                  <span className="mt-1 block">
+                    <em>Harināma</em> &amp; Prasādam
+                  </span>
                 </h1>
-                {'body' in slides[currentSlide] && (
-                  <p className="text-sm sm:text-base md:text-lg text-cream/95 max-w-xl leading-relaxed font-medium px-5 py-4 rounded-2xl bg-plum/40 backdrop-blur-md border border-gold/20">
-                    {(slides[currentSlide] as { body: string }).body}
-                  </p>
-                )}
               </div>
-              <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 mb-10 w-full max-w-xs sm:max-w-none justify-center">
-                <button onClick={scrollToMission} className="btn-gold w-full sm:w-auto">
-                  Discover our mission
-                </button>
-                <button onClick={onSponsorClick} className="btn-ghost w-full sm:w-auto">
-                  Support the flame
-                </button>
+              <p className="max-w-xl text-sm font-medium leading-relaxed text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-lg">
+                Our first working model: congregational chanting through the streets of Katlehong followed by prasādam,
+                which is donated in kind. Devotees travel in from Soweto, Edenvale, Hammanskraal and Johannesburg.
+              </p>
+              <p className="max-w-xl text-[0.8rem] font-semibold leading-snug text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-base">
+                Sat 14 Nov · 12:30 · 222 Maphisa St, Nhlapho Section, Katlehong
+              </p>
+              <p className="inline-flex items-center rounded-full bg-cream px-3 py-1 text-xs font-bold tracking-wide text-wine sm:text-sm">
+                Free · All welcome
+              </p>
+              <div className="flex w-full flex-col gap-2 sm:flex-row sm:gap-3">
+                <Link
+                  href="/donate?tier=transport"
+                  className="btn-gold group min-h-12 px-6 text-base shadow-[0_14px_36px_rgba(251,178,38,0.48)]"
+                >
+                  Sponsor a transport day
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+                <Link href="/get-involved" className="btn-ghost min-h-12 px-6 text-base">
+                  Volunteer
+                </Link>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
 
-        {HERO_ROTATION_ENABLED && (
-        <div className="z-20 mt-3 flex items-center gap-4 self-center md:mt-4">
+      <div className="absolute inset-x-0 bottom-3 z-20 flex justify-center md:bottom-5">
+        <div
+          role="group"
+          aria-label="Hero slides"
+          className="flex items-center gap-1 rounded-full bg-black/45 px-1.5 py-1 backdrop-blur-sm"
+        >
           <button
-            onClick={prevSlide}
-            className="text-cream/70 hover:text-gold transition-colors p-2 text-xl"
+            type="button"
+            onClick={() => showSlide(currentSlide - 1)}
+            className="grid h-11 w-11 place-items-center rounded-full text-xl text-cream/90 transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             aria-label="Previous slide"
           >
-            ←
+            <span aria-hidden>←</span>
           </button>
-          <div className="flex items-center gap-2.5">
-            {slides.map((_, idx) => (
+          <div role="tablist" aria-label="Choose a slide" className="flex items-center gap-0.5 px-0.5">
+            {SLIDE_LABELS.map((label, idx) => (
               <button
-                key={idx}
-                onClick={() => goToSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                className={`h-2 transition-all duration-300 rounded-full ${
-                  idx === currentSlide ? 'w-8 bg-gold' : 'w-2 bg-cream/35 hover:bg-cream/60'
-                }`}
-              />
+                key={label}
+                type="button"
+                role="tab"
+                aria-selected={idx === currentSlide}
+                aria-label={label}
+                onClick={() => showSlide(idx)}
+                className="grid h-11 w-9 place-items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              >
+                <span
+                  aria-hidden
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    idx === currentSlide ? 'w-8 bg-gold' : 'w-2.5 bg-cream/40'
+                  }`}
+                />
+              </button>
             ))}
           </div>
           <button
-            onClick={nextSlide}
-            className="text-cream/70 hover:text-gold transition-colors p-2 text-xl"
+            type="button"
+            onClick={() => showSlide(currentSlide + 1)}
+            className="grid h-11 w-11 place-items-center rounded-full text-xl text-cream/90 transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             aria-label="Next slide"
           >
-            →
+            <span aria-hidden>→</span>
           </button>
         </div>
-        )}
       </div>
+
+      <p className="sr-only" aria-live="polite">
+        {announcement}
+      </p>
     </section>
   );
 }
