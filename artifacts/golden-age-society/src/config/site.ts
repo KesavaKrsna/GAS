@@ -38,4 +38,5 @@ export const FORMS_EMAIL = 'comms@goldenage-society.org';
 
 export const mailto = (subject: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 
-export const formsMailto = (subject: string) => `mailto:${FORMS_EMAIL}?subject=${encodeURIComponent(subject)}`;
+export const formsMailto = (subject: string) =>
+  `mailto:comms@goldenage-society.org?subject=${encodeURIComponent(subject)}&cc=haribol%40goldenage-society.org`;
