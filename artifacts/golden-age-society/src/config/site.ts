@@ -33,4 +33,10 @@ export const SOCIAL_LINKS = [
   { label: 'Instagram', href: INSTAGRAM_URL },
 ].filter((s) => s.href);
 
+/** Recipient for website form submissions (volunteer form). */
+export const FORMS_EMAIL = 'comms@goldenage-society.org';
+
 export const mailto = (subject: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+
+export const formsMailto = (subject: string) =>
+  `mailto:comms@goldenage-society.org?subject=${encodeURIComponent(subject)}&cc=haribol%40goldenage-society.org`;

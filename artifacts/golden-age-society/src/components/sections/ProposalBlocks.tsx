@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
-import { CONTACT_EMAIL, mailto } from '@/config/site';
+import { FORMS_EMAIL, formsMailto } from '@/config/site';
 
 export const PICKUP_POINTS = ['Soweto', 'Edenvale', 'Hammanskraal', 'Johannesburg'];
 
@@ -84,7 +84,7 @@ export function VolunteerForm() {
     `I agree to be added to the GAS opt-in register: ${consent ? 'yes' : 'no'}`,
   ].join('\n');
 
-  const href = `${mailto('Volunteer / opt-in register')}&body=${encodeURIComponent(body)}`;
+  const href = `${formsMailto('Volunteer / opt-in register')}&body=${encodeURIComponent(body)}`;
   const inputCls = 'w-full px-4 py-2.5 border border-paper rounded-xl text-sm focus:outline-none focus:border-wine transition-colors bg-white';
 
   return (
@@ -124,7 +124,7 @@ export function VolunteerForm() {
       <button type="submit" className="w-full py-3.5 bg-wine text-cream rounded-xl font-semibold hover:bg-plum transition-colors">
         Send via email
       </button>
-      <p className="text-xs text-text/45 text-center">This opens your email app with your details filled in, addressed to {CONTACT_EMAIL}.</p>
+      <p className="text-xs text-text/45 text-center">This opens your email app with your details filled in, addressed to {FORMS_EMAIL}.</p>
     </form>
   );
 }
