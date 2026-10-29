@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageHero } from '@/components/visual/PageHero';
+import { AshramaTimeline, ASHRAMA_NOTE, KatlehongFeature, SectionHeading } from '@/components/sections/ProposalBlocks';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -12,32 +13,6 @@ const fadeUp = (delay = 0) => ({
   viewport: { once: true, margin: '-40px' },
   transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
-
-const CENTRES = [
-  {
-    id: 'hammanskraal',
-    name: 'ISKCON Hammanskraal',
-    location: 'Hammanskraal, Gauteng',
-    address: 'Hammanskraal, Gauteng, South Africa',
-    contact: 'ocsacademy2020@gmail.com',
-    phone: null,
-    description:
-      'A growing centre of Krishna Consciousness in the Hammanskraal township community. This centre serves as a hub for Prasadam distribution, Kasi Kirtan outreach, and weekly Bhakti programmes — meeting devotees and seekers where they live.',
-    tags: ['Prasadam', 'Kasi Kirtan', 'Bhakti programmes'],
-  },
-  {
-    id: 'klerksdorp',
-    name: 'ISKCON Klerksdorp',
-    subtitle: 'New Vrindavan Hare Krishna Centre',
-    location: 'Klerksdorp, North West',
-    address: 'Klerksdorp, North West Province, South Africa',
-    contact: 'ocsacademy2020@gmail.com',
-    phone: null,
-    description:
-      'The New Vrindavan Hare Krishna Centre in Klerksdorp is one of GAS\'s established pillars of outreach in the North West Province. It serves as a hub for Krishna Prasadam distribution, Kasi Kirtan outreach, and weekly Bhakti programmes — nourishing the bodies and souls of devotees and seekers across the North West.',
-    tags: ['Prasadam', 'Kasi Kirtan', 'Bhakti programmes'],
-  },
-];
 
 const ROADMAP = [
   {
@@ -80,50 +55,13 @@ export default function TemplesPage() {
         subtitle="Our existing centres and the geographic roadmap for bringing Krishna Consciousness to every township in Africa."
       />
 
-      {/* ── Centre Cards ─────────────────────────────────────────── */}
-      <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 space-y-8">
-        <div className="text-center mb-10">
-          <div className="kicker mb-3">Active Centres</div>
-          <h2 className="font-serif text-3xl md:text-4xl text-wine">Our temple communities</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {CENTRES.map((centre, i) => (
-            <motion.div key={centre.id} {...fadeUp(i * 0.08)} className="bg-white rounded-2xl border border-gold/20 shadow-sm overflow-hidden">
-              {/* Card header */}
-              <div className="bg-wine/5 border-b border-gold/15 px-6 py-5">
-                <div className="flex items-start gap-3">
-                  <span className="text-3xl mt-0.5">🛕</span>
-                  <div>
-                    <h3 className="font-serif text-xl text-wine leading-tight">{centre.name}</h3>
-                    {centre.subtitle && <div className="text-xs text-text/50 italic mt-0.5">{centre.subtitle}</div>}
-                    <div className="flex items-center gap-1.5 mt-1.5 text-xs text-text/55">
-                      <span>📍</span> {centre.location}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Body */}
-              <div className="px-6 py-5 space-y-4">
-                <p className="text-sm text-text/70 leading-relaxed">{centre.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {centre.tags.map(tag => (
-                    <span key={tag} className="text-[11px] uppercase tracking-wider font-semibold px-3 py-1 bg-gold/10 text-wine/80 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="pt-2 border-t border-paper space-y-1.5 text-sm">
-                  <div className="flex items-center gap-2 text-text/60">
-                    <span>✉️</span>
-                    <a href={`mailto:${centre.contact}`} className="text-wine hover:underline">{centre.contact}</a>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      {/* ── Katlehong: first working model ─ */}
+      <div className="max-w-5xl mx-auto px-4 md:px-12 pt-16">
+        <SectionHeading kicker="First working model" title={<>Katlehong <em>outreach centre</em></>} intro="Saturday Harināma and prasādam, supported by devotees from Soweto, Edenvale, Hammanskraal and Johannesburg." />
+        <KatlehongFeature showChecklist={false} />
       </div>
+
+      {/* Active Centres section (centre cards) removed. */}
 
       {/* ── Geographic Roadmap ───────────────────────────────────── */}
       <div className="bg-[#fffdf7] border-t border-gold/10 py-16 px-4 md:px-12">
@@ -180,6 +118,32 @@ export default function TemplesPage() {
           ♡ Donate now →
         </button>
       </div>
+      {/* ── Āśrama roadmap ─ */}
+      <div id="ashrama" className="max-w-6xl mx-auto px-4 md:px-12 py-16 scroll-mt-24">
+        <SectionHeading kicker="Āśrama development" title={<>Four stages to a <em>brahmacārī āśrama</em></>} intro={ASHRAMA_NOTE} />
+        <AshramaTimeline />
+      </div>
+
+      {/* ── Partners ─ */}
+      <div className="bg-paper/60 border-t border-gold/10 py-16 px-4 md:px-12">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading kicker="Partners" title={<>Supporting other <em>kīrtanas</em></>} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              ['🛕', 'ISKCON temples', 'We coordinate respectfully with local ISKCON temples, sharing dates and inviting devotees to their programmes.'],
+              ['🎶', 'Other kīrtanas', 'We bring devotees and transport to support kīrtanas run by others, rather than competing with them.'],
+              ['🍲', 'Food for Life SA', 'We work alongside FFLSA on prasādam distribution.'],
+            ].map(([icon, t, b]) => (
+              <div key={t} className="bg-white rounded-[1.5rem] p-6 border border-gold/15">
+                <div className="text-3xl mb-3">{icon}</div>
+                <h3 className="font-serif text-xl text-wine mb-2">{t}</h3>
+                <p className="text-sm text-text/70 leading-relaxed">{b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <Footer onSponsorClick={() => navigate('/donate')} />
     </div>
   );

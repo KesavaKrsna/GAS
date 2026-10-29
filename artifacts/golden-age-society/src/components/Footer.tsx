@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'wouter';
 import gasLogo from '@assets/gas-logo.png';
 import { MantraMarquee } from './visual/MantraMarquee';
+import { SOCIAL_LINKS, mailto } from '@/config/site';
 
 interface FooterProps {
   onSponsorClick: () => void;
@@ -31,11 +32,7 @@ export function Footer({ onSponsorClick }: FooterProps) {
               Where bhakti sparks become flames.
             </p>
             <div className="flex items-center gap-3 mt-1">
-              {[
-                { href: 'https://wa.me/27000000000', label: 'WhatsApp' },
-                { href: 'https://facebook.com', label: 'Facebook' },
-                { href: 'https://instagram.com', label: 'Instagram' },
-              ].map((s) => (
+              {SOCIAL_LINKS.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
@@ -74,8 +71,18 @@ export function Footer({ onSponsorClick }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/newsletter')} className="hover:text-gold transition-colors">
-                  Newsletter
+                <button onClick={() => navigate('/resources')} className="hover:text-gold transition-colors">
+                  Resources
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/about')} className="hover:text-gold transition-colors">
+                  About & team
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/directory')} className="hover:text-gold transition-colors">
+                  Directory
                 </button>
               </li>
             </ul>
@@ -89,31 +96,13 @@ export function Footer({ onSponsorClick }: FooterProps) {
                   ocsacademy2020@gmail.com
                 </a>
               </li>
-              <li>
-                <a
-                  href="https://wa.me/27000000000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gold transition-colors"
-                >
-                  WhatsApp us
-                </a>
-              </li>
-              <li>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
-                  Facebook
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gold transition-colors"
-                >
-                  Instagram
-                </a>
-              </li>
+              {SOCIAL_LINKS.map((sl) => (
+                <li key={sl.label}>
+                  <a href={sl.href} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                    {sl.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -136,9 +125,9 @@ export function Footer({ onSponsorClick }: FooterProps) {
                 </button>
               </li>
               <li>
-                <a href="mailto:ocsacademy2020@gmail.com?subject=Volunteering" className="hover:text-gold transition-colors">
+                <button onClick={() => navigate('/get-involved')} className="hover:text-gold transition-colors">
                   Volunteer with us
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -148,7 +137,7 @@ export function Footer({ onSponsorClick }: FooterProps) {
           <div className="text-sm text-cream/45 font-medium text-center md:text-left space-y-0.5">
             <p>© 2026 Golden Age Society. Made with devotion.</p>
             <p className="text-[11px] text-cream/30">
-              No.5 Fourth Avenue, Edenvale 1609, South Africa · PBO No. 930070132
+              No.5 Fourth Avenue, Edenvale 1609, South Africa · Legal host and tax status pending confirmation
             </p>
           </div>
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2">
