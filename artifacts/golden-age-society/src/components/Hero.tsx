@@ -10,8 +10,10 @@ const DONATE_URL = 'https://www.goldenage-society.org/donate';
  * 1. Kārtika 2026 — the opening screen.
  * 2. The existing Katlehong launch slide and its feast image.
  * 3. Katlehong Harināma & prasādam — the existing 14 Nov gathering, unchanged.
+ * 4. Srila Prabhupada — a short introduction to the founder-ācārya.
  */
-const SLIDE_COUNT = 3;
+const SLIDE_COUNT = 4;
+const PRABHUPADA_URL = 'https://www.prabhupada.com';
 /** Every slide, including each Katlehong slide. Katlehong is not given a longer timer. */
 const SLIDE_MS = 6500;
 /**
@@ -30,6 +32,7 @@ const SLIDE_LABELS = [
   'Kārtika 2026',
   'Golden Age Society Launch, Katlehong',
   'Katlehong Harināma and Prasādam',
+  'Srila Prabhupada',
 ] as const;
 
 const LAUNCH_HIGHLIGHTS = [
@@ -154,6 +157,30 @@ function KartikaBackdrop() {
   );
 }
 
+function PrabhupadaBackdrop() {
+  return (
+    <motion.div
+      key="prabhupada-bg"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+      className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_38%,#751c2b_0%,#39121f_58%,#22090f_100%)]"
+    >
+      <div className="absolute right-[-12%] top-[4%] h-[70%] w-[95%] rounded-full bg-[radial-gradient(circle,rgba(251,178,38,0.38)_0%,rgba(251,178,38,0)_65%)] md:right-[2%] md:top-[6%] md:h-[92%] md:w-[52%]" />
+      <picture>
+        <source srcSet="/prabhupada-hero.webp" type="image/webp" />
+        <img
+          src="/prabhupada-hero.png"
+          alt="Srila Prabhupada standing in a brown chaddar, holding a cane"
+          className="absolute bottom-0 right-[-4%] h-[66%] w-auto max-w-none object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)] md:right-[8%] md:h-[96%]"
+        />
+      </picture>
+      <div className="absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-[#22090f] via-[#22090f]/80 to-transparent md:hidden" />
+    </motion.div>
+  );
+}
+
 interface HeroProps {
   onSponsorClick: () => void;
 }
@@ -272,6 +299,7 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
       <div className="pointer-events-none absolute inset-0 z-0">
         <AnimatePresence>{currentSlide === 0 && <KartikaBackdrop />}</AnimatePresence>
         <AnimatePresence>{(currentSlide === 1 || currentSlide === 2) && <LaunchBackdrop />}</AnimatePresence>
+        <AnimatePresence>{currentSlide === 3 && <PrabhupadaBackdrop />}</AnimatePresence>
       </div>
 
       <AnimatePresence mode="wait">
@@ -473,6 +501,56 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                 <Link href="/get-involved" className="btn-ghost min-h-12 px-6 text-base">
                   Volunteer
                 </Link>
+              </div>
+            </div>
+            </motion.div>
+          )}
+
+          {currentSlide === 3 && (
+            <motion.div
+              key="prabhupada-slide"
+              id="hero-slide-3"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`4 of ${SLIDE_COUNT}`}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="container relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-5 pb-24 pt-16 text-left md:justify-center md:px-12 md:pb-4 md:pt-8"
+            >
+            <div className="flex w-full max-w-xl flex-col items-start gap-2.5 md:max-w-[34rem] md:gap-4">
+              <div>
+                <div className="kicker mb-1.5 !text-[#ffe7a3] [text-shadow:0_2px_8px_rgba(0,0,0,0.45)]">
+                  1896 – 1977 · Kolkata to the world
+                </div>
+                <h1 className="text-[1.9rem] leading-[1.02] text-cream [text-shadow:0_3px_18px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+                  Srila <em>Prabhupada</em>
+                  <span className="mt-2 block text-lg leading-snug sm:text-2xl md:text-3xl">
+                    One man, a few books, and a world transformed
+                  </span>
+                </h1>
+              </div>
+              <p className="max-w-xl text-sm font-medium leading-relaxed text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.65)] sm:text-lg">
+                In 1965, at nearly 70, His Divine Grace A.C. Bhaktivedanta Swami Prabhupada sailed alone from India to
+                America aboard the Jaladuta, carrying little more than a few books. From that humble start he founded a
+                worldwide movement with over 100 temples, translated and explained the Bhagavad-gita As It Is and
+                Srimad-Bhagavatam, and carried the chanting of the Hare Krishna mantra and Krishna prasādam to every corner
+                of the globe.
+              </p>
+              <div className="flex w-full flex-col gap-2 sm:flex-row sm:gap-3">
+                <a
+                  href={PRABHUPADA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-gold group min-h-12 px-6 text-base shadow-[0_14px_36px_rgba(251,178,38,0.48)]"
+                >
+                  Discover Srila Prabhupada
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
               </div>
             </div>
             </motion.div>
