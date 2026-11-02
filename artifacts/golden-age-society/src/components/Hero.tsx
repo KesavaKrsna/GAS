@@ -167,16 +167,16 @@ function PrabhupadaBackdrop() {
       transition={{ duration: 0.8 }}
       className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_38%,#751c2b_0%,#39121f_58%,#22090f_100%)]"
     >
-      <div className="absolute right-[-12%] top-[4%] h-[70%] w-[95%] rounded-full bg-[radial-gradient(circle,rgba(251,178,38,0.38)_0%,rgba(251,178,38,0)_65%)] md:right-[2%] md:top-[6%] md:h-[92%] md:w-[52%]" />
+      <div className="absolute right-[0%] top-[0%] h-[50%] w-[100%] rounded-full bg-[radial-gradient(circle,rgba(251,178,38,0.38)_0%,rgba(251,178,38,0)_65%)] md:right-[2%] md:top-[6%] md:h-[92%] md:w-[52%]" />
       <picture>
         <source srcSet="/prabhupada-hero.webp" type="image/webp" />
         <img
           src="/prabhupada-hero.png"
           alt="Srila Prabhupada standing in a brown chaddar, holding a cane"
-          className="absolute bottom-0 right-[-4%] h-[66%] w-auto max-w-none object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)] md:right-[8%] md:h-[96%]"
+          className="absolute right-1/2 top-[1%] h-[42%] w-auto max-w-none translate-x-1/2 object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)] md:bottom-0 md:right-[8%] md:top-auto md:h-[96%] md:translate-x-0"
         />
       </picture>
-      <div className="absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-[#22090f] via-[#22090f]/80 to-transparent md:hidden" />
+      <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#22090f] via-[#22090f]/70 to-transparent md:hidden" />
     </motion.div>
   );
 }
