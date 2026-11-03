@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const KEY = 'gas-receipt-admin';
-type Row = { id: number; donor_name: string; donor_email: string; status: string; created_at: string; receipt_number?: string; amount_zar?: string; payment_date?: string; email_status?: string };
+type Row = { id: number; receipt_id?: number; donor_name: string; donor_email: string; status: string; created_at: string; receipt_number?: string; amount_zar?: string; payment_date?: string; email_status?: string };
 
 export default function AdminReceiptsPage() {
   const [secret, setSecret] = useState(() => sessionStorage.getItem(KEY) ?? '');
@@ -71,7 +71,7 @@ export default function AdminReceiptsPage() {
           <h2 className="text-xl font-serif text-wine mb-2">Audit trail</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead><tr className="text-left"><th>Created</th><th>Donor</th><th>Status</th><th>Receipt</th><th>Amount</th><th>Paid</th><th>Email</th></tr></thead>
+              <thead><tr className="text-left"><th>Created</th><th>Donor</th><th>Status</th><th>Receipt</th><th>Amount</th><th>Paid</th><th>Email</th><th /></tr></thead>
               <tbody>{rows.map((r) => (
                 <tr key={r.id} className="border-t border-wine/10">
                   <td>{new Date(r.created_at).toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' })}</td>
@@ -80,6 +80,11 @@ export default function AdminReceiptsPage() {
                   <td>{r.amount_zar ? `R${r.amount_zar}` : '—'}</td>
                   <td>{r.payment_date ? String(r.payment_date).slice(0, 10) : '—'}</td>
                   <td>{r.email_status ?? '—'}</td>
+                  <td>{r.receipt_id && <button className="underline text-wine" onClick={async () => {
+                    const x = await fetch(`/api/receipts/admin/${r.receipt_id}/resend`, { method: 'POST', headers: { 'x-admin-secret': secret } });
+                    const d = await x.json().catch(() => ({}));
+                    setError(d.emailed ? '' : (d.error ?? 'Resend failed')); load();
+                  }}>Resend</button>}</td>
                 </tr>))}</tbody>
             </table>
           </div>

@@ -99,13 +99,37 @@ receiptsRouter.get('/receipts/admin/list', requireAdmin, async (_req, res) => {
   try {
     await ensureSchema();
     const links = await getPool().query(
-      `SELECT l.id, l.donor_name, l.donor_email, l.status, l.created_at, l.used_at,
+      `SELECT l.id, r.id AS receipt_id, l.donor_name, l.donor_email, l.status, l.created_at, l.used_at,
               r.receipt_number, r.amount_zar, r.payment_date, r.email_status, r.email_error
          FROM receipt_links l LEFT JOIN donation_receipts r ON r.link_id = l.id
         ORDER BY l.id DESC LIMIT 200`);
     res.json({ items: links.rows });
   } catch (err) {
     logger.error({ err }, 'Failed to list receipts');
+    res.status(500).json({ error: (err as Error).message });
+  }
+});
+
+// Admin: resend a receipt email
+receiptsRouter.post('/receipts/admin/:id/resend', requireAdmin, async (req, res) => {
+  try {
+    await ensureSchema();
+    const q = await getPool().query(
+      `SELECT id, receipt_number, donor_name, donor_email, amount_zar, to_char(payment_date,'YYYY-MM-DD') AS payment_date,
+              to_char(issue_date,'YYYY-MM-DD') AS issue_date FROM donation_receipts WHERE id=$1`, [Number(req.params.id)]);
+    const r = q.rows[0];
+    if (!r) { res.status(404).json({ error: 'Not found' }); return; }
+    try {
+      const msgId = await sendReceiptEmail({ receiptNumber: r.receipt_number, donorName: r.donor_name, donorEmail: r.donor_email,
+        amount: Number(r.amount_zar), paymentDate: r.payment_date, issueDate: r.issue_date });
+      await getPool().query(`UPDATE donation_receipts SET email_status='sent', email_message_id=$2, email_error=NULL WHERE id=$1`, [r.id, msgId]);
+      res.json({ emailed: true });
+    } catch (err) {
+      await getPool().query(`UPDATE donation_receipts SET email_status='failed', email_error=$2 WHERE id=$1`, [r.id, String((err as Error).message).slice(0, 500)]);
+      res.json({ emailed: false, error: (err as Error).message });
+    }
+  } catch (err) {
+    logger.error({ err }, 'Receipt resend failed');
     res.status(500).json({ error: (err as Error).message });
   }
 });
