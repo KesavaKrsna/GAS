@@ -7,12 +7,21 @@ function getResend() {
   return new Resend(apiKey);
 }
 
+export const DEFAULT_FROM = 'Golden Age Society <haribol@goldenage-society.org>';
+
+/** Sender: RESEND_FROM if it is a goldenage-society.org address, otherwise the GAS default. */
+export function getFromAddress(): string {
+  const configured = process.env['RESEND_FROM'] ?? process.env['SMTP_FROM'];
+  if (configured && /@goldenage-society\.org>?\s*$/i.test(configured.trim())) return configured.trim();
+  return DEFAULT_FROM;
+}
+
 export async function sendDonationCertificate(
   data: CertificateData,
   pdfBytes: Uint8Array,
 ): Promise<void> {
   const resend = getResend();
-  const from = process.env['RESEND_FROM'] ?? process.env['SMTP_FROM'] ?? 'Golden Age Society <support@meterminder.app>';
+  const from = getFromAddress();
 
   const htmlBody = `
 <!DOCTYPE html>
