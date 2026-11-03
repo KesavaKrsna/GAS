@@ -46,15 +46,15 @@ function secret(): string {
   if (!s || s.length < 16) throw new Error(`${ADMIN_ENV} is not configured.`);
   return s;
 }
-const sign = (id: string) => createHmac('sha256', secret()).update(`receipt-link:${id}`).digest('base64url').slice(0, 32);
-function parseToken(token: string): string | null {
+export const sign = (id: string, kind = 'receipt') => createHmac('sha256', secret()).update(`${kind}-link:${id}`).digest('base64url').slice(0, 32);
+export function parseToken(token: string, kind = 'receipt'): string | null {
   const [id, sig] = token.split('.');
   if (!id || !sig || !/^[A-Za-z0-9_-]{20,64}$/.test(id)) return null;
-  const a = Buffer.from(sig), b = Buffer.from(sign(id));
+  const a = Buffer.from(sig), b = Buffer.from(sign(id, kind));
   return a.length === b.length && timingSafeEqual(a, b) ? id : null;
 }
 
-function requireAdmin(req: Request, res: Response, next: NextFunction) {
+export function requireAdmin(req: Request, res: Response, next: NextFunction) {
   try {
     const given = Buffer.from(String(req.header('x-admin-secret') ?? ''));
     const want = Buffer.from(secret());
@@ -66,10 +66,10 @@ function requireAdmin(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-const isEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Johannesburg' }).format(new Date());
+export const isEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+export const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Johannesburg' }).format(new Date());
 
-function baseUrl(req: Request) {
+export function baseUrl(req: Request) {
   const host = req.header('x-forwarded-host') ?? req.header('host');
   const proto = req.header('x-forwarded-proto') ?? 'https';
   return `${proto}://${host}`;

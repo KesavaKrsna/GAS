@@ -12,6 +12,8 @@ import EventsPage from '@/pages/EventsPage';
 import ImpactPage from '@/pages/ImpactPage';
 import AdminReceiptsPage from '@/pages/AdminReceiptsPage';
 import ReceiptLinkPage from '@/pages/ReceiptLinkPage';
+import AdminCertificatesPage from '@/pages/AdminCertificatesPage';
+import CertificateLinkPage from '@/pages/CertificateLinkPage';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ function Router() {
       <Route path="/legal/:page" component={LegalPage} />
       <Route path="/admin/receipts" component={AdminReceiptsPage} />
       <Route path="/receipt/:token" component={ReceiptLinkPage} />
+      <Route path="/admin/certificates" component={AdminCertificatesPage} />
+      <Route path="/certificate/:token" component={CertificateLinkPage} />
       <Route component={NotFound} />
     </Switch>
   );
