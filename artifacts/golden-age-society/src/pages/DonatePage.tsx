@@ -16,6 +16,8 @@ declare global {
 }
 
 interface DonorForm {
+  donorType: string;
+  donorTaxRef: string;
   donorName: string;
   donorId: string;
   donorEmail: string;
@@ -197,6 +199,8 @@ export default function DonatePage() {
                   reference: response.reference,
                   donorName: formData.donorName,
                   donorId: formData.donorId,
+                  donorType: formData.donorType,
+                  donorTaxRef: formData.donorTaxRef,
                   donorEmail: formData.donorEmail,
                   donorPhone: formData.donorPhone,
                   donorAddress: formData.donorAddress,
@@ -535,6 +539,12 @@ export default function DonatePage() {
                   {/* Donor details */}
                   <div className="space-y-4">
                     <div>
+                      <label className="block text-xs font-semibold text-text/60 mb-1.5">Donor Type <span className="text-wine">*</span></label>
+                      <select {...register('donorType', { required: true })} defaultValue="Individual" className="w-full px-4 py-2.5 border border-paper rounded-xl text-sm focus:outline-none focus:border-wine transition-colors">
+                        <option>Individual</option><option>Company</option><option>Trust</option><option>Other</option>
+                      </select>
+                    </div>
+                    <div>
                       <label className="block text-xs font-semibold text-text/60 mb-1.5">Full Name / Company Name <span className="text-wine">*</span></label>
                       <input
                         {...register('donorName', { required: 'Full name is required' })}
@@ -552,6 +562,17 @@ export default function DonatePage() {
                         className="w-full px-4 py-2.5 border border-paper rounded-xl text-sm focus:outline-none focus:border-wine transition-colors"
                       />
                       {errors.donorId && <p className="text-xs text-red-500 mt-1">{errors.donorId.message}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-text/60 mb-1.5">Income Tax Reference Number <span className="text-wine">*</span></label>
+                      <input
+                        {...register('donorTaxRef', { required: 'Income tax reference number is required (SARS)', pattern: { value: /^\s*\d{10}\s*$/, message: 'Tax reference is 10 digits' } })}
+                        inputMode="numeric"
+                        placeholder="e.g. 0123456789"
+                        className="w-full px-4 py-2.5 border border-paper rounded-xl text-sm focus:outline-none focus:border-wine transition-colors"
+                      />
+                      {errors.donorTaxRef && <p className="text-xs text-red-500 mt-1">{errors.donorTaxRef.message}</p>}
                     </div>
 
                     <div>
@@ -655,7 +676,7 @@ export default function DonatePage() {
                   <div className="bg-paper/50 rounded-xl px-6 py-4 text-left space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-text/60">Certificate Number</span>
-                      <span className="font-mono font-bold text-wine">{successData.certNumber}</span>
+                      <span className="font-mono font-bold text-wine">{successData.certNumber || 'Will be emailed to you'}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-text/60">Donor</span>

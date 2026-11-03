@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { verifyTransaction, getOrCreateMonthlyPlan } from '../lib/paystack.js';
-import { generateSection18ACertificate, generateCertificateNumber } from '../lib/certificate.js';
-import { sendDonationCertificate } from '../lib/email.js';
+import { issueCertificate } from '../lib/certificates-store.js';
+import { getPool } from '@workspace/db/pool';
 import { logger } from '../lib/logger.js';
 
 const donateRouter = Router();
@@ -32,7 +32,11 @@ donateRouter.post('/donate/verify', async (req, res) => {
     donorPhone,
     donorAddress,
     isRecurring,
+    donorType,
+    donorTaxRef,
   } = req.body as {
+    donorType?: string;
+    donorTaxRef?: string;
     reference: string;
     donorName: string;
     donorId: string;
@@ -56,44 +60,43 @@ donateRouter.post('/donate/verify', async (req, res) => {
     }
 
     const amountZAR = verification.data.amount / 100; // kobo → ZAR
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('en-ZA', { day: '2-digit', month: 'long', year: 'numeric' });
+    const paidAt = verification.data.paid_at ? new Date(verification.data.paid_at) : new Date();
+    const donationDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Johannesburg' }).format(paidAt);
 
-    // 2. Generate certificate
-    const certNumber = generateCertificateNumber();
-    const certData = {
-      certificateNumber: certNumber,
-      dateIssued: dateStr,
-      donorName,
-      donorId,
-      donorEmail,
-      donorPhone,
-      donorAddress,
-      donationDate: dateStr,
-      donationAmount: amountZAR,
-      paymentMethod: verification.data.channel
-        ? verification.data.channel.charAt(0).toUpperCase() + verification.data.channel.slice(1)
-        : 'Paystack',
-      paystackReference: reference,
-      isRecurring: !!isRecurring,
-    };
+    // Idempotent: a repeat verify for the same Paystack reference returns the existing certificate.
+    const existing = await getPool()
+      .query(`SELECT cert_no FROM certificates WHERE source='paystack' AND payment_reference=$1`, [reference])
+      .catch(() => null);
+    if (existing?.rowCount) {
+      res.json({ success: true, certificateNumber: existing.rows[0].cert_no, amountZAR, donorName, emailSent: true });
+      return;
+    }
 
-    const pdfBytes = await generateSection18ACertificate(certData);
-
-    // 3. Send email (non-fatal if it fails)
+    // 2. Issue numbered certificate (stored + emailed)
+    let result: Awaited<ReturnType<typeof issueCertificate>> = null;
     try {
-      await sendDonationCertificate(certData, pdfBytes);
-    } catch (emailErr) {
-      logger.error({ emailErr }, 'Failed to send donation certificate email');
-      // Still return success — cert was generated, email is best-effort
+    result = await issueCertificate({
+      source: 'paystack',
+      donorType: ['Individual', 'Company', 'Trust', 'Other'].includes(String(donorType)) ? String(donorType) : 'Individual',
+      donorName, donorIdNumber: donorId ?? '', donorTaxRef: String(donorTaxRef ?? '').replace(/\s/g, ''),
+      donorAddress: donorAddress ?? '', donorPhone: donorPhone ?? '', donorEmail,
+      amount: amountZAR, donationDate,
+      paymentMethod: verification.data.channel
+        ? 'Paystack (' + verification.data.channel.charAt(0).toUpperCase() + verification.data.channel.slice(1) + ')'
+        : 'Paystack',
+      paymentReference: reference, isRecurring: !!isRecurring, popiaConsent: true,
+    });
+    } catch (issueErr) {
+      // Payment succeeded; never fail the donor here. Certificate can be issued later from the admin page.
+      logger.error({ issueErr, reference }, 'Payment verified but certificate could not be issued');
     }
 
     res.json({
       success: true,
-      certificateNumber: certNumber,
+      certificateNumber: result?.certNo ?? null,
       amountZAR,
       donorName,
-      emailSent: true,
+      emailSent: result?.emailed ?? false,
     });
   } catch (err) {
     logger.error({ err }, 'Donate verify error');

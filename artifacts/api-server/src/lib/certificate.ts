@@ -6,14 +6,17 @@ import { fileURLToPath } from 'url';
 export interface CertificateData {
   certificateNumber: string;
   dateIssued: string;
+  donorType?: string; // Individual / Company / Trust / Other
   donorName: string;
   donorId: string;
+  donorTaxRef?: string;
   donorEmail: string;
   donorPhone: string;
   donorAddress: string;
   donationDate: string;
   donationAmount: number; // ZAR
   paymentMethod: string;
+  /** Generic payment reference (Paystack ref, EFT bank ref, etc.) */
   paystackReference: string;
   isRecurring: boolean;
 }
@@ -59,7 +62,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   page.drawRectangle({ x: INN, y: INN, width: width - INN * 2, height: height - INN * 2, borderColor: WINE, borderWidth: 0.6, color: CREAM });
 
   // ── Header band ───────────────────────────────────────────────────────────
-  drawRect(page, MARGIN, height - MARGIN - 110, width - MARGIN * 2, 110, WINE);
+  drawRect(page, MARGIN, height - MARGIN - 130, width - MARGIN * 2, 130, WINE);
 
   // ── Logo (top-left of header) ─────────────────────────────────────────────
   try {
@@ -75,7 +78,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
     const logoImage = await doc.embedPng(logoBytes);
     const logoSize = 62; // pt
     const logoX = MARGIN + 12;
-    const logoY = height - MARGIN - 110 + (110 - logoSize) / 2;
+    const logoY = height - MARGIN - 130 + (130 - logoSize) / 2;
     page.drawImage(logoImage, { x: logoX, y: logoY, width: logoSize, height: logoSize });
   } catch {
     // logo missing — skip silently
@@ -104,24 +107,17 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
     size: 8, font: timesItalic, color: LIGHT_GOLD,
   });
 
-  // PBO details line
-  const pboLine = `PBO Number: 930070132   |   Income Tax Ref: 9884366171   |   Section 18A Approved: 07 September 2020`;
-  const plW = helvetica.widthOfTextAtSize(pboLine, 7.5);
-  page.drawText(pboLine, {
-    x: (width - plW) / 2, y: height - MARGIN - 88,
-    size: 7.5, font: helvetica, color: LIGHT_GOLD,
-  });
-
-  // Contact line
-  const contactLine = `donations@goldenage-society.org   |   www.goldenage-society.org`;
-  const clW = helvetica.widthOfTextAtSize(contactLine, 7.5);
-  page.drawText(contactLine, {
-    x: (width - clW) / 2, y: height - MARGIN - 100,
-    size: 7.5, font: helvetica, color: LIGHT_GOLD,
-  });
+  const centre = (text: string, y: number, size: number, font: typeof helvetica, color = LIGHT_GOLD) => {
+    const w = font.widthOfTextAtSize(text, size);
+    page.drawText(text, { x: (width - w) / 2, y, size, font, color });
+  };
+  centre('Golden Age Society, a programme operating under Oasis Community Skills Academy (PBO 930070132)', height - MARGIN - 84, 7.5, helveticaBold);
+  centre('PBO Number: 930070132   |   Income Tax Ref: 9884366171   |   Section 18A Approved: 07 September 2020', height - MARGIN - 97, 7.5, helvetica);
+  centre('Registered address: 10 Clifton Street, Crystal Park, 1501', height - MARGIN - 109, 7.5, helvetica);
+  centre('haribol@goldenage-society.org   |   www.goldenage-society.org', height - MARGIN - 121, 7.5, helvetica);
 
   // ── Gold divider ──────────────────────────────────────────────────────────
-  const divY = height - MARGIN - 120;
+  const divY = height - MARGIN - 140;
   drawRect(page, MARGIN, divY, width - MARGIN * 2, 6, GOLD);
 
   // ── Certificate Ref + Date ────────────────────────────────────────────────
@@ -154,8 +150,10 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   cursor -= 20;
 
   const rows: Array<[string, string]> = [
+    ['Donor Type:', data.donorType || 'Individual'],
     ['Full Name / Company Name:', data.donorName],
     ['Identity No / Company Reg:', data.donorId],
+    ['Income Tax Reference No:', data.donorTaxRef || 'Not provided'],
     ['Email Address:', data.donorEmail],
     ['Phone Number:', data.donorPhone],
     ['Physical Address:', data.donorAddress],
@@ -180,7 +178,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
     ['Donation Amount:', formatAmount(data.donationAmount)],
     ['Donation Type:', data.isRecurring ? 'Recurring Monthly Donation' : 'Once-off Donation'],
     ['Payment Method:', data.paymentMethod],
-    ['Transaction Reference:', data.paystackReference],
+    ['Payment Reference:', data.paystackReference || '-'],
     ['Donation Purpose:', 'General Donation to Golden Age Society'],
   ];
 
@@ -198,14 +196,11 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   cursor -= 22;
 
   const certLines = [
-    'This is to certify that the above donation was received by Golden Age Society, an approved Public Benefit',
-    'Organisation in terms of Section 30 of the Income Tax Act No. 58 of 1962.',
-    '',
-    'The donation qualifies as a tax-deductible donation in terms of Section 18A of the Income Tax Act, subject',
-    'to the provisions of the Act.',
-    '',
-    'No goods or services were received by the donor in exchange for this donation, except where specifically',
-    'permitted under the Income Tax Act.',
+    'This is to certify that the above donation was received by Golden Age Society, a programme operating under',
+    'Oasis Community Skills Academy, an approved Public Benefit Organisation (PBO No. 930070132) in terms of',
+    'Section 30 of the Income Tax Act No. 58 of 1962. This receipt is issued for the purposes of Section 18A of the',
+    'Income Tax Act, and the donation will be used exclusively for the object of the PBO in carrying on public',
+    'benefit activities in Part II of the Ninth Schedule. No goods or services were received by the donor in exchange.',
   ];
 
   certLines.forEach((line) => {
@@ -215,16 +210,15 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
     cursor -= 13;
   });
 
-  cursor -= 6;
+  cursor -= 14;
 
   // ── ORGANISATION DECLARATION ──────────────────────────────────────────────
   drawSectionHeader('ORGANISATION DECLARATION', cursor);
   cursor -= 22;
 
   const declarations = [
-    '[+]  Golden Age Society is an approved Public Benefit Organisation (PBO No. 930070132).',
-    '[+]  The donation received will be used exclusively for approved Public Benefit Activities.',
-    '[+]  This certificate is issued in accordance with Section 18A of the Income Tax Act No. 58 of 1962.',
+    '[+]  Oasis Community Skills Academy (trading as Golden Age Society) is an approved PBO (No. 930070132).',
+    '[+]  PBO address: 10 Clifton Street, Crystal Park, 1501.',
   ];
   declarations.forEach((d) => {
     page.drawText(d, { x: 52, y: cursor, size: 8.5, font: helvetica, color: DARK });
@@ -247,7 +241,7 @@ export async function generateSection18ACertificate(data: CertificateData): Prom
   // ── Footer band ───────────────────────────────────────────────────────────
   drawRect(page, MARGIN, MARGIN, width - MARGIN * 2, 40, WINE, 0.08);
   const footer1 = 'This certificate has been generated electronically and is valid without a handwritten signature.';
-  const footer2 = 'For verification contact: donations@goldenage-society.org';
+  const footer2 = 'For verification contact: haribol@goldenage-society.org';
   const f1W = helvetica.widthOfTextAtSize(footer1, 7);
   const f2W = helvetica.widthOfTextAtSize(footer2, 7);
   page.drawText(footer1, { x: (width - f1W) / 2, y: MARGIN + 26, size: 7, font: helvetica, color: GREY });
