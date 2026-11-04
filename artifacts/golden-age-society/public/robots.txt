@@ -3,3 +3,5 @@ Allow: /
 Disallow: /admin/
 Disallow: /receipt/
 Disallow: /certificate/
+
+Sitemap: https://www.goldenage-society.org/sitemap.xml

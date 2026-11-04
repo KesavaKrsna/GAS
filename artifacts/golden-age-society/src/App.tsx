@@ -13,6 +13,7 @@ import ImpactPage from '@/pages/ImpactPage';
 import AboutPage from '@/pages/AboutPage';
 import GetInvolvedPage from '@/pages/GetInvolvedPage';
 import DirectoryPage from '@/pages/DirectoryPage';
+import KartikaJapaPostPage from '@/pages/KartikaJapaPostPage';
 import AdminReceiptsPage from '@/pages/AdminReceiptsPage';
 import ReceiptLinkPage from '@/pages/ReceiptLinkPage';
 import AdminCertificatesPage from '@/pages/AdminCertificatesPage';
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/about" component={AboutPage} />
       <Route path="/get-involved" component={GetInvolvedPage} />
       <Route path="/directory" component={DirectoryPage} />
+      <Route path="/kartik-month-2026-daily-online-japa" component={KartikaJapaPostPage} />
       <Route path="/legal/:page" component={LegalPage} />
       <Route path="/admin/receipts" component={AdminReceiptsPage} />
       <Route path="/receipt/:token" component={ReceiptLinkPage} />

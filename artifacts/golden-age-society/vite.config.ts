@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
+import { kartikaPostStaticFallback } from './src/seo/kartikaStaticFallback';
 
 const rawPort = process.env.PORT ?? '5173';
 const port = Number(rawPort);
@@ -27,6 +28,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    kartikaPostStaticFallback(),
     ...(process.env.NODE_ENV !== 'production' &&
     process.env.REPL_ID !== undefined
       ? [
