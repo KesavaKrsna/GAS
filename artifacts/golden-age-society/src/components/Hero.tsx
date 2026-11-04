@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KARTIK_JAPA_MEET_URL } from '@/config/site';
+import { KARTIKA_POST_PATH } from '@/content/kartikaJapaPost';
 
 const DONATE_URL = 'https://www.goldenage-society.org/donate';
 
@@ -420,6 +421,9 @@ export function Hero({ onSponsorClick: _onSponsorClick }: HeroProps) {
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                   <p className="kartika-when">Daily · 4:30–6:30 AM (SAST)</p>
+                  <Link href={KARTIKA_POST_PATH} className="kartika-read">
+                    Read about daily japa
+                  </Link>
                 </div>
               </div>
             </motion.div>

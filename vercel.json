@@ -15,6 +15,14 @@
       "destination": "/api"
     },
     {
+      "source": "/kartik-month-2026-daily-online-japa",
+      "destination": "/kartik-month-2026-daily-online-japa/index.html"
+    },
+    {
+      "source": "/kartik-month-2026-daily-online-japa/",
+      "destination": "/kartik-month-2026-daily-online-japa/index.html"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

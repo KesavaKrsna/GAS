@@ -395,6 +395,28 @@
   text-shadow: 0 1px 2px rgba(60, 10, 0, 0.55);
 }
 
+.kartika-read {
+  display: inline-block;
+  margin-top: 0.75em;
+  color: #ffe7a3;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(14px, 3.2vw, 18px);
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-shadow: 0 1px 2px rgba(60, 10, 0, 0.55);
+}
+
+.kartika-read:hover,
+.kartika-read:focus-visible {
+  color: #fff;
+  outline: 2px solid #f2c462;
+  outline-offset: 3px;
+}
+
 .kartika-btn:hover,
 .kartika-btn:focus-visible {
   transform: translateY(-3px);
@@ -438,6 +460,10 @@
   }
 
   .kartika-when {
+    font-size: 3.1vw;
+  }
+
+  .kartika-read {
     font-size: 3.1vw;
   }
 }
@@ -509,6 +535,10 @@
 
   .kartika-when {
     font-size: clamp(14px, 1.05vw, 18px);
+  }
+
+  .kartika-read {
+    font-size: clamp(15px, 1.05vw, 18px);
   }
 }
 
