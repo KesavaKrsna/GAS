@@ -1,0 +1,32 @@
+# Weekdays at 06:15 UTC, plus manual runs. GitHub only schedules a
+# workflow that exists on the default branch (main). See docs/code-review-bot.md.
+name: production-branch-guard
+
+on:
+  schedule:
+    - cron: "15 6 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Compare Vercel production branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Compare with Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT: gas-api-server-pu7z
+          VERCEL_TEAM_SLUG: kesavakrsnas-projects
+          PRODUCTION_BRANCH: ${{ vars.PRODUCTION_BRANCH }}
+        run: python3 .github/scripts/check-production-branch.py

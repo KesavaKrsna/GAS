@@ -1,0 +1,52 @@
+# PR hygiene. Danger is installed outside the repo because the root
+# preinstall script rejects npm. See docs/code-review-bot.md.
+name: Danger
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "danger-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  danger:
+    name: PR hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch base branch
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          git fetch --no-tags origin "$BASE_REF"
+          git update-ref refs/remotes/origin/pr-base FETCH_HEAD
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Danger outside the workspace
+        run: |
+          npm install --prefix "$RUNNER_TEMP/danger" --ignore-scripts danger@14.1.0
+
+      - name: Run Danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRODUCTION_BRANCH: ${{ vars.PRODUCTION_BRANCH }}
+        run: |
+          "$RUNNER_TEMP/danger/node_modules/.bin/danger" ci --failOnErrors
