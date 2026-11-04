@@ -10,6 +10,14 @@ import ProgramsPage from '@/pages/ProgramsPage';
 import TemplesPage from '@/pages/TemplesPage';
 import EventsPage from '@/pages/EventsPage';
 import ImpactPage from '@/pages/ImpactPage';
+import AboutPage from '@/pages/AboutPage';
+import GetInvolvedPage from '@/pages/GetInvolvedPage';
+import DirectoryPage from '@/pages/DirectoryPage';
+import KartikaJapaPostPage from '@/pages/KartikaJapaPostPage';
+import AdminReceiptsPage from '@/pages/AdminReceiptsPage';
+import ReceiptLinkPage from '@/pages/ReceiptLinkPage';
+import AdminCertificatesPage from '@/pages/AdminCertificatesPage';
+import CertificateLinkPage from '@/pages/CertificateLinkPage';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -22,8 +30,17 @@ function Router() {
       <Route path="/temples" component={TemplesPage} />
       <Route path="/impact" component={ImpactPage} />
       <Route path="/donate" component={DonatePage} />
+      <Route path="/resources" component={NewsletterPage} />
       <Route path="/newsletter" component={NewsletterPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/get-involved" component={GetInvolvedPage} />
+      <Route path="/directory" component={DirectoryPage} />
+      <Route path="/kartik-month-2026-daily-online-japa" component={KartikaJapaPostPage} />
       <Route path="/legal/:page" component={LegalPage} />
+      <Route path="/admin/receipts" component={AdminReceiptsPage} />
+      <Route path="/receipt/:token" component={ReceiptLinkPage} />
+      <Route path="/admin/certificates" component={AdminCertificatesPage} />
+      <Route path="/certificate/:token" component={CertificateLinkPage} />
       <Route component={NotFound} />
     </Switch>
   );

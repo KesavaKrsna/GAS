@@ -38,6 +38,10 @@ const prasadamPhotos = [
   { src: '/gallery-prasadam-7.jpeg', title: 'Nourishing body and soul' },
   { src: '/gallery-prasadam-8.jpeg', title: 'Devotional service in action' },
   { src: '/gallery-prasadam-9.jpeg', title: 'Love in action' },
+  { src: '/gallery-foodforlife-isaac-makau-1.jpeg', title: 'Food for Life at Isaac Makau Primary School: serving prasadam to more than 400 school children.' },
+  { src: '/gallery-foodforlife-isaac-makau-2.jpeg', title: 'Food for Life at Isaac Makau Primary School: serving prasadam to more than 400 school children.' },
+  { src: '/gallery-foodforlife-isaac-makau-3.jpeg', title: 'Food for Life at Isaac Makau Primary School: serving prasadam to more than 400 school children.' },
+  { src: '/gallery-foodforlife-isaac-makau-4.jpeg', title: 'Food for Life at Isaac Makau Primary School: serving prasadam to more than 400 school children.' },
 ];
 
 function LightboxModal({ src, title, onClose }: { src: string; title: string; onClose: () => void }) {

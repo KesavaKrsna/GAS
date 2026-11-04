@@ -34,10 +34,16 @@ const PROGRAM_CARDS = [
     image: '/bhakti-connect-app.jpg',
   },
   {
+    icon: '🌿',
+    title: 'Community Partnerships',
+    desc: 'Working with local partners to serve townships',
+    image: '/gallery-prasadam-6.jpeg',
+  },
+  {
     icon: '🛕',
-    title: 'Sannyasi Support',
-    desc: 'African collaboration with ISKCON Kenya & Ghana',
-    image: null,
+    title: 'Āśrama Development',
+    desc: 'A four-stage path from home programmes to a brahmacārī āśrama',
+    image: '/ashram-devotee-community.png',
   },
 ];
 
@@ -57,7 +63,9 @@ export function ProgramsTeaser() {
           >
             <div className="kicker mb-3">What we do</div>
             <h2 className="font-serif text-4xl md:text-5xl text-wine mb-4">
-              Six Pillars of <em>Outreach</em>
+              <a href="/programs" onClick={(e) => { e.preventDefault(); navigate('/programs'); }} className="hover:text-orange transition-colors">
+                Seven Pillars of <em>Outreach</em>
+              </a>
             </h2>
             <p className="text-text/65 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
               From township kirtan to digital devotee tools — every pillar serves Lord Caitanya's vision of a Golden

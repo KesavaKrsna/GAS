@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Resend } from 'resend';
 import { logger } from '../lib/logger.js';
+import { getFromAddress } from '../lib/email.js';
 
 const contactRouter = Router();
 
@@ -23,8 +24,8 @@ contactRouter.post('/contact', async (req, res) => {
     }
 
     const resend = getResend();
-    const from = process.env['RESEND_FROM'] ?? 'Golden Age Society <support@meterminder.app>';
-    const to = process.env['CONTACT_EMAIL'] ?? 'ocsacademy2020@gmail.com';
+    const from = getFromAddress();
+    const to = process.env['CONTACT_EMAIL'] ?? 'comms@goldenage-society.org';
 
     const html = `
 <!DOCTYPE html>
