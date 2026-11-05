@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { WHATSAPP_CULTIVATION_GROUP_URL, mailto } from '@/config/site';
+import { WHATSAPP_CULTIVATION_GROUP_URL, WHATSAPP_NUMBER, formsMailto } from '@/config/site';
 import { PageHero } from '@/components/visual/PageHero';
 import { motion } from 'framer-motion';
 
@@ -208,17 +208,25 @@ const DevelopmentBrief = () => (
 );
 
 function OptIn() {
+  // Prefer a group invite link; else wa.me with prefilled ask (only if a real number is configured).
+  const whatsappGroupHref = WHATSAPP_CULTIVATION_GROUP_URL;
+  const whatsappMessageHref = WHATSAPP_NUMBER
+    ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hare Krishna — please add me to the GAS WhatsApp cultivation group.')}`
+    : '';
+
   return (
     <div className="bg-paper border border-gold/20 rounded-2xl p-6 md:p-8 mt-12 text-center">
       <div className="kicker mb-2">Stay in touch</div>
       <h2 className="text-2xl text-wine font-serif mb-3">Get the next brief</h2>
       <p className="text-text/65 text-sm mb-5 max-w-md mx-auto">Opt in by email, or ask to join the WhatsApp cultivation group. You can leave at any time.</p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href={mailto('Newsletter opt-in')} className="px-6 py-3 bg-wine text-cream rounded-full text-sm font-semibold hover:bg-plum transition-colors">Subscribe by email</a>
-        {WHATSAPP_CULTIVATION_GROUP_URL ? (
-          <a href={WHATSAPP_CULTIVATION_GROUP_URL} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Join the WhatsApp group</a>
+        <a href={formsMailto('Subscribe to the GAS brief')} className="px-6 py-3 bg-wine text-cream rounded-full text-sm font-semibold hover:bg-plum transition-colors">Subscribe by email</a>
+        {whatsappGroupHref ? (
+          <a href={whatsappGroupHref} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Join the WhatsApp group</a>
+        ) : whatsappMessageHref ? (
+          <a href={whatsappMessageHref} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Ask to join the WhatsApp group</a>
         ) : (
-          <a href={mailto('Please add me to the WhatsApp cultivation group')} className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Ask to join the WhatsApp group</a>
+          <a href={formsMailto('Please add me to the WhatsApp cultivation group')} className="px-6 py-3 border border-wine/30 text-wine rounded-full text-sm font-semibold hover:bg-wine/5">Ask to join the WhatsApp group</a>
         )}
       </div>
     </div>
