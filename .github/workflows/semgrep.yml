@@ -1,0 +1,73 @@
+# Semgrep Community Edition (semgrep scan, no SEMGREP_APP_TOKEN).
+# reviewdog posts SARIF findings as pull request comments.
+# See docs/code-review-bot.md.
+name: Semgrep
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "semgrep-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  semgrep:
+    name: OSS scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Run Semgrep Community Edition
+        env:
+          SEMGREP_ENABLE_VERSION_CHECK: "0"
+        run: |
+          docker run --rm \
+            --entrypoint semgrep \
+            -v "${PWD}:/src" \
+            -w /src \
+            -e SEMGREP_ENABLE_VERSION_CHECK \
+            semgrep/semgrep \
+            scan \
+              --config auto \
+              --metrics=off \
+              --exclude attached_assets \
+              --exclude pnpm-lock.yaml \
+              --sarif-output=semgrep.sarif
+
+      - name: Upload SARIF
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+
+      - name: Install reviewdog
+        if: github.event_name == 'pull_request' && hashFiles('semgrep.sarif') != ''
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: v0.21.0
+
+      - name: Comment findings on the pull request
+        if: github.event_name == 'pull_request' && hashFiles('semgrep.sarif') != ''
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog \
+            -f=sarif \
+            -name=semgrep \
+            -reporter=github-pr-review \
+            -filter-mode=diff_context \
+            -fail-level=none \
+            < semgrep.sarif
