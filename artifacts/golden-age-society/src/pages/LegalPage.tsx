@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'wouter';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { Header } from '@/components/Header';
+import { GeneralEnquiryForm } from '@/components/GeneralEnquiryForm';
 import gasLogo from '@assets/gas-logo.png';
 
 type LegalSlug = 'terms' | 'privacy' | 'refunds' | 'contact';
@@ -285,11 +286,11 @@ const DOCS: Record<LegalSlug, { title: string; updated: string; content: React.R
     content: (
       <>
         <Section heading="General Enquiries">
-          <ContactRow icon="✉" label="Email">
-            <a href="mailto:ocsacademy2020@gmail.com" className="text-wine hover:underline">
-              ocsacademy2020@gmail.com
-            </a>
-          </ContactRow>
+          <p className="mb-4">
+            Send your name, a message, and an email address, a phone number, or both.
+            We aim to respond within 3 business days.
+          </p>
+          <GeneralEnquiryForm />
         </Section>
 
         <Section heading="Location">
@@ -330,14 +331,13 @@ No.5, Fourth Avenue, Edenvale 1609, South Africa
 
         <Section heading="Send Us a Message">
           <p className="mb-4 text-text/70">
-            You can also reach us directly through the contact form on our home page — we aim to
-            respond within 3 business days.
+            Use the general enquiry form on this page. We aim to respond within 3 business days.
           </p>
           <a
-            href="/"
+            href="#general-enquiry"
             className="inline-flex items-center gap-2 px-6 py-3 bg-wine text-cream rounded-full text-sm font-medium hover:bg-[#5a1520] transition-colors"
           >
-            Go to contact form →
+            Go to enquiry form →
           </a>
         </Section>
       </>
