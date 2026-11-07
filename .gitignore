@@ -3,6 +3,7 @@
 # compiled output
 dist
 tmp
+.tmp-contact-enquiry.test.mjs
 out-tsc
 *.tsbuildinfo
 .expo

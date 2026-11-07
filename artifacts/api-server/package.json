@@ -12,7 +12,8 @@
     "build": "node ./build.mjs",
     "build:vercel": "node ./build-vercel.mjs",
     "start": "node --enable-source-maps ./dist/index.mjs",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:contact-enquiry": "node ./scripts/test-contact-enquiry.mjs"
   },
   "dependencies": {
     "@types/nodemailer": "^8.0.1",
